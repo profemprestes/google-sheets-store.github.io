@@ -276,7 +276,7 @@ Productos:`;
                         }}
                         transition="all 0.2s"
                       >
-                        <Box as={FaShoppingCart} />
+                        <FaShoppingCart />
                       </Button>
                     </Tooltip>
                   </Flex>
@@ -302,7 +302,7 @@ Productos:`;
                 display="flex"
                 alignItems="center"
               >
-                <Box as={FaShoppingCart} mr={2} />
+                <FaShoppingCart style={{ marginRight: '8px' }} />
                 Tu Carrito de Compras
               </Heading>
               
@@ -421,7 +421,7 @@ Productos:`;
                   borderRadius="full"
                   boxShadow="xl"
                   onClick={onOpen}
-                  leftIcon={<Box as={FaWhatsapp} fontSize="2xl" />}
+                  leftIcon={<FaWhatsapp />}
                   px={6}
                   py={7}
                 >
