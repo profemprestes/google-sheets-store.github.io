@@ -1,7 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Box, Container, Grid, GridItem, Heading, Text, Link, Input, Button, Flex, VStack, HStack, Divider, Icon, useColorModeValue } from '@chakra-ui/react';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaWhatsapp } from 'react-icons/fa';
+import { Box, Container, Grid, GridItem, Heading, Text, Link, Button, Flex, VStack, HStack, Divider, useColorModeValue, Image } from '@chakra-ui/react';
 
 const Footer = () => {
   const bgColor = useColorModeValue('gray.800', 'gray.900');
@@ -14,15 +13,42 @@ const Footer = () => {
         <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={8}>
           {/* About Section */}
           <GridItem>
-            <Heading as="h3" size="md" mb={4} color={headingColor} fontWeight="bold">
-              PrecioHogar
-            </Heading>
-            <Text mb={4}>
-              Somos una tienda dedicada a ofrecer los mejores electrodomésticos con la mejor calidad y precios accesibles para todos nuestros clientes.
-            </Text>
-            <Text fontStyle="italic" fontSize="sm" mt={4}>
-              Tu fuente confiable de electrodomésticos de calidad en Uruguay.
-            </Text>
+            <Flex direction="column" align="flex-start">
+              <Flex align="center" mb={4}>
+                <Image 
+                  src="/images/logotienda.svg" 
+                  alt="PrecioHogar Logo"
+                  boxSize="60px"
+                  mr={3}
+                  borderRadius="full"
+                  bg="white"
+                  p={1}
+                  border="2px solid"
+                  borderColor="blue.300"
+                  boxShadow="0 0 10px rgba(66, 153, 225, 0.3)"
+                />
+                <Heading as="h3" size="md" color={headingColor} fontWeight="bold">
+                  PrecioHogar
+                </Heading>
+              </Flex>
+              
+              <Box 
+                p={4} 
+                bg="whiteAlpha.100" 
+                borderRadius="md" 
+                borderLeft="3px solid" 
+                borderColor="blue.300"
+                _hover={{ bg: "whiteAlpha.200", transform: "translateX(5px)" }}
+                transition="all 0.3s ease"
+              >
+                <Text mb={3} fontSize="sm" lineHeight="tall">
+                  Somos una tienda dedicada a ofrecer los mejores electrodomésticos con la mejor calidad y precios accesibles para todos nuestros clientes.
+                </Text>
+                <Text fontStyle="italic" fontSize="xs" fontWeight="medium" color="blue.200">
+                  Tu fuente confiable de electrodomésticos de calidad en Uruguay.
+                </Text>
+              </Box>
+            </Flex>
           </GridItem>
 
           {/* Quick Links */}
@@ -61,23 +87,23 @@ const Footer = () => {
             </Heading>
             <VStack spacing={3} align="flex-start">
               <HStack>
-                <Icon as={FaMapMarkerAlt} color="blue.300" />
+                <Box color="blue.300" fontWeight="bold" mr={2}>📍</Box>
                 <Text>Montevideo, Uruguay</Text>
               </HStack>
               <HStack>
-                <Icon as={FaPhone} color="blue.300" />
+                <Box color="blue.300" fontWeight="bold" mr={2}>📞</Box>
                 <Text>(+598) 092 315 819</Text>
               </HStack>
               <HStack>
-                <Icon as={FaEnvelope} color="blue.300" />
+                <Box color="blue.300" fontWeight="bold" mr={2}>📧</Box>
                 <Text>preciohogaruruguay@gmail.com</Text>
               </HStack>
               <HStack>
-                <Icon as={FaClock} color="blue.300" />
+                <Box color="blue.300" fontWeight="bold" mr={2}>🕒</Box>
                 <Text>24hs Puedes Realizar el Pedido</Text>
               </HStack>
               <Button 
-                leftIcon={<FaWhatsapp />} 
+                leftIcon={<Box as="span" mr={1}>💬</Box>}
                 colorScheme="whatsapp" 
                 variant="solid" 
                 size="sm" 

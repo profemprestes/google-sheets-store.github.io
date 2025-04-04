@@ -7,16 +7,14 @@ import {
   Text, 
   Button, 
   Badge,
-  Icon,
   Tooltip,
   useDisclosure,
   TextProps,
   FlexProps
 } from '@chakra-ui/react';
-import { FaShoppingCart, FaMinus, FaPlus, FaTimes, FaWhatsapp } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import { Product } from '../product/types';
 import { cartStyles } from '../theme/resumenstyles';
-import { motion } from 'framer-motion';
 
 const MotionBox = motion(Box);
 
@@ -54,7 +52,7 @@ const ResumenCarrito: React.FC<ResumenCarritoProps> = ({
       >
         <Flex {...cartStyles.header}>
           <Heading {...cartStyles.title}>
-            <Icon as={FaShoppingCart} />
+            <Box as="span" mr={2}>🛒</Box>
             Resumen del Carrito
             <Badge colorScheme="blue" borderRadius="full" px={2} ml={2}>
               {totalItems} {totalItems === 1 ? 'producto' : 'productos'}
@@ -84,7 +82,7 @@ const ResumenCarrito: React.FC<ResumenCarritoProps> = ({
                       onClick={() => decrementQuantity(item.id)}
                       isDisabled={(item.quantity || 1) <= 1}
                     >
-                      <Icon as={FaMinus} fontSize="10px" />
+                      <Box as="span" fontSize="10px">➖</Box>
                     </Button>
                     <Text 
                       mx={2}
@@ -102,7 +100,7 @@ const ResumenCarrito: React.FC<ResumenCarritoProps> = ({
                       variant="ghost"
                       onClick={() => incrementQuantity(item.id)}
                     >
-                      <Icon as={FaPlus} fontSize="10px" />
+                      <Box as="span" fontSize="10px">➕</Box>
                     </Button>
                   </Flex>
                   <Text {...cartStyles.priceText}>
@@ -114,7 +112,7 @@ const ResumenCarrito: React.FC<ResumenCarritoProps> = ({
                     variant="ghost"
                     onClick={() => removeFromCart(item.id)}
                   >
-                    <Icon as={FaTimes} fontSize="12px" />
+                    <Box as="span" fontSize="12px">❌</Box>
                   </Button>
                 </Flex>
               </Flex>
@@ -143,7 +141,7 @@ const ResumenCarrito: React.FC<ResumenCarritoProps> = ({
       >
         <Button
           {...cartStyles.checkoutButton}
-          leftIcon={<Icon as={FaWhatsapp} fontSize="1.5em" />}
+          leftIcon={<Box as="span" mr={1}>💬</Box>}
           onClick={onCheckout}
         >
           Completar pedido ({totalItems} {totalItems === 1 ? 'producto' : 'productos'})

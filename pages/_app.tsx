@@ -43,35 +43,59 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
             justify="space-between"
             marginBottom={6}
           >
-            <HStack spacing={4}>
+            <HStack 
+              spacing={{ base: 3, md: 5 }}
+              bg="white"
+              p={{ base: 2, md: 3 }}
+              borderRadius="lg"
+              boxShadow="sm"
+              _hover={{ boxShadow: "md", transform: "translateY(-2px)" }}
+              transition="all 0.3s ease"
+            >
               <Image
                 alt="PrecioHogar Logo"
-                maxHeight="100px"
+                maxHeight={{ base: "70px", md: "90px" }}
                 src="/logotienda.svg"
                 fallbackSrc="https://via.placeholder.com/100?text=PrecioHogar"
                 borderRadius="full"
-                border="2px"
+                border="3px solid"
                 borderColor="blue.500"
                 p={1}
+                bg="white"
+                boxShadow="0 0 15px rgba(66, 153, 225, 0.4)"
+                transition="all 0.3s ease"
+                _hover={{ transform: "rotate(5deg)" }}
               />
-              <VStack align={{ base: "center", md: "flex-start" }} spacing={0}>
+              <VStack 
+                align={{ base: "center", md: "flex-start" }} 
+                spacing={1}
+                ml={{ base: 0, md: 2 }}
+              >
                 <Heading 
-                  bgGradient="linear(to-r, blue.500, blue.700)" 
+                  bgGradient="linear(to-r, blue.500, blue.700, blue.500)" 
                   bgClip="text" 
-                  fontSize={{ base: "2xl", md: "3xl" }}
-                  fontWeight="bold"
+                  fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+                  fontWeight="extrabold"
+                  letterSpacing="tight"
+                  textShadow="0 0 1px rgba(66, 153, 225, 0.2)"
                 >
                   PrecioHogar
                 </Heading>
                 <Text 
                   color="gray.600" 
                   fontStyle="italic"
-                  fontSize={{ base: "sm", md: "md" }}
+                  fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                  fontWeight="medium"
+                  letterSpacing="wide"
+                  bgGradient="linear(to-r, gray.600, blue.400, gray.600)"
+                  bgClip="text"
+                  opacity={0.9}
                 >
                   Tu fuente confiable de electrodomésticos de calidad
                 </Text>
               </VStack>
             </HStack>
+            
             <Box 
               mt={{ base: 4, md: 0 }}
               bg="blue.50" 
