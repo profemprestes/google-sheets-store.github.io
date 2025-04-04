@@ -184,8 +184,8 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       products,
-    },
-    revalidate: 10,
+    }
+    // Se eliminó revalidate: 10
   };
 };
 
