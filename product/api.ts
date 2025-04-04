@@ -21,6 +21,7 @@ const api = {
                 products.map((product) => ({
                   ...product,
                   price: Number(product.price),
+                  quantity: 1, // Inicializamos la cantidad en 1
                 }))
               );
             },
@@ -29,5 +30,30 @@ const api = {
         });
       });
   },
+  
+  // Método para actualizar la cantidad de un producto
+  updateProductQuantity: (product: Product, quantity: number): Product => {
+    return {
+      ...product,
+      quantity: quantity,
+    };
+  },
+  
+  // Método para agrupar productos idénticos en el carrito
+  groupCartItems: (cart: Product[]): Product[] => {
+    const groupedItems = cart.reduce((acc, item) => {
+      const existingItem = acc.find(i => i.id === item.id);
+      
+      if (existingItem) {
+        existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
+        return acc;
+      }
+      
+      return [...acc, { ...item, quantity: item.quantity || 1 }];
+    }, [] as Product[]);
+    
+    return groupedItems;
+  }
 };
+
 export default api;
