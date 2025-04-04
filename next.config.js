@@ -5,9 +5,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Adjust this to match your GitHub repository name
-  basePath: '/03-Tienda',
-  assetPrefix: '/03-Tienda/',
+  // Configurado para el repositorio google-sheets-store.github.io
+  basePath: '',
+  assetPrefix: '',
   trailingSlash: true,
 }
 
