@@ -2,6 +2,12 @@ import { extendTheme, theme as baseTheme, type ThemeConfig } from "@chakra-ui/re
 
 import { styles } from "./styles";
 
+// Define a type for component style props
+type StyleProps = {
+  colorScheme: string;
+  [key: string]: any;
+};
+
 const config: ThemeConfig = {
   initialColorMode: "light",
   useSystemColorMode: false,
@@ -100,7 +106,7 @@ const components = {
       transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
     },
     variants: {
-      solid: (props: any) => ({
+      solid: (props: StyleProps) => ({
         bg: `${props.colorScheme}.500`,
         color: "white",
         _hover: {
@@ -113,7 +119,7 @@ const components = {
           transform: "translateY(0)",
         },
       }),
-      outline: (props: any) => ({
+      outline: (props: StyleProps) => ({
         borderColor: `${props.colorScheme}.500`,
         color: `${props.colorScheme}.500`,
         _hover: {
@@ -127,7 +133,7 @@ const components = {
           transform: "translateY(0)",
         },
       }),
-      ghost: (props: any) => ({
+      ghost: (props: StyleProps) => ({
         color: `${props.colorScheme}.500`,
         _hover: {
           bg: `${props.colorScheme}.50`,
@@ -138,7 +144,7 @@ const components = {
           transform: "translateY(0)",
         },
       }),
-      gradient: (props: any) => ({
+      gradient: (props: StyleProps) => ({
         bgGradient: `linear(to-r, ${props.colorScheme}.500, ${props.colorScheme}.600)`,
         color: "white",
         _hover: {
@@ -164,7 +170,7 @@ const components = {
           transform: "translateY(0)",
         },
       },
-      floating: (props: any) => ({
+      floating: (props: StyleProps) => ({
         bg: `${props.colorScheme}.500`,
         color: "white",
         borderRadius: "full",
@@ -177,7 +183,7 @@ const components = {
           transform: "translateY(0) scale(0.95)",
         },
       }),
-      link: (props: any) => ({
+      link: (props: StyleProps) => ({
         color: `${props.colorScheme}.500`,
         padding: 0,
         height: "auto",
@@ -191,7 +197,7 @@ const components = {
           color: `${props.colorScheme}.700`,
         },
       }),
-      pill: (props: any) => ({
+      pill: (props: StyleProps) => ({
         bg: `${props.colorScheme}.500`,
         color: "white",
         borderRadius: "full",
@@ -244,6 +250,7 @@ const components = {
       colorScheme: "brand",
     },
   },
+  
   Card: {
     baseStyle: {
       p: "6",
@@ -251,10 +258,6 @@ const components = {
       borderRadius: "lg",
       boxShadow: "card",
       transition: "all 0.3s ease",
-      _hover: {
-        boxShadow: "elevated",
-        transform: "translateY(-5px)",
-      },
     },
     variants: {
       elevated: {
@@ -275,14 +278,20 @@ const components = {
         boxShadow: "none",
         p: 0,
       },
+      interactive: {
+        className: "shadow-hover",
+      }
     },
   },
+  
   Container: {
     baseStyle: {
+      className: "container",
       maxW: "container.xl",
       px: { base: "4", md: "6" },
     },
   },
+  
   Heading: {
     baseStyle: {
       fontFamily: "heading",
@@ -295,8 +304,21 @@ const components = {
         bgClip: "text",
         fontWeight: "extrabold",
       },
+      withGradientUnderline: {
+        position: "relative",
+        _after: {
+          content: '""',
+          display: "block",
+          width: "40px",
+          height: "3px",
+          bgGradient: "linear(to-r, brand.500, secondary.500)",
+          marginTop: "0.2em",
+          borderRadius: "full",
+        }
+      }
     },
   },
+  
   Input: {
     baseStyle: {
       field: {
@@ -323,6 +345,7 @@ const components = {
       },
     },
   },
+  
   Link: {
     baseStyle: {
       transition: "all 0.2s",
@@ -350,14 +373,16 @@ const components = {
           },
         },
       },
+      gradient: {
+        className: "text-gradient",
+      }
     },
   },
+  
   Text: {
     variants: {
       gradient: {
-        bgGradient: "linear(to-r, brand.500, secondary.500)",
-        bgClip: "text",
-        fontWeight: "bold",
+        className: "text-gradient",
       },
       subtle: {
         color: "gray.600",
@@ -367,8 +392,15 @@ const components = {
         fontWeight: "medium",
         color: "gray.700",
       },
+      fadeIn: {
+        className: "fade-in",
+      },
+      float: {
+        className: "float",
+      }
     },
   },
+  
   Footer: {
     baseStyle: {
       bg: "gray.800",
@@ -377,6 +409,7 @@ const components = {
       transition: "all 0.3s ease",
     },
   },
+  
   Badge: {
     baseStyle: {
       borderRadius: "full",
@@ -386,15 +419,15 @@ const components = {
       fontWeight: "medium",
     },
     variants: {
-      solid: (props: any) => ({
+      solid: (props: StyleProps) => ({
         bg: `${props.colorScheme}.500`,
         color: "white",
       }),
-      subtle: (props: any) => ({
+      subtle: (props: StyleProps) => ({
         bg: `${props.colorScheme}.100`,
         color: `${props.colorScheme}.800`,
       }),
-      outline: (props: any) => ({
+      outline: (props: StyleProps) => ({
         color: `${props.colorScheme}.500`,
         boxShadow: `inset 0 0 0px 1px ${props.colorScheme}.500`,
       }),
@@ -402,7 +435,20 @@ const components = {
   },
 };
 
-export default extendTheme({
+// Add this to your theme configuration
+const transition = {
+  motion: {
+    defaultTransition: {
+      type: "spring",
+      stiffness: 500,
+      damping: 30,
+      duration: 0.3
+    }
+  }
+};
+
+// Then include it in your extendTheme call at the bottom of the file
+const theme = extendTheme({
   config,
   colors,
   fonts,
@@ -410,4 +456,8 @@ export default extendTheme({
   borders,
   components,
   styles,
+  transition, // Add this line
 });
+
+// Change from default export to named export
+export { theme };

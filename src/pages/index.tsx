@@ -1,13 +1,16 @@
 import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
-import Head from 'next/head';
-import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure, Divider } from '@chakra-ui/react';
+// Remove the Head import from next/head
+import NextImage from 'next/image';
+import { Button, Flex, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure, Divider } from '@chakra-ui/react';
 import { FaShoppingCart } from 'react-icons/fa';
 
 import api from '../product/api';
 import { Product } from '../product/types';
 import CheckoutForm, { CustomerInfo } from '../product/CheckoutForm';
 import ResumenCarrito from '../components/resumencarrito';
+// Import our custom Head component
+import Head from '../components/Head';
 
 // The Footer is now imported in _app.tsx, so we don't need to import it here
 
@@ -117,13 +120,12 @@ Productos:`;
   
   return (
     <>
-      <Head>
-        <title>PrecioHogar - Electrodomésticos y más para tu hogar</title>
-        <meta name="description" content="Descubre nuestra selección de electrodomésticos y artículos de calidad a precios increíbles. Envíos a todo Uruguay." />
-        <meta property="og:title" content="PrecioHogar - Electrodomésticos y más para tu hogar" />
-        <meta property="og:description" content="Descubre nuestra selección de electrodomésticos y artículos de calidad a precios increíbles. Envíos a todo Uruguay." />
-        <meta property="og:type" content="website" />
-      </Head>
+      {/* Replace the inline Head with our custom Head component */}
+      <Head 
+        title="PrecioHogar - Electrodomésticos y más para tu hogar"
+        description="Descubre nuestra selección de electrodomésticos y artículos de calidad a precios increíbles. Envíos a todo Uruguay."
+        canonical="https://preciohogar.com" // Replace with your actual domain
+      />
 
       {/* Agregar el componente CheckoutForm */}
       <CheckoutForm 
@@ -164,13 +166,27 @@ Productos:`;
                 _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
                 className="product-card"
               >
-                <Image
-                  borderRadius="md"
-                  maxHeight="150px"
-                  objectFit="cover"
-                  src={product.image}
-                  alt={product.title}
-                />
+                <Box 
+                  position="relative" 
+                  height="150px" 
+                  width="100%" 
+                  borderRadius="md" 
+                  overflow="hidden"
+                >
+                  <NextImage
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{ 
+                      objectFit: 'cover',
+                      borderRadius: 'md'
+                    }}
+                    priority={false}
+                    loading="lazy"
+                    quality={75}
+                  />
+                </Box>
                 <Stack spacing={1}>
                   <Text fontWeight="500">{product.title}</Text>
                   <Text color="blue.600" fontSize="lg" fontWeight="700">

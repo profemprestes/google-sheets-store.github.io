@@ -9,7 +9,15 @@ const nextConfig = {
   basePath: '',
   assetPrefix: '',
   trailingSlash: true,
-  transpilePackages: ['react-icons']
+  transpilePackages: ['react-icons'],
+  // Añadimos esta configuración para resolver problemas con react-icons
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'react/jsx-runtime': require.resolve('react/jsx-runtime')
+    };
+    return config;
+  }
 }
 
 module.exports = nextConfig

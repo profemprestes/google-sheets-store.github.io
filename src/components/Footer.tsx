@@ -62,9 +62,9 @@ const Footer = () => {
                   Inicio
                 </Link>
               </NextLink>
-              <NextLink href="/#productos" passHref legacyBehavior>
+              <NextLink href="/tienda" passHref legacyBehavior>
                 <Link _hover={{ color: 'blue.300', textDecoration: 'none', transform: 'translateX(5px)' }} transition="all 0.3s ease">
-                  Productos
+                  Tienda
                 </Link>
               </NextLink>
               <NextLink href="/privacidad" passHref legacyBehavior>
