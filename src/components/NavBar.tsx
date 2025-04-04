@@ -96,13 +96,14 @@ const NavBar = () => {
                 >
                   <MotionHeading 
                     sx={navbarStyles.logoHeading}
-                    variants={fadeIn}
+                    variants={slideInRight}
                   >
                     PrecioHogar
                   </MotionHeading>
                   <MotionText 
                     sx={navbarStyles.logoSubtext}
-                    variants={fadeIn}
+                    variants={slideInRight}
+                    custom={1}
                   >
                     Tu fuente confiable de electrodomésticos
                   </MotionText>
@@ -111,8 +112,8 @@ const NavBar = () => {
             </MotionBox>
           </NextLink>
 
-          <HStack spacing={4}>
-            <HStack sx={navbarStyles.navLinks}>
+          <HStack spacing={4} justifyContent="flex-end" width="100%">
+            <HStack sx={navbarStyles.navLinks} justifyContent="flex-end" ml="auto">
               {navItems.map((item, index) => (
                 <NextLink href={item.path} key={index} passHref>
                   <MotionBox
@@ -158,7 +159,7 @@ const NavBar = () => {
               passHref
               sx={navbarStyles.contactButton}
               leftIcon={<PhoneIcon />}
-              variants={pulse}
+              variants={slideInRight}
               initial="initial"
               animate="animate"
               whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(49, 151, 149, 0.6)" }}
@@ -182,9 +183,9 @@ const NavBar = () => {
         <Collapse in={isOpen} animateOpacity>
           <MotionBox 
             sx={navbarStyles.mobileMenu}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            initial="initial"
+            animate="animate"
+            variants={slideInRight}
           >
             {navItems.map((item, index) => (
               <NextLink href={item.path} key={index} passHref>

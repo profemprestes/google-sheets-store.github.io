@@ -65,6 +65,35 @@ export const styles = {
       "100%": { transform: "rotate(0deg)" },
     },
     
+    // Enhanced product grid animations
+    "@keyframes cardEntrance": {
+      "from": { 
+        opacity: 0,
+        transform: "scale(0.9)",
+        filter: "blur(5px)"
+      },
+      "to": { 
+        opacity: 1,
+        transform: "scale(1)",
+        filter: "blur(0)"
+      }
+    },
+    
+    ".product-card": {
+      animation: "cardEntrance 0.6s ease-out",
+      animationFillMode: "backwards",
+    },
+    
+    // Staggered animation for product cards
+    ".product-card:nth-child(1)": { animationDelay: "0.1s" },
+    ".product-card:nth-child(2)": { animationDelay: "0.2s" },
+    ".product-card:nth-child(3)": { animationDelay: "0.3s" },
+    ".product-card:nth-child(4)": { animationDelay: "0.4s" },
+    ".product-card:nth-child(5)": { animationDelay: "0.5s" },
+    ".product-card:nth-child(6)": { animationDelay: "0.6s" },
+    ".product-card:nth-child(7)": { animationDelay: "0.7s" },
+    ".product-card:nth-child(8)": { animationDelay: "0.8s" },
+    
     // Clases de utilidad
     ".container": {
       width: "100%",

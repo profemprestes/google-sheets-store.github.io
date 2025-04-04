@@ -158,27 +158,55 @@ Productos:`;
         initial="initial"
         animate="animate"
       >
-        <MotionHeading 
+        <MotionHeading
           sx={tiendaStyles.heading}
+          as="h1"
+          size="2xl"
+          mb={6}
           variants={fadeInUp}
+          custom={0}
         >
-          Nuestros Productos
+          Nuestros Productos  
         </MotionHeading>
-        
+
+        <MotionBox 
+          variants={fadeInUp}
+          custom={1}
+          mb={8}
+        >
+          <Divider sx={tiendaStyles.divider} />
+        </MotionBox>
+
         <MotionGrid
-          sx={tiendaStyles.productGrid}
+          sx={{
+            ...tiendaStyles.productGrid,
+            gridTemplateColumns: {
+              base: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+              lg: "repeat(4, 1fr)",
+              xl: "repeat(5, 1fr)"
+            },
+            gap: { base: 4, sm: 5, md: 6, lg: 8 },
+          }}
           variants={staggerContainer}
+          initial="initial"
+          animate="animate"
         >
           {products.map((product, index) => (
-            <MotionStack
+            <MotionBox
               key={product.id}
               sx={tiendaStyles.productCard}
               variants={fadeInUp}
               custom={index}
-              whileHover={{ y: -8, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
-              className="product-card"
+              whileHover={{ 
+                y: -8, 
+                boxShadow: "xl",
+                transition: { duration: 0.3 }
+              }}
+              whileTap={{ scale: 0.98 }}
+              role="group"
             >
-              {/* Badge for special products */}
               {product.price < 1000 && (
                 <Box sx={tiendaStyles.badgeContainer}>
                   <Badge sx={tiendaStyles.badge}>
@@ -199,49 +227,81 @@ Productos:`;
                   }}
                   priority={index < 4}
                   loading={index < 4 ? "eager" : "lazy"}
-                  quality={80}
+                  quality={85}
                   className="product-image"
                 />
+                <Box sx={tiendaStyles.imageOverlay} />
               </Box>
               
-              <Stack sx={tiendaStyles.productContent}>
-                <Text sx={tiendaStyles.productTitle}>
+              <Stack sx={tiendaStyles.productContent} spacing={3}>
+                <Heading 
+                  as="h3" 
+                  size="md"
+                  sx={tiendaStyles.productTitle}
+                  className="product-title"
+                >
                   {product.title}
-                </Text>
+                </Heading>
                 
-                <Text sx={tiendaStyles.productDescription}>
+                <Text 
+                  sx={tiendaStyles.productDescription}
+                  className="product-description"
+                >
                   {product.description || "Producto de alta calidad para tu hogar. Garantía y servicio técnico incluidos."}
                 </Text>
                 
-                <Flex justify="space-between" align="center" mt="auto" pt={2}>
-                  <Text sx={tiendaStyles.productPrice}>
+                <Flex sx={tiendaStyles.productRating}>
+                  {[...Array(5)].map((_, i) => (
+                    <Box 
+                      key={i} 
+                      as="span"
+                      color={i < (product.rating || 4) ? "yellow.400" : "gray.300"} 
+                      fontSize="sm"
+                      mr="1px"
+                    >
+                      ★
+                    </Box>
+                  ))}
+                </Flex>
+                
+                <Flex sx={tiendaStyles.productActions}>
+                  <Text 
+                    sx={tiendaStyles.productPrice}
+                    className="product-price"
+                  >
                     {parseCurrency(product.price)}
                   </Text>
-                  
-    
                 </Flex>
                 
                 <Button
                   sx={tiendaStyles.addToCartButton}
                   onClick={() => addToCart(product)}
                   leftIcon={<Box as="span" fontSize="1.2em">🛒</Box>}
+                  className="add-to-cart-button"
                 >
                   Agregar al carrito
                 </Button>
               </Stack>
-            </MotionStack>
+            </MotionBox>
           ))}
-        </MotionGrid>
+        </MotionGrid> 
         
         {Boolean(cart.length) && (
-          <ResumenCarrito
-            cart={cart}
-            incrementQuantity={incrementQuantity}
-            decrementQuantity={decrementQuantity}
-            removeFromCart={removeFromCart}
-            parseCurrency={parseCurrency}
-            onCheckout={onOpen}
-          />
+          <MotionBox
+            variants={fadeInUp}
+            custom={2}
+            initial="initial"
+            animate="animate"
+          >
+            <ResumenCarrito
+              cart={cart}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
+              removeFromCart={removeFromCart}
+              parseCurrency={parseCurrency}
+              onCheckout={onOpen}
+            />
+          </MotionBox>
         )}
       </MotionContainer>
     </>
