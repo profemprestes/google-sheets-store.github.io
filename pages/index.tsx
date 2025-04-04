@@ -1,7 +1,13 @@
 import { useState, useMemo, useEffect } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure } from '@chakra-ui/react';
+import { 
+  Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, 
+  useDisclosure, Badge, Divider, useColorModeValue, SimpleGrid, IconButton,
+  Tooltip
+} from '@chakra-ui/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaShoppingCart, FaWhatsapp, FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 
 import api from '../product/api';
 import { Product } from '../product/types';
@@ -22,6 +28,32 @@ const Home: NextPage<Props> = ({ products }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  // Add missing state variables
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Add effect for scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  // Add categories calculation
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(products.map(product => product.category || 'Sin categoría'));
+    return ['Todos', ...Array.from(uniqueCategories)];
+  }, [products]);
+  
+  // Add filtered products
+  const filteredProducts = useMemo(() => {
+    if (!selectedCategory || selectedCategory === 'Todos') return products;
+    return products.filter(product => product.category === selectedCategory);
+  }, [products, selectedCategory]);
   
   // Función para agregar productos al carrito
   const addToCart = (product: Product) => {
@@ -211,7 +243,7 @@ Productos:`;
                     borderRadius="full"
                     px={2}
                   >
-                    {product.category}
+                    {product.category || 'Sin categoría'}
                   </Badge>
                 </Box>
                 
@@ -221,7 +253,7 @@ Productos:`;
                   </Heading>
                   
                   <Text fontSize="sm" color="gray.600" noOfLines={2}>
-                    {product.description}
+                    {product.description || 'Sin descripción'}
                   </Text>
                   
                   <Flex mt="auto" justify="space-between" align="center">
@@ -244,7 +276,7 @@ Productos:`;
                         }}
                         transition="all 0.2s"
                       >
-                        <Icon as={FaShoppingCart} />
+                        <Box as={FaShoppingCart} />
                       </Button>
                     </Tooltip>
                   </Flex>
@@ -270,7 +302,7 @@ Productos:`;
                 display="flex"
                 alignItems="center"
               >
-                <Icon as={FaShoppingCart} mr={2} />
+                <Box as={FaShoppingCart} mr={2} />
                 Tu Carrito de Compras
               </Heading>
               
@@ -389,7 +421,7 @@ Productos:`;
                   borderRadius="full"
                   boxShadow="xl"
                   onClick={onOpen}
-                  leftIcon={<Icon as={FaWhatsapp} fontSize="2xl" />}
+                  leftIcon={<Box as={FaWhatsapp} fontSize="2xl" />}
                   px={6}
                   py={7}
                 >
