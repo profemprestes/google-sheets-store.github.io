@@ -14,6 +14,7 @@ import {
 
 import theme from '../theme';
 import Footer from '../components/Footer';
+import Hero from '../components/hero';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -75,6 +76,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
             </Box>
           </Flex>
           <Divider marginY={6} borderColor="blue.200" />
+          <Hero /> {/* Added Hero component here */}
           <Component {...pageProps} />
           <Footer />
         </Container>

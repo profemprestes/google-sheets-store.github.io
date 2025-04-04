@@ -33,6 +33,43 @@ const colors = {
     700: "#1976d2",
     800: "#1565c0",
     900: "#0d47a1",
+  },
+  // Nuevos colores para mejorar la paleta
+  accent: {
+    50: "#fff8e1",
+    100: "#ffecb3",
+    200: "#ffe082",
+    300: "#ffd54f",
+    400: "#ffca28",
+    500: "#ffc107", // Color de acento principal
+    600: "#ffb300",
+    700: "#ffa000",
+    800: "#ff8f00",
+    900: "#ff6f00",
+  },
+  success: {
+    50: "#e8f5e9",
+    100: "#c8e6c9",
+    200: "#a5d6a7",
+    300: "#81c784",
+    400: "#66bb6a",
+    500: "#4caf50", // Color de éxito
+    600: "#43a047",
+    700: "#388e3c",
+    800: "#2e7d32",
+    900: "#1b5e20",
+  },
+  error: {
+    50: "#ffebee",
+    100: "#ffcdd2",
+    200: "#ef9a9a",
+    300: "#e57373",
+    400: "#ef5350",
+    500: "#f44336", // Color de error
+    600: "#e53935",
+    700: "#d32f2f",
+    800: "#c62828",
+    900: "#b71c1c",
   }
 };
 
@@ -46,6 +83,14 @@ const shadows = {
   hover: "0 8px 30px rgba(0, 0, 0, 0.12)",
   card: "0 10px 30px -5px rgba(0, 0, 0, 0.1)",
   elevated: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+  subtle: "0 2px 15px -3px rgba(0, 0, 0, 0.07)",
+  floating: "0 16px 70px -12.125px rgba(0, 0, 0, 0.3)",
+};
+
+const borders = {
+  thin: "1px solid",
+  medium: "2px solid",
+  thick: "3px solid",
 };
 
 const components = {
@@ -87,6 +132,21 @@ const components = {
         },
         transition: "all 0.2s ease",
       }),
+      // Nuevo variante de botón con efecto de gradiente
+      gradient: (props: any) => ({
+        bgGradient: `linear(to-r, ${props.colorScheme}.500, ${props.colorScheme}.600)`,
+        color: "white",
+        _hover: {
+          bgGradient: `linear(to-r, ${props.colorScheme}.600, ${props.colorScheme}.700)`,
+          transform: "translateY(-2px)",
+          boxShadow: "md",
+        },
+        _active: {
+          bgGradient: `linear(to-r, ${props.colorScheme}.700, ${props.colorScheme}.800)`,
+          transform: "translateY(0)",
+        },
+        transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      }),
     },
   },
   Card: {
@@ -99,6 +159,26 @@ const components = {
       _hover: {
         boxShadow: "elevated",
         transform: "translateY(-5px)",
+      },
+    },
+    variants: {
+      elevated: {
+        boxShadow: "elevated",
+        bg: "white",
+      },
+      outline: {
+        boxShadow: "none",
+        border: "1px solid",
+        borderColor: "gray.200",
+      },
+      filled: {
+        boxShadow: "none",
+        bg: "gray.50",
+      },
+      unstyled: {
+        bg: "none",
+        boxShadow: "none",
+        p: 0,
       },
     },
   },
@@ -114,6 +194,13 @@ const components = {
       fontWeight: "bold",
       letterSpacing: "-0.02em",
     },
+    variants: {
+      gradient: {
+        bgGradient: "linear(to-r, primary.500, secondary.500)",
+        bgClip: "text",
+        fontWeight: "extrabold",
+      },
+    },
   },
   Input: {
     baseStyle: {
@@ -126,6 +213,20 @@ const components = {
         transition: "all 0.2s",
       },
     },
+    variants: {
+      filled: {
+        field: {
+          bg: "gray.50",
+          _hover: {
+            bg: "gray.100",
+          },
+          _focus: {
+            bg: "white",
+            borderColor: "primary.500",
+          },
+        },
+      },
+    },
   },
   Link: {
     baseStyle: {
@@ -135,6 +236,26 @@ const components = {
         color: "primary.600",
       },
     },
+    variants: {
+      underline: {
+        position: "relative",
+        _after: {
+          content: '""',
+          position: "absolute",
+          bottom: "-2px",
+          left: 0,
+          width: "0%",
+          height: "2px",
+          bg: "primary.500",
+          transition: "width 0.3s ease",
+        },
+        _hover: {
+          _after: {
+            width: "100%",
+          },
+        },
+      },
+    },
   },
   Text: {
     variants: {
@@ -142,6 +263,14 @@ const components = {
         bgGradient: "linear(to-r, primary.500, secondary.500)",
         bgClip: "text",
         fontWeight: "bold",
+      },
+      subtle: {
+        color: "gray.600",
+        fontSize: "sm",
+      },
+      emphasis: {
+        fontWeight: "medium",
+        color: "gray.700",
       },
     },
   },
@@ -154,6 +283,30 @@ const components = {
       transition: "all 0.3s ease",
     },
   },
+  // Estilos para el Badge
+  Badge: {
+    baseStyle: {
+      borderRadius: "full",
+      px: 2,
+      py: 1,
+      textTransform: "lowercase",
+      fontWeight: "medium",
+    },
+    variants: {
+      solid: (props: any) => ({
+        bg: `${props.colorScheme}.500`,
+        color: "white",
+      }),
+      subtle: (props: any) => ({
+        bg: `${props.colorScheme}.100`,
+        color: `${props.colorScheme}.800`,
+      }),
+      outline: (props: any) => ({
+        color: `${props.colorScheme}.500`,
+        boxShadow: `inset 0 0 0px 1px ${props.colorScheme}.500`,
+      }),
+    },
+  },
 };
 
 export default extendTheme({
@@ -161,6 +314,7 @@ export default extendTheme({
   colors,
   fonts,
   shadows,
+  borders,
   components,
   styles,
 });
