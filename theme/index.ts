@@ -97,6 +97,7 @@ const components = {
     baseStyle: {
       fontWeight: "600",
       borderRadius: "md",
+      transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
     },
     variants: {
       solid: (props: any) => ({
@@ -111,7 +112,6 @@ const components = {
           bg: `${props.colorScheme}.700`,
           transform: "translateY(0)",
         },
-        transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       }),
       outline: (props: any) => ({
         borderColor: `${props.colorScheme}.500`,
@@ -121,7 +121,11 @@ const components = {
           transform: "translateY(-2px)",
           boxShadow: "sm",
         },
-        transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+        _active: {
+          borderColor: `${props.colorScheme}.600`,
+          color: `${props.colorScheme}.600`,
+          transform: "translateY(0)",
+        },
       }),
       ghost: (props: any) => ({
         color: `${props.colorScheme}.500`,
@@ -129,7 +133,10 @@ const components = {
           bg: `${props.colorScheme}.50`,
           transform: "translateY(-1px)",
         },
-        transition: "all 0.2s ease",
+        _active: {
+          bg: `${props.colorScheme}.100`,
+          transform: "translateY(0)",
+        },
       }),
       gradient: (props: any) => ({
         bgGradient: `linear(to-r, ${props.colorScheme}.500, ${props.colorScheme}.600)`,
@@ -143,8 +150,98 @@ const components = {
           bgGradient: `linear(to-r, ${props.colorScheme}.700, ${props.colorScheme}.800)`,
           transform: "translateY(0)",
         },
-        transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       }),
+      whatsapp: {
+        bg: "whatsapp.500",
+        color: "white",
+        _hover: {
+          bg: "whatsapp.600",
+          transform: "translateY(-2px)",
+          boxShadow: "0 4px 12px rgba(37, 211, 102, 0.5)",
+        },
+        _active: {
+          bg: "whatsapp.700",
+          transform: "translateY(0)",
+        },
+      },
+      floating: (props: any) => ({
+        bg: `${props.colorScheme}.500`,
+        color: "white",
+        borderRadius: "full",
+        boxShadow: "floating",
+        _hover: {
+          transform: "translateY(-3px) scale(1.05)",
+          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
+        },
+        _active: {
+          transform: "translateY(0) scale(0.95)",
+        },
+      }),
+      link: (props: any) => ({
+        color: `${props.colorScheme}.500`,
+        padding: 0,
+        height: "auto",
+        lineHeight: "normal",
+        verticalAlign: "baseline",
+        _hover: {
+          textDecoration: "underline",
+          color: `${props.colorScheme}.600`,
+        },
+        _active: {
+          color: `${props.colorScheme}.700`,
+        },
+      }),
+      pill: (props: any) => ({
+        bg: `${props.colorScheme}.500`,
+        color: "white",
+        borderRadius: "full",
+        px: 6,
+        _hover: {
+          bg: `${props.colorScheme}.600`,
+          transform: "translateY(-2px)",
+        },
+        _active: {
+          bg: `${props.colorScheme}.700`,
+          transform: "translateY(0)",
+        },
+      }),
+    },
+    sizes: {
+      xl: {
+        h: 14,
+        minW: 14,
+        fontSize: "lg",
+        px: 8,
+      },
+      lg: {
+        h: 12,
+        minW: 12,
+        fontSize: "md",
+        px: 6,
+      },
+      md: {
+        h: 10,
+        minW: 10,
+        fontSize: "md",
+        px: 4,
+      },
+      sm: {
+        h: 8,
+        minW: 8,
+        fontSize: "sm",
+        px: 3,
+      },
+      xs: {
+        h: 6,
+        minW: 6,
+        fontSize: "xs",
+        px: 2,
+      },
+    },
+    defaultProps: {
+      variant: "solid",
+      size: "md",
+      colorScheme: "brand",
     },
   },
   Card: {
