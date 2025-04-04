@@ -109,23 +109,12 @@ Productos:`;
 
   return (
     <>
-
-      
-      {/* Header */}
-      <Box as="header" bg="blue.600" color="white" py={4} mb={6}>
-        <Container maxW="container.xl">
-          <Flex justifyContent="space-between" alignItems="center">
-            <Box>
-              <Heading as="h1" size="xl">PrecioHogar</Heading>
-              <Text fontSize="sm">Tu fuente confiable de electrodomésticos de calidad</Text>
-            </Box>
-            <Box>
-              <Text fontSize="sm">WhatsApp: (+598) 092 315 819</Text>
-              <Text fontSize="sm">Montevideo, Uruguay</Text>
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
+      {/* Agregar el componente CheckoutForm */}
+      <CheckoutForm 
+        isOpen={isOpen} 
+        onClose={onClose} 
+        onSubmit={handleCheckoutSubmit} 
+      />
       
       <Container maxW="container.xl">
         <Stack spacing={6}>
@@ -239,7 +228,7 @@ Productos:`;
                 </Stack>
               </Box>
               
-              {/* Botón de WhatsApp */}
+              {/* Botón de WhatsApp - Modificado para abrir el formulario en lugar de ir directamente a WhatsApp */}
               <Flex
                 position="sticky"
                 justifyContent="center"
@@ -250,8 +239,6 @@ Productos:`;
                 zIndex={10}
               >
                 <Button
-                  isExternal
-                  as={Link}
                   colorScheme="whatsapp"
                   size="lg"
                   fontWeight="bold"
@@ -275,9 +262,7 @@ Productos:`;
                       </svg>
                     </Box>
                   }
-                  href={`https://wa.me/59892315819?text=${encodeURIComponent(
-                    text
-                  )}`}
+                  onClick={onOpen} // Cambiado para abrir el modal en lugar de ir a WhatsApp
                 >
                   Completar pedido ({cart.reduce((total, item) => total + (item.quantity || 1), 0)} productos)
                 </Button>
