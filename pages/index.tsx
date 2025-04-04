@@ -3,8 +3,8 @@ import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { 
   Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, 
-  useDisclosure, Badge, Divider, useColorModeValue, SimpleGrid, IconButton,
-  Tooltip, Icon
+  useDisclosure, Badge, Divider, SimpleGrid, IconButton,
+  Tooltip, useColorMode, Icon
 } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaShoppingCart, FaWhatsapp, FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
@@ -28,6 +28,7 @@ const Home: NextPage<Props> = ({ products }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode(); // Use colorMode instead of useColorModeValue
   
   // Add missing state variables
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -140,6 +141,11 @@ Productos:`;
     [cart]
   );
 
+  // Helper function to replace useColorModeValue
+  const getColorValue = (lightValue: string, darkValue: string) => {
+    return colorMode === 'light' ? lightValue : darkValue;
+  };
+
   return (
     <>
       {/* Agregar el componente CheckoutForm */}
@@ -154,7 +160,7 @@ Productos:`;
         position="sticky" 
         top="0" 
         zIndex="20"
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={getColorValue('white', 'gray.800')}
         boxShadow={isScrolled ? "md" : "none"}
         transition="box-shadow 0.3s ease"
         py={3}
@@ -219,7 +225,7 @@ Productos:`;
             >
               <Box
                 className="product-card"
-                bg={useColorModeValue('white', 'gray.700')}
+                bg={getColorValue('white', 'gray.700')}
                 borderRadius="lg"
                 overflow="hidden"
                 boxShadow="md"
@@ -290,7 +296,7 @@ Productos:`;
         {Boolean(cart.length) && (
           <>
             <Box
-              bg={useColorModeValue('white', 'gray.700')}
+              bg={getColorValue('white', 'gray.700')}
               borderRadius="lg"
               boxShadow="lg"
               p={5}
@@ -344,7 +350,7 @@ Productos:`;
                           <Flex align="center" bg="gray.100" borderRadius="full" p={1}>
                             <IconButton
                               aria-label="Decrementar cantidad"
-                              icon={<FaMinus />}
+                              icon={<Box as="span" display="flex" alignItems="center"><FaMinus /></Box>}
                               size="xs"
                               isRound
                               variant="ghost"
@@ -356,7 +362,7 @@ Productos:`;
                             </Text>
                             <IconButton
                               aria-label="Incrementar cantidad"
-                              icon={<FaPlus />}
+                              icon={<Box as="span" display="flex" alignItems="center"><FaPlus /></Box>}
                               size="xs"
                               isRound
                               variant="ghost"
@@ -370,7 +376,7 @@ Productos:`;
                           
                           <IconButton
                             aria-label="Eliminar producto"
-                            icon={<FaTrash />}
+                            icon={<Box as="span" display="flex" alignItems="center"><FaTrash /></Box>}
                             size="sm"
                             colorScheme="red"
                             variant="ghost"
