@@ -63,10 +63,11 @@ const Home: NextPage<Props> = ({ products }) => {
     setCustomerInfo(info);
     // Redirigir a WhatsApp con la información del cliente
     const customerText = `
-Datos del cliente:
+Informacion del Pedido
 Nombre: ${info.name}
 Dirección: ${info.address}
 Teléfono: ${info.phone}
+Necesito mas Informacion sobre los productos solicitados:
 
 Productos:`;
 
