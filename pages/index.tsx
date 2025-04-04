@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure } from '@chakra-ui/react';
@@ -117,172 +117,334 @@ Productos:`;
         onSubmit={handleCheckoutSubmit} 
       />
       
-      <Container maxW="container.xl">
-        <Stack spacing={6}>
-          <Grid
-            gridGap={6}
-            templateColumns="repeat(auto-fill, minmax(240px,1fr))"
-          >
-            {products.map((product) => (
-              <Stack
-                key={product.id}
-                backgroundColor="white"
-                borderRadius="md"
-                boxShadow="md"
-                padding={4}
-                spacing={3}
-                transition="all 0.3s"
-                _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
+      {/* Header con categorías */}
+      <Box 
+        position="sticky" 
+        top="0" 
+        zIndex="20"
+        bg={useColorModeValue('white', 'gray.800')}
+        boxShadow={isScrolled ? "md" : "none"}
+        transition="box-shadow 0.3s ease"
+        py={3}
+      >
+        <Container maxW="container.xl">
+          <Flex overflowX="auto" pb={2} css={{
+            '&::-webkit-scrollbar': {
+              height: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              borderRadius: '10px',
+            }
+          }}>
+            {categories.map(category => (
+              <Button
+                key={category}
+                size="sm"
+                mx={1}
+                colorScheme="blue"
+                variant={selectedCategory === category || (category === 'Todos' && !selectedCategory) ? "solid" : "outline"}
+                onClick={() => setSelectedCategory(category === 'Todos' ? null : category)}
+                minW="auto"
+                whiteSpace="nowrap"
+                borderRadius="full"
+                _first={{ ml: 0 }}
               >
-                <Image
-                  borderRadius="md"
-                  maxHeight="150px"
-                  objectFit="cover"
-                  src={product.image}
-                  alt={product.title}
-                />
-                <Stack spacing={1}>
-                  <Text fontWeight="500">{product.title}</Text>
-                  <Text color="blue.600" fontSize="lg" fontWeight="700">
-                    {parseCurrency(product.price)}
-                  </Text>
-                </Stack>
-                <Button
-                  colorScheme="blue"
-                  size="md"
-                  fontWeight="bold"
-                  borderRadius="full"
-                  boxShadow="sm"
-                  _hover={{ 
-                    transform: 'scale(1.05)',
-                    boxShadow: 'md',
-                    bg: 'blue.500'
-                  }}
-                  _active={{
-                    transform: 'scale(0.95)',
-                    bg: 'blue.700'
-                  }}
-                  transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-                  onClick={() => addToCart(product)}
-                  leftIcon={<Box as="span" fontSize="1.2em">🛒</Box>}
-                >
-                  Agregar al carrito
-                </Button>
-              </Stack>
+                {category}
+              </Button>
             ))}
-          </Grid>
-          
-          {Boolean(cart.length) && (
-            <>
-              {/* Mostrar resumen del carrito */}
-              <Box 
-                bg="white" 
-                p={4} 
-                borderRadius="md" 
+          </Flex>
+        </Container>
+      </Box>
+      
+      <Container maxW="container.xl" py={6}>
+        {/* Título de la sección */}
+        <Heading 
+          as="h1" 
+          size="xl" 
+          mb={6}
+          textAlign="center"
+          bgGradient="linear(to-r, blue.400, blue.600)"
+          bgClip="text"
+          letterSpacing="tight"
+        >
+          {selectedCategory ? `Productos de ${selectedCategory}` : 'Todos los Productos'}
+        </Heading>
+        
+        {/* Grid de productos con animación */}
+        <SimpleGrid 
+          columns={{ base: 1, sm: 2, md: 3, lg: 4 }} 
+          spacing={6}
+          mb={10}
+        >
+          {filteredProducts.map((product) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              whileHover={{ y: -5 }}
+            >
+              <Box
+                className="product-card"
+                bg={useColorModeValue('white', 'gray.700')}
+                borderRadius="lg"
+                overflow="hidden"
                 boxShadow="md"
-                mb={4}
+                height="100%"
+                display="flex"
+                flexDirection="column"
               >
-                <Heading size="md" mb={3}>Resumen del Carrito</Heading>
-                <Stack spacing={3}>
-                  {cart.map((item) => (
-                    <Flex key={item.id} justify="space-between" align="center">
-                      <Text fontWeight="medium">{item.title}</Text>
-                      <Flex align="center">
-                        <Button 
-                          size="xs" 
-                          colorScheme="blue" 
-                          variant="outline"
-                          onClick={() => decrementQuantity(item.id)}
-                          isDisabled={(item.quantity || 1) <= 1}
-                        >
-                          -
-                        </Button>
-                        <Text mx={2} fontWeight="bold">{item.quantity || 1}</Text>
-                        <Button 
-                          size="xs" 
-                          colorScheme="blue" 
-                          variant="outline"
-                          onClick={() => incrementQuantity(item.id)}
-                        >
-                          +
-                        </Button>
-                        <Text ml={4} fontWeight="bold">
-                          {parseCurrency(item.price * (item.quantity || 1))}
-                        </Text>
-                        <Button 
-                          size="xs" 
-                          colorScheme="red" 
-                          ml={2}
-                          onClick={() => removeFromCart(item.id)}
-                        >
-                          ✕
-                        </Button>
-                      </Flex>
-                    </Flex>
-                  ))}
-                  <Flex justify="space-between" borderTop="1px solid" borderColor="gray.200" pt={2} mt={2}>
-                    <Text fontWeight="bold">Total:</Text>
-                    <Text fontWeight="bold">
-                      {parseCurrency(cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0))}
+                <Box position="relative">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    height="200px"
+                    width="100%"
+                    objectFit="cover"
+                  />
+                  <Badge
+                    position="absolute"
+                    top={2}
+                    right={2}
+                    colorScheme="blue"
+                    borderRadius="full"
+                    px={2}
+                  >
+                    {product.category}
+                  </Badge>
+                </Box>
+                
+                <Stack p={4} flex="1" spacing={3}>
+                  <Heading as="h3" size="md" noOfLines={2}>
+                    {product.title}
+                  </Heading>
+                  
+                  <Text fontSize="sm" color="gray.600" noOfLines={2}>
+                    {product.description}
+                  </Text>
+                  
+                  <Flex mt="auto" justify="space-between" align="center">
+                    <Text
+                      color="blue.600"
+                      fontSize="xl"
+                      fontWeight="bold"
+                    >
+                      {parseCurrency(product.price)}
                     </Text>
+                    
+                    <Tooltip label="Agregar al carrito" hasArrow>
+                      <Button
+                        colorScheme="blue"
+                        size="sm"
+                        borderRadius="full"
+                        onClick={() => addToCart(product)}
+                        _hover={{
+                          transform: 'scale(1.1)',
+                        }}
+                        transition="all 0.2s"
+                      >
+                        <Icon as={FaShoppingCart} />
+                      </Button>
+                    </Tooltip>
                   </Flex>
                 </Stack>
               </Box>
+            </motion.div>
+          ))}
+        </SimpleGrid>
+        
+        {/* Carrito de compras */}
+        {Boolean(cart.length) && (
+          <>
+            <Box
+              bg={useColorModeValue('white', 'gray.700')}
+              borderRadius="lg"
+              boxShadow="lg"
+              p={5}
+              mb={6}
+            >
+              <Heading 
+                size="md" 
+                mb={4}
+                display="flex"
+                alignItems="center"
+              >
+                <Icon as={FaShoppingCart} mr={2} />
+                Tu Carrito de Compras
+              </Heading>
               
-              {/* Botón de WhatsApp - Modificado para abrir el formulario en lugar de ir directamente a WhatsApp */}
-              <Flex
-                position="sticky"
-                justifyContent="center"
-                bottom={0}
-                padding={4}
-                backdropFilter="blur(8px)"
-                bg="rgba(255, 255, 255, 0.8)"
-                zIndex={10}
+              <Divider mb={4} />
+              
+              <Stack spacing={4}>
+                <AnimatePresence>
+                  {cart.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Flex
+                        className="cart-item"
+                        justify="space-between"
+                        align="center"
+                        p={2}
+                        borderRadius="md"
+                      >
+                        <Flex align="center" flex="1">
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            boxSize="50px"
+                            objectFit="cover"
+                            borderRadius="md"
+                            mr={3}
+                          />
+                          <Box>
+                            <Text fontWeight="medium" noOfLines={1}>{item.title}</Text>
+                            <Text fontSize="sm" color="gray.600">{parseCurrency(item.price)}</Text>
+                          </Box>
+                        </Flex>
+                        
+                        <Flex align="center">
+                          <Flex align="center" bg="gray.100" borderRadius="full" p={1}>
+                            <IconButton
+                              aria-label="Decrementar cantidad"
+                              icon={<FaMinus />}
+                              size="xs"
+                              isRound
+                              variant="ghost"
+                              onClick={() => decrementQuantity(item.id)}
+                              isDisabled={(item.quantity || 1) <= 1}
+                            />
+                            <Text mx={2} fontWeight="bold" minW="20px" textAlign="center">
+                              {item.quantity || 1}
+                            </Text>
+                            <IconButton
+                              aria-label="Incrementar cantidad"
+                              icon={<FaPlus />}
+                              size="xs"
+                              isRound
+                              variant="ghost"
+                              onClick={() => incrementQuantity(item.id)}
+                            />
+                          </Flex>
+                          
+                          <Text fontWeight="bold" mx={4} minW="80px" textAlign="right">
+                            {parseCurrency(item.price * (item.quantity || 1))}
+                          </Text>
+                          
+                          <IconButton
+                            aria-label="Eliminar producto"
+                            icon={<FaTrash />}
+                            size="sm"
+                            colorScheme="red"
+                            variant="ghost"
+                            isRound
+                            onClick={() => removeFromCart(item.id)}
+                          />
+                        </Flex>
+                      </Flex>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                
+                <Flex 
+                  justify="space-between" 
+                  borderTop="2px" 
+                  borderColor="blue.100" 
+                  pt={4} 
+                  mt={2}
+                  fontWeight="bold"
+                >
+                  <Text fontSize="lg">Total:</Text>
+                  <Text fontSize="xl" color="blue.600">
+                    {parseCurrency(cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0))}
+                  </Text>
+                </Flex>
+              </Stack>
+            </Box>
+            
+            {/* Botón flotante de WhatsApp */}
+            <Flex
+              position="fixed"
+              justifyContent="center"
+              bottom={6}
+              right={6}
+              zIndex={10}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Button
+                  className="pulse-button"
                   colorScheme="whatsapp"
                   size="lg"
-                  fontWeight="bold"
                   borderRadius="full"
-                  boxShadow="0 4px 12px rgba(37, 211, 102, 0.5)"
-                  px={8}
-                  py={6}
-                  _hover={{ 
-                    transform: 'translateY(-3px)',
-                    boxShadow: '0 6px 16px rgba(37, 211, 102, 0.6)',
-                  }}
-                  _active={{
-                    transform: 'translateY(1px)',
-                    boxShadow: '0 2px 8px rgba(37, 211, 102, 0.4)',
-                  }}
-                  transition="all 0.3s ease"
-                  leftIcon={
-                    <Box as="span" fontSize="1.5em" mr={2}>
-                      <svg viewBox="0 0 24 24" width="24" height="24" fill="#FFFFFF">
-                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z"/>
-                      </svg>
-                    </Box>
-                  }
-                  onClick={onOpen} // Cambiado para abrir el modal en lugar de ir a WhatsApp
+                  boxShadow="xl"
+                  onClick={onOpen}
+                  leftIcon={<Icon as={FaWhatsapp} fontSize="2xl" />}
+                  px={6}
+                  py={7}
                 >
-                  Completar pedido ({cart.reduce((total, item) => total + (item.quantity || 1), 0)} productos)
+                  Completar pedido ({cart.reduce((total, item) => total + (item.quantity || 1), 0)})
                 </Button>
-              </Flex>
-            </>
-          )}
-        </Stack>
+              </motion.div>
+            </Flex>
+          </>
+        )}
       </Container>
       
-      {/* Footer */}
-      <Box as="footer" bg="gray.100" mt={10} py={6}>
+      {/* Footer mejorado */}
+      <Box 
+        as="footer" 
+        bg="blue.700" 
+        color="white" 
+        mt={16} 
+        py={10}
+        borderTopLeftRadius="3xl"
+        borderTopRightRadius="3xl"
+      >
         <Container maxW="container.xl">
-          <Stack spacing={4}>
-            <Heading as="h3" size="md">Contacto</Heading>
-            <Text>Email: preciohogaruruguay@gmail.com</Text>
-            <Text>WhatsApp: (+598) 092 315 819</Text>
-            <Text>Ubicación: Montevideo, Uruguay</Text>
-            <Text fontSize="sm" mt={4}>© 2025 PrecioHogar. Todos los derechos reservados.</Text>
-          </Stack>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            <Stack spacing={4}>
+              <Heading as="h3" size="md" color="white">
+                Sobre Nosotros
+              </Heading>
+              <Text>
+                PrecioHogar es tu tienda de confianza para productos de hogar y electrodomésticos de calidad a precios accesibles.
+              </Text>
+            </Stack>
+            
+            <Stack spacing={4}>
+              <Heading as="h3" size="md" color="white">
+                Contacto
+              </Heading>
+              <Text>Email: preciohogaruruguay@gmail.com</Text>
+              <Text>WhatsApp: (+598) 092 315 819</Text>
+              <Text>Ubicación: Montevideo, Uruguay</Text>
+            </Stack>
+            
+            <Stack spacing={4}>
+              <Heading as="h3" size="md" color="white">
+                Horario de Atención
+              </Heading>
+              <Text>Lunes a Viernes: 9:00 - 18:00</Text>
+              <Text>Sábados: 9:00 - 13:00</Text>
+            </Stack>
+          </SimpleGrid>
+          
+          <Divider my={8} borderColor="blue.500" />
+          
+          <Text fontSize="sm" textAlign="center">
+            © {new Date().getFullYear()} PrecioHogar. Todos los derechos reservados.
+          </Text>
         </Container>
       </Box>
     </>
