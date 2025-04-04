@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { 
   Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, 
   useDisclosure, Badge, Divider, useColorModeValue, SimpleGrid, IconButton,
-  Tooltip
+  Tooltip, Icon
 } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaShoppingCart, FaWhatsapp, FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
@@ -276,7 +276,7 @@ Productos:`;
                         }}
                         transition="all 0.2s"
                       >
-                        <FaShoppingCart />
+                        <Icon as={FaShoppingCart} />
                       </Button>
                     </Tooltip>
                   </Flex>
@@ -302,7 +302,7 @@ Productos:`;
                 display="flex"
                 alignItems="center"
               >
-                <FaShoppingCart style={{ marginRight: '8px' }} />
+                <Icon as={FaShoppingCart} mr={2} />
                 Tu Carrito de Compras
               </Heading>
               
@@ -421,7 +421,7 @@ Productos:`;
                   borderRadius="full"
                   boxShadow="xl"
                   onClick={onOpen}
-                  leftIcon={<FaWhatsapp />}
+                  leftIcon={<Icon as={FaWhatsapp} />}
                   px={6}
                   py={7}
                 >
