@@ -18,23 +18,23 @@ export const styles = {
         display: "block",
         width: "40px",
         height: "3px",
-        backgroundColor: "primary.500",
+        backgroundColor: "brand.500",
         marginTop: "0.2em",
         borderRadius: "full",
       },
     },
     a: {
-      color: "primary.600",
+      color: "brand.600",
       textDecoration: "none",
       transition: "all 0.2s ease-in-out",
       _hover: {
         textDecoration: "none",
-        color: "primary.700",
+        color: "brand.700",
         transform: "translateY(-1px)",
       },
     },
     "::selection": {
-      backgroundColor: "primary.100",
+      backgroundColor: "brand.100",
     },
     // Mejoras en los estilos globales
     "section": {
@@ -50,13 +50,13 @@ export const styles = {
     },
     ".text-gradient": {
       backgroundClip: "text",
-      backgroundImage: "linear-gradient(to right, primary.500, secondary.500)",
+      backgroundImage: "linear-gradient(to right, brand.500, secondary.500)",
       color: "transparent",
     },
     ".shadow-hover": {
       transition: "all 0.3s ease",
       _hover: {
-        boxShadow: "lg",
+        boxShadow: "elevated",
         transform: "translateY(-5px)",
       },
     },
@@ -79,7 +79,7 @@ export const styles = {
     "footer h3": {
       color: "white",
       _after: {
-        backgroundColor: "primary.400",
+        backgroundColor: "brand.400",
         width: "30px",
       },
     },
@@ -101,15 +101,15 @@ export const styles = {
       backgroundColor: "white",
       color: "gray.800",
       _focus: {
-        borderColor: "primary.400",
-        boxShadow: "0 0 0 1px var(--chakra-colors-primary-400)",
+        borderColor: "brand.400",
+        boxShadow: "0 0 0 1px var(--chakra-colors-brand-400)",
       },
     },
     "footer button": {
-      backgroundColor: "primary.500",
+      backgroundColor: "brand.500",
       color: "white",
       _hover: {
-        backgroundColor: "primary.600",
+        backgroundColor: "brand.600",
       },
     },
     // Product card styles - mejorados
@@ -120,7 +120,7 @@ export const styles = {
       overflow: "hidden",
       _hover: {
         transform: "scale(1.03)",
-        boxShadow: "xl",
+        boxShadow: "elevated",
         zIndex: 1,
         ".product-actions": {
           opacity: 1,
@@ -158,23 +158,6 @@ export const styles = {
       _hover: {
         backgroundColor: "gray.50",
       },
-    },
-    ".cart-item-enter": {
-      opacity: 0,
-      transform: "translateX(-20px)",
-    },
-    ".cart-item-enter-active": {
-      opacity: 1,
-      transform: "translateX(0)",
-      transition: "opacity 300ms, transform 300ms",
-    },
-    ".cart-item-exit": {
-      opacity: 1,
-    },
-    ".cart-item-exit-active": {
-      opacity: 0,
-      transform: "translateX(20px)",
-      transition: "opacity 300ms, transform 300ms",
     },
     // Animación para el botón flotante - mejorada
     "@keyframes pulse": {

@@ -34,7 +34,6 @@ const colors = {
     800: "#1565c0",
     900: "#0d47a1",
   },
-  // Nuevos colores para mejorar la paleta
   accent: {
     50: "#fff8e1",
     100: "#ffecb3",
@@ -79,7 +78,7 @@ const fonts = {
 };
 
 const shadows = {
-  outline: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+  outline: "0 0 0 3px rgba(33, 150, 243, 0.6)",
   hover: "0 8px 30px rgba(0, 0, 0, 0.12)",
   card: "0 10px 30px -5px rgba(0, 0, 0, 0.1)",
   elevated: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
@@ -132,7 +131,6 @@ const components = {
         },
         transition: "all 0.2s ease",
       }),
-      // Nuevo variante de botón con efecto de gradiente
       gradient: (props: any) => ({
         bgGradient: `linear(to-r, ${props.colorScheme}.500, ${props.colorScheme}.600)`,
         color: "white",
@@ -154,7 +152,7 @@ const components = {
       p: "6",
       bg: "white",
       borderRadius: "lg",
-      boxShadow: "md",
+      boxShadow: "card",
       transition: "all 0.3s ease",
       _hover: {
         boxShadow: "elevated",
@@ -168,7 +166,7 @@ const components = {
       },
       outline: {
         boxShadow: "none",
-        border: "1px solid",
+        border: "thin",
         borderColor: "gray.200",
       },
       filled: {
@@ -196,7 +194,7 @@ const components = {
     },
     variants: {
       gradient: {
-        bgGradient: "linear(to-r, primary.500, secondary.500)",
+        bgGradient: "linear(to-r, brand.500, secondary.500)",
         bgClip: "text",
         fontWeight: "extrabold",
       },
@@ -208,7 +206,7 @@ const components = {
         borderRadius: "md",
         _focus: {
           boxShadow: "outline",
-          borderColor: "primary.500",
+          borderColor: "brand.500",
         },
         transition: "all 0.2s",
       },
@@ -222,7 +220,7 @@ const components = {
           },
           _focus: {
             bg: "white",
-            borderColor: "primary.500",
+            borderColor: "brand.500",
           },
         },
       },
@@ -233,7 +231,7 @@ const components = {
       transition: "all 0.2s",
       _hover: {
         textDecoration: "none",
-        color: "primary.600",
+        color: "brand.600",
       },
     },
     variants: {
@@ -246,7 +244,7 @@ const components = {
           left: 0,
           width: "0%",
           height: "2px",
-          bg: "primary.500",
+          bg: "brand.500",
           transition: "width 0.3s ease",
         },
         _hover: {
@@ -260,7 +258,7 @@ const components = {
   Text: {
     variants: {
       gradient: {
-        bgGradient: "linear(to-r, primary.500, secondary.500)",
+        bgGradient: "linear(to-r, brand.500, secondary.500)",
         bgClip: "text",
         fontWeight: "bold",
       },
@@ -274,7 +272,6 @@ const components = {
       },
     },
   },
-  // Estilos para el Footer
   Footer: {
     baseStyle: {
       bg: "gray.800",
@@ -283,7 +280,6 @@ const components = {
       transition: "all 0.3s ease",
     },
   },
-  // Estilos para el Badge
   Badge: {
     baseStyle: {
       borderRadius: "full",

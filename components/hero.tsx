@@ -156,7 +156,7 @@ const Hero = () => {
             textAlign="center"
             fontSize={{ base: "xl", md: "2xl" }}
             mb={6}
-            color="blue.700"
+            color="brand.700"
             position="relative"
             _before={{
               content: '""',
@@ -166,9 +166,10 @@ const Hero = () => {
               transform: "translateX(-50%)",
               width: "80px",
               height: "3px",
-              bgGradient: "linear(to-r, blue.400, blue.600)",
+              bgGradient: "linear(to-r, brand.400, whatsapp.500, brand.600)",
               borderRadius: "full"
             }}
+            textShadow="0 1px 2px rgba(0, 0, 0, 0.1)"
           >
             ¿Por qué elegirnos?
           </Heading>
@@ -176,10 +177,14 @@ const Hero = () => {
           <Text 
             textAlign="center"
             fontSize={{ base: "sm", md: "md" }}
-            color="gray.600"
+            color="gray.700"
             maxW="800px"
             mx="auto"
             mb={8}
+            fontWeight="medium"
+            bgGradient="linear(to-r, gray.700, brand.700, gray.700)"
+            bgClip="text"
+            letterSpacing="wide"
           >
             Descubre las ventajas de comprar en PrecioHogar, donde la calidad y el servicio son nuestra prioridad.
           </Text>

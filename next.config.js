@@ -9,7 +9,7 @@ const nextConfig = {
   basePath: '',
   assetPrefix: '',
   trailingSlash: true,
-  transpilePackages: ['react-icons'],
+  transpilePackages: ['react-icons']
 }
 
 module.exports = nextConfig
