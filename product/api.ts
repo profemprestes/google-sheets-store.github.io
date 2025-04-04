@@ -4,7 +4,7 @@ import Papa from 'papaparse';
 import { Product } from './types';
 
 const googleSheetLink =
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5OVvUu3-cRCPUaDRXpbV0tG8sa1IAaxx_OcVgpqLXfgMH6uyrn4trPzXk11dbdyG8IMVhkWFFx7G2/pub?output=csv';
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7rLnyQN3sYzTeG9P6ZplK-C9z-OjUXlSbok066jSp4azjDYQkJzV2yIbQY_aOcDaVu-YOHP9k6DA/pub?gid=755881603&single=true&output=csv';
 
 const api = {
   getProducts: async (): Promise<Product[]> => {
