@@ -2,10 +2,12 @@ import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure, Divider } from '@chakra-ui/react';
+import { FaShoppingCart } from 'react-icons/fa';
 
 import api from '../product/api';
 import { Product } from '../product/types';
 import CheckoutForm, { CustomerInfo } from '../product/CheckoutForm';
+import ResumenCarrito from '../components/resumencarrito';
 
 // The Footer is now imported in _app.tsx, so we don't need to import it here
 
@@ -201,102 +203,14 @@ Productos:`;
           </Grid>
           
           {Boolean(cart.length) && (
-            <>
-              {/* Mostrar resumen del carrito */}
-              <Box 
-                bg="white" 
-                p={4} 
-                borderRadius="md" 
-                boxShadow="md"
-                mb={4}
-              >
-                <Heading size="md" mb={3}>Resumen del Carrito</Heading>
-                <Stack spacing={3}>
-                  {cart.map((item) => (
-                    <Flex key={item.id} justify="space-between" align="center">
-                      <Text fontWeight="medium">{item.title}</Text>
-                      <Flex align="center">
-                        <Button 
-                          size="xs" 
-                          colorScheme="blue" 
-                          variant="outline"
-                          onClick={() => decrementQuantity(item.id)}
-                          isDisabled={(item.quantity || 1) <= 1}
-                        >
-                          -
-                        </Button>
-                        <Text mx={2} fontWeight="bold">{item.quantity || 1}</Text>
-                        <Button 
-                          size="xs" 
-                          colorScheme="blue" 
-                          variant="outline"
-                          onClick={() => incrementQuantity(item.id)}
-                        >
-                          +
-                        </Button>
-                        <Text ml={4} fontWeight="bold">
-                          {parseCurrency(item.price * (item.quantity || 1))}
-                        </Text>
-                        <Button 
-                          size="xs" 
-                          colorScheme="red" 
-                          ml={2}
-                          onClick={() => removeFromCart(item.id)}
-                        >
-                          ✕
-                        </Button>
-                      </Flex>
-                    </Flex>
-                  ))}
-                  <Flex justify="space-between" borderTop="1px solid" borderColor="gray.200" pt={2} mt={2}>
-                    <Text fontWeight="bold">Total:</Text>
-                    <Text fontWeight="bold">
-                      {parseCurrency(cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0))}
-                    </Text>
-                  </Flex>
-                </Stack>
-              </Box>
-              
-              {/* Botón de WhatsApp - Modificado para abrir el formulario en lugar de ir directamente a WhatsApp */}
-              <Flex
-                position="sticky"
-                justifyContent="center"
-                bottom={0}
-                padding={4}
-                backdropFilter="blur(8px)"
-                bg="rgba(255, 255, 255, 0.8)"
-                zIndex={10}
-              >
-                <Button
-                  colorScheme="whatsapp"
-                  size="lg"
-                  fontWeight="bold"
-                  borderRadius="full"
-                  boxShadow="0 4px 12px rgba(37, 211, 102, 0.5)"
-                  px={8}
-                  py={6}
-                  _hover={{ 
-                    transform: 'translateY(-3px)',
-                    boxShadow: '0 6px 16px rgba(37, 211, 102, 0.6)',
-                  }}
-                  _active={{
-                    transform: 'translateY(1px)',
-                    boxShadow: '0 2px 8px rgba(37, 211, 102, 0.4)',
-                  }}
-                  transition="all 0.3s ease"
-                  leftIcon={
-                    <Box as="span" fontSize="1.5em" mr={2}>
-                      <svg viewBox="0 0 24 24" width="24" height="24" fill="#FFFFFF">
-                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z"/>
-                      </svg>
-                    </Box>
-                  }
-                  onClick={onOpen} // Cambiado para abrir el modal en lugar de ir a WhatsApp
-                >
-                  Completar pedido ({cart.reduce((total, item) => total + (item.quantity || 1), 0)} productos)
-                </Button>
-              </Flex>
-            </>
+            <ResumenCarrito
+              cart={cart}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
+              removeFromCart={removeFromCart}
+              parseCurrency={parseCurrency}
+              onCheckout={onOpen}
+            />
           )}
         </Stack>
       </Container>
