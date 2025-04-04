@@ -1,7 +1,7 @@
 import React from 'react';
 import NextLink from 'next/link';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import { Box, Container, Grid, GridItem, Heading, Text, Link, Input, Button, Flex, VStack, HStack, Divider } from '@chakra-ui/react';
+import { Box, Container, Grid, GridItem, Heading, Text, Link, Input, Button, Flex, VStack, HStack, Divider, Icon } from '@chakra-ui/react';
 
 const Footer = () => {
   return (
@@ -23,15 +23,6 @@ const Footer = () => {
               <NextLink href="/" passHref legacyBehavior>
                 <Link>Inicio</Link>
               </NextLink>
-              <NextLink href="/productos" passHref legacyBehavior>
-                <Link>Productos</Link>
-              </NextLink>
-              <NextLink href="/categorias" passHref legacyBehavior>
-                <Link>Categorías</Link>
-              </NextLink>
-              <NextLink href="/ofertas" passHref legacyBehavior>
-                <Link>Ofertas</Link>
-              </NextLink>
             </VStack>
           </GridItem>
 
@@ -39,10 +30,10 @@ const Footer = () => {
           <GridItem>
             <Heading as="h3" size="md" mb={4}>Contacto</Heading>
             <VStack spacing={2} align="flex-start" color="gray.300">
-              <Text>Dirección: Calle Principal #123</Text>
-              <Text>Teléfono: (123) 456-7890</Text>
-              <Text>Email: info@mitienda.com</Text>
-              <Text>Horario: Lun-Vie 9:00 - 18:00</Text>
+              <Text>Dirección: Montevideo, Uruguay</Text>
+              <Text>Teléfono: (+598) 092 315 819</Text>
+              <Text>Email: preciohogaruruguay@gmail.com</Text>
+              <Text>Horario: 24hs Puedes Realizar el Pedido</Text>
             </VStack>
           </GridItem>
           
@@ -51,16 +42,16 @@ const Footer = () => {
             <Heading as="h3" size="md" mb={4}>Síguenos</Heading>
             <HStack spacing={4} mb={4}>
               <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                <FaFacebook size={24} />
+                <Icon as={FaFacebook} boxSize={6} />
               </Link>
               <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                <FaTwitter size={24} />
+                <Icon as={FaTwitter} boxSize={6} />
               </Link>
               <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                <FaInstagram size={24} />
+                <Icon as={FaInstagram} boxSize={6} />
               </Link>
               <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                <FaLinkedin size={24} />
+                <Icon as={FaLinkedin} boxSize={6} />
               </Link>
             </HStack>
             <Box mt={4}>
