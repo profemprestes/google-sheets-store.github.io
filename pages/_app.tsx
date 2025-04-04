@@ -11,15 +11,24 @@ import {
   HStack,
   Flex,
 } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
 
 import theme from '../theme';
 import Footer from '../components/Footer';
 import Hero from '../components/hero';
+import ClientOnly from '../components/ClientOnly';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
+  // Use client-side rendering for the Hero component
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
-      <Box padding={4} bgGradient="linear(to-b, blue.50, white)" suppressHydrationWarning>
+      <Box padding={4} bgGradient="linear(to-b, blue.50, white)">
         <Container
           backgroundColor="white"
           borderRadius="md"
@@ -76,7 +85,12 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
             </Box>
           </Flex>
           <Divider marginY={6} borderColor="blue.200" />
-          <Hero /> {/* Added Hero component here */}
+          
+          {/* Wrap Hero in ClientOnly component to prevent hydration issues */}
+          <ClientOnly>
+            {isMounted && <Hero />}
+          </ClientOnly>
+          
           <Component {...pageProps} />
           <Footer />
         </Container>
