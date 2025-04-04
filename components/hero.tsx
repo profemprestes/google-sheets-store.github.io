@@ -31,7 +31,7 @@ const Hero = () => {
         left={0}
         right={0}
         bottom={0}
-        backgroundImage="url('/images/pattern.svg')"
+        backgroundImage="url('')"
         backgroundRepeat="repeat"
         backgroundSize="30px"
         opacity={0.1}
@@ -76,7 +76,7 @@ const Hero = () => {
               direction={{ base: 'column', sm: 'row' }}
               w={{ base: '100%', sm: 'auto' }}
             >
-              <NextLink href="#productos" passHref>
+              <NextLink href="" passHref>
                 <Button 
                   size="lg" 
                   colorScheme="whatsapp"
@@ -124,7 +124,7 @@ const Hero = () => {
             _hover={{ transform: 'rotate(0deg) scale(1.02)' }}
           >
             <Image
-              src="/images/hero-image.jpg"
+              src="/images/logotienda.svg"
               alt="Productos para el hogar"
               fallbackSrc="https://via.placeholder.com/600x400?text=PrecioHogar"
               objectFit="cover"

@@ -1,19 +1,13 @@
 import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure, Divider } from '@chakra-ui/react';
 
 import api from '../product/api';
 import { Product } from '../product/types';
 import CheckoutForm, { CustomerInfo } from '../product/CheckoutForm';
-// Cambiar esta línea si existe:
-// import Footer from './footer';
 
-// Por esta:
-// import Footer from '../components/Footer';
-
-// Y eliminar la línea donde se renderiza el Footer si existe
-// <Footer />
+// The Footer is now imported in _app.tsx, so we don't need to import it here
 
 interface Props {
   products: Product[];
@@ -121,6 +115,14 @@ Productos:`;
   
   return (
     <>
+      <Head>
+        <title>PrecioHogar - Electrodomésticos y más para tu hogar</title>
+        <meta name="description" content="Descubre nuestra selección de electrodomésticos y artículos de calidad a precios increíbles. Envíos a todo Uruguay." />
+        <meta property="og:title" content="PrecioHogar - Electrodomésticos y más para tu hogar" />
+        <meta property="og:description" content="Descubre nuestra selección de electrodomésticos y artículos de calidad a precios increíbles. Envíos a todo Uruguay." />
+        <meta property="og:type" content="website" />
+      </Head>
+
       {/* Agregar el componente CheckoutForm */}
       <CheckoutForm 
         isOpen={isOpen} 
@@ -128,7 +130,21 @@ Productos:`;
         onSubmit={handleCheckoutSubmit} 
       />
       
-      <Container maxW="container.xl">
+      {/* Note: Hero is now added in _app.tsx, so we don't need to add it here */}
+      
+      <Container maxW="container.xl" id="productos">
+        <Heading 
+          as="h2" 
+          size="xl" 
+          textAlign="center" 
+          my={8}
+          bgGradient="linear(to-r, blue.500, blue.700)"
+          bgClip="text"
+        >
+          Nuestros Productos
+        </Heading>
+        <Divider mb={8} />
+        
         <Stack spacing={6}>
           <Grid
             gridGap={6}
@@ -144,6 +160,7 @@ Productos:`;
                 spacing={3}
                 transition="all 0.3s"
                 _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
+                className="product-card"
               >
                 <Image
                   borderRadius="md"
@@ -284,8 +301,7 @@ Productos:`;
         </Stack>
       </Container>
       
-      {/* Replace the existing footer with the Footer component */}
-{/* Footer component removed - needs to be imported from '../components/Footer' first */}
+      {/* We don't need to add the Footer here as it's already in _app.tsx */}
     </>
   );
 };
