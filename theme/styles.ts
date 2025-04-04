@@ -36,6 +36,51 @@ export const styles = {
     "::selection": {
       backgroundColor: "primary.100",
     },
+    // Footer styles
+    "footer": {
+      backgroundColor: "gray.800",
+      color: "white",
+      marginTop: "2rem",
+      paddingTop: "2rem",
+      paddingBottom: "2rem",
+    },
+    "footer h3": {
+      color: "white",
+      _after: {
+        backgroundColor: "primary.400",
+        width: "30px",
+      },
+    },
+    "footer a": {
+      color: "gray.300",
+      _hover: {
+        color: "white",
+        textDecoration: "none",
+      },
+    },
+    "footer .social-icon": {
+      transition: "transform 0.3s ease, color 0.3s ease",
+      _hover: {
+        transform: "translateY(-3px)",
+        color: "white",
+      },
+    },
+    "footer input": {
+      backgroundColor: "white",
+      color: "gray.800",
+      _focus: {
+        borderColor: "primary.400",
+        boxShadow: "0 0 0 1px var(--chakra-colors-primary-400)",
+      },
+    },
+    "footer button": {
+      backgroundColor: "primary.500",
+      color: "white",
+      _hover: {
+        backgroundColor: "primary.600",
+      },
+    },
+    // Product card styles
     ".product-card": {
       transform: "scale(1)",
       transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",

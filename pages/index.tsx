@@ -6,6 +6,7 @@ import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, 
 import api from '../product/api';
 import { Product } from '../product/types';
 import CheckoutForm, { CustomerInfo } from '../product/CheckoutForm';
+import Footer from './footer'; // Import the Footer component
 
 interface Props {
   products: Product[];
@@ -273,18 +274,8 @@ Productos:`;
         </Stack>
       </Container>
       
-      {/* Footer */}
-      <Box as="footer" bg="gray.100" mt={10} py={6}>
-        <Container maxW="container.xl">
-          <Stack spacing={4}>
-            <Heading as="h3" size="md">Contacto</Heading>
-            <Text>Email: preciohogaruruguay@gmail.com</Text>
-            <Text>WhatsApp: (+598) 092 315 819</Text>
-            <Text>Ubicación: Montevideo, Uruguay</Text>
-            <Text fontSize="sm" mt={4}>© 2025 PrecioHogar. Todos los derechos reservados.</Text>
-          </Stack>
-        </Container>
-      </Box>
+      {/* Replace the existing footer with the Footer component */}
+      <Footer />
     </>
   );
 };
