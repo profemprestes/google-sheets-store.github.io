@@ -6,7 +6,14 @@ import { Button, Flex, Image, Grid, Link, Stack, Text, Box, Heading, Container, 
 import api from '../product/api';
 import { Product } from '../product/types';
 import CheckoutForm, { CustomerInfo } from '../product/CheckoutForm';
-import Footer from './footer'; // Import the Footer component
+// Cambiar esta línea si existe:
+// import Footer from './footer';
+
+// Por esta:
+// import Footer from '../components/Footer';
+
+// Y eliminar la línea donde se renderiza el Footer si existe
+// <Footer />
 
 interface Props {
   products: Product[];
@@ -275,7 +282,7 @@ Productos:`;
       </Container>
       
       {/* Replace the existing footer with the Footer component */}
-      <Footer />
+{/* Footer component removed - needs to be imported from '../components/Footer' first */}
     </>
   );
 };

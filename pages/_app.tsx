@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import theme from '../theme';
+import Footer from '../components/Footer'; // Importar el componente Footer
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -75,6 +76,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           </Flex>
           <Divider marginY={6} borderColor="blue.200" />
           <Component {...pageProps} />
+          <Footer /> {/* Añadir el componente Footer aquí */}
         </Container>
       </Box>
     </ChakraProvider>

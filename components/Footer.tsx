@@ -46,6 +46,7 @@ const Footer = () => {
             </VStack>
           </GridItem>
           
+       
         </Grid>
 
         {/* Copyright */}
