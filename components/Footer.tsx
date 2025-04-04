@@ -20,16 +20,16 @@ const Footer = () => {
           <GridItem>
             <Heading as="h3" size="md" mb={4}>Enlaces Rápidos</Heading>
             <VStack spacing={2} align="flex-start">
-              <NextLink href="/" passHref>
+              <NextLink href="/" passHref legacyBehavior>
                 <Link>Inicio</Link>
               </NextLink>
-              <NextLink href="/productos" passHref>
+              <NextLink href="/productos" passHref legacyBehavior>
                 <Link>Productos</Link>
               </NextLink>
-              <NextLink href="/categorias" passHref>
+              <NextLink href="/categorias" passHref legacyBehavior>
                 <Link>Categorías</Link>
               </NextLink>
-              <NextLink href="/ofertas" passHref>
+              <NextLink href="/ofertas" passHref legacyBehavior>
                 <Link>Ofertas</Link>
               </NextLink>
             </VStack>
@@ -46,7 +46,40 @@ const Footer = () => {
             </VStack>
           </GridItem>
           
-       
+          {/* Social Media */}
+          <GridItem>
+            <Heading as="h3" size="md" mb={4}>Síguenos</Heading>
+            <HStack spacing={4} mb={4}>
+              <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                <FaFacebook size={24} />
+              </Link>
+              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                <FaTwitter size={24} />
+              </Link>
+              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                <FaInstagram size={24} />
+              </Link>
+              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                <FaLinkedin size={24} />
+              </Link>
+            </HStack>
+            <Box mt={4}>
+              <Heading as="h4" size="sm" mb={2}>Suscríbete</Heading>
+              <Flex>
+                <Input 
+                  type="email" 
+                  placeholder="Tu email" 
+                  borderRightRadius={0}
+                />
+                <Button 
+                  borderLeftRadius={0}
+                  colorScheme="blue"
+                >
+                  Enviar
+                </Button>
+              </Flex>
+            </Box>
+          </GridItem>
         </Grid>
 
         {/* Copyright */}
@@ -54,10 +87,10 @@ const Footer = () => {
         <Box textAlign="center" color="gray.400">
           <Text>&copy; {new Date().getFullYear()} Mi Tienda. Todos los derechos reservados.</Text>
           <HStack spacing={4} justify="center" mt={2}>
-            <NextLink href="/privacidad" passHref>
+            <NextLink href="/privacidad" passHref legacyBehavior>
               <Link>Política de Privacidad</Link>
             </NextLink>
-            <NextLink href="/terminos" passHref>
+            <NextLink href="/terminos" passHref legacyBehavior>
               <Link>Términos y Condiciones</Link>
             </NextLink>
           </HStack>

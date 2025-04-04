@@ -116,6 +116,9 @@ Productos:`;
     [cart]
   );
 
+  // Use useMemo for date to ensure consistent rendering
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
+  
   return (
     <>
       {/* Agregar el componente CheckoutForm */}
