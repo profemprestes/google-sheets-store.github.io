@@ -60,6 +60,7 @@ const NavBar = () => {
     <MotionBox 
       sx={navbarStyles.container}
       style={{ 
+        height: navbarHeight, // Using the dynamic height
         opacity: navbarOpacity,
         boxShadow: scrolled ? '0 4px 20px rgba(0, 0, 0, 0.1)' : 'none'
       }}
@@ -79,24 +80,48 @@ const NavBar = () => {
               as="a"
               sx={navbarStyles.logoContainer}
               variants={fadeIn}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ 
+                y: -2, // Reduced from -5 for subtle effect
+                transition: { 
+                  duration: 0.2, // Faster transition
+                  ease: "easeOut"
+                } 
+              }}
+              whileTap={{ 
+                scale: 0.98, // More subtle tap effect
+                transition: { duration: 0.1 }
+              }}
             >
-              <MotionHStack spacing={3}>
+              <MotionHStack spacing={2}> {/* Reduced spacing */}
                 <MotionImage
                   alt="PrecioHogar Logo"
                   src="/logotienda.svg"
                   fallbackSrc="https://via.placeholder.com/100?text=PrecioHogar"
                   sx={navbarStyles.logo}
                   variants={logoSpin}
-                  whileHover={{ rotate: 15, scale: 1.1 }}
+                  whileHover={{ 
+                    rotate: 10, // Reduced rotation
+                    scale: 1.05, // Reduced scale
+                    transition: {
+                      type: "spring",
+                      stiffness: 400, // Increased stiffness
+                      damping: 15
+                    }
+                  }}
                 />
-                <VStack 
-                  sx={navbarStyles.logoTextContainer}
-                >
+                <VStack sx={navbarStyles.logoTextContainer}>
                   <MotionHeading 
                     sx={navbarStyles.logoHeading}
                     variants={slideInRight}
+                    whileHover={{
+                      x: 3, // Reduced movement
+                      color: "#3182ce",
+                      transition: {
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 15
+                      }
+                    }}
                   >
                     PrecioHogar
                   </MotionHeading>
@@ -104,6 +129,13 @@ const NavBar = () => {
                     sx={navbarStyles.logoSubtext}
                     variants={slideInRight}
                     custom={1}
+                    whileHover={{
+                      x: 5,
+                      transition: {
+                        type: "spring",
+                        stiffness: 300
+                      }
+                    }}
                   >
                     Tu fuente confiable de electrodomésticos
                   </MotionText>

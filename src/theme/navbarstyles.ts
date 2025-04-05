@@ -78,19 +78,21 @@ export const navbarStyles = {
     zIndex: 1000,
     width: "100%",
     bg: "white",
-    backdropFilter: "blur(10px)",
+    backdropFilter: "blur(8px)",
     borderBottom: "1px solid",
     borderColor: "gray.100",
-    transition: "all 0.3s ease",
+    transition: "all 0.2s ease",
   } as SystemStyleObject,
   
   innerContainer: {
     maxW: "container.xl",
     mx: "auto",
-    px: { base: 4, md: 6 },
-    py: { base: 3, md: 4 },
+    px: { base: 3, md: 4 },
+    py: { base: 2, md: 3 },
+    height: "full",
   } as SystemStyleObject,
   
+  // Add these missing styles
   flexContainer: {
     justify: "space-between",
     align: "center",
@@ -100,37 +102,73 @@ export const navbarStyles = {
   logoContainer: {
     display: "flex",
     alignItems: "center",
-    _hover: { textDecoration: "none" },
+    _hover: { 
+      textDecoration: "none",
+      cursor: "pointer"
+    },
   } as SystemStyleObject,
   
+  // Keep this single logo definition (the more complete one)
   logo: {
-    boxSize: { base: "40px", md: "80px" },
+    boxSize: { base: "50px", md: "80px", lg: "100px" },
     objectFit: "contain",
     borderRadius: "full",
-    p: 1,
+    p: 2,
     bg: "white",
     boxShadow: "sm",
+    border: "1px solid",
+    borderColor: "gray.100",
+    transition: "all 0.3s ease",
   } as SystemStyleObject,
   
+  // Keep this single logoHeading definition (the more complete one)
+  logoHeading: {
+    fontSize: { base: "lg", md: "xl", lg: "2xl" },
+    fontWeight: "bold",
+    color: "blue.600",
+    letterSpacing: "tight",
+    lineHeight: "shorter",
+    textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+    transition: "all 0.3s ease",
+    cursor: "pointer",
+  } as SystemStyleObject,
+
+  // Optimized animations
+  fadeIn: {
+    initial: { opacity: 0 },
+    animate: { 
+      opacity: 1,
+      transition: { 
+        duration: 0.3, // Faster
+        ease: "easeOut"
+      }
+    }
+  },
+
+  slideInRight: {
+    initial: { x: 30, opacity: 0 }, // Reduced initial x
+    animate: (custom: number = 0) => ({ 
+      x: 0, 
+      opacity: 1,
+      transition: { 
+        duration: 0.3,
+        delay: custom * 0.05, // Faster stagger
+        ease: "easeOut"
+      }
+    })
+  },
   logoTextContainer: {
     spacing: 0,
     align: "flex-start",
     display: { base: "none", sm: "flex" },
   } as SystemStyleObject,
   
-  logoHeading: {
-    fontSize: { base: "lg", md: "xl" },
-    fontWeight: "bold",
-    color: "blue.600",
-    letterSpacing: "tight",
-    lineHeight: "shorter",
-  } as SystemStyleObject,
-  
   logoSubtext: {
     fontSize: { base: "xs", md: "sm" },
-    color: "gray.500",
+    color: "gray.600",
     display: { base: "none", md: "block" },
     lineHeight: "tight",
+    transition: "all 0.3s ease",
   } as SystemStyleObject,
   
   navLinks: {
@@ -149,7 +187,7 @@ export const navbarStyles = {
     transition: "all 0.3s ease",
     _hover: {
       textDecoration: "none",
-      color: "blue.500",
+      color: "blue.50",
     },
     _after: {
       content: '""',
@@ -159,7 +197,7 @@ export const navbarStyles = {
       transform: "translateX(-50%)",
       width: "0%",
       height: "2px",
-      bg: "blue.500",
+      bg: "blue.50",
       transition: "width 0.3s ease",
     },
     _hover_after: {
@@ -245,7 +283,7 @@ export const navbarStyles = {
     transition: "all 0.2s",
     _hover: {
       bg: "blue.50",
-      color: "blue.500",
+      color: "blue.50",
     },
   } as SystemStyleObject,
   
