@@ -316,11 +316,11 @@ const components = {
 const globalStyles = {
   global: (props: StyleFunctionProps) => ({
     // Apply custom scrollbar to the entire app
-    'body': {
+    '*': {
       ...customScrollbar(props),
     },
     // Include other global styles from the styles object
-    ...(typeof styles.global === 'function' ? styles.global(props) : styles.global),
+    ...(typeof styles.global === 'function' ? (styles.global as (props: StyleFunctionProps) => Record<string, any>)(props) : styles.global),
   }),
 };
 

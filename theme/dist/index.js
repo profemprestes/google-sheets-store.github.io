@@ -279,7 +279,7 @@ var components = __assign(__assign({}, Carritos_1.carritoStyles), { Button: {
 var globalStyles = {
     global: function (props) { return (__assign({ 
         // Apply custom scrollbar to the entire app
-        'body': __assign({}, Carritos_1.customScrollbar(props)) }, (typeof styles_1.styles.global === 'function' ? styles_1.styles.global(props) : styles_1.styles.global))); }
+        '*': __assign({}, Carritos_1.customScrollbar(props)) }, (typeof styles_1.styles.global === 'function' ? styles_1.styles.global(props) : styles_1.styles.global))); }
 };
 exports["default"] = react_1.extendTheme({
     config: config,
