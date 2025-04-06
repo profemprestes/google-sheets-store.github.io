@@ -12,11 +12,13 @@ import {
   Collapse,
   useDisclosure,
   Badge,
-  Button
+  Button,
+  useColorMode,
+  useColorModeValue
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { HamburgerIcon, CloseIcon, PhoneIcon, ExternalLinkIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, PhoneIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { navbarStyles, fadeIn, slideInRight, logoSpin, pulse, navItemAnimation } from '../theme/navbarstyles';
 import { useRouter } from 'next/router';
 
@@ -29,12 +31,14 @@ const MotionText = motion(Text);
 const MotionHStack = motion(HStack);
 const MotionBadge = motion(Badge);
 const MotionButton = motion(Button);
+const MotionIconButton = motion(IconButton);
 
 const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const { colorMode, toggleColorMode } = useColorMode();
   
   // Transform navbar opacity and height based on scroll position
   const navbarOpacity = useTransform(scrollY, [0, 100], [1, 0.95]);
@@ -56,11 +60,19 @@ const NavBar = () => {
     { name: 'Contacto', path: '/#contacto' },
   ];
 
+  // Theme toggle animation
+  const themeToggleVariants = {
+    initial: { rotate: 0 },
+    animate: { rotate: 0 },
+    hover: { scale: 1.1, rotate: 15 },
+    tap: { scale: 0.9, rotate: 0 }
+  };
+
   return (
     <MotionBox 
       sx={navbarStyles.container}
       style={{ 
-        height: navbarHeight, // Using the dynamic height
+        height: navbarHeight,
         opacity: navbarOpacity,
         boxShadow: scrolled ? '0 4px 20px rgba(0, 0, 0, 0.1)' : 'none'
       }}
@@ -81,18 +93,18 @@ const NavBar = () => {
               sx={navbarStyles.logoContainer}
               variants={fadeIn}
               whileHover={{ 
-                y: -2, // Reduced from -5 for subtle effect
+                y: -2,
                 transition: { 
-                  duration: 0.2, // Faster transition
+                  duration: 0.2,
                   ease: "easeOut"
                 } 
               }}
               whileTap={{ 
-                scale: 0.98, // More subtle tap effect
+                scale: 0.98,
                 transition: { duration: 0.1 }
               }}
             >
-              <MotionHStack spacing={2}> {/* Reduced spacing */}
+              <MotionHStack spacing={2}>
                 <MotionImage
                   alt="PrecioHogar Logo"
                   src="/logotienda.svg"
@@ -100,11 +112,11 @@ const NavBar = () => {
                   sx={navbarStyles.logo}
                   variants={logoSpin}
                   whileHover={{ 
-                    rotate: 10, // Reduced rotation
-                    scale: 1.05, // Reduced scale
+                    rotate: 10,
+                    scale: 1.05,
                     transition: {
                       type: "spring",
-                      stiffness: 400, // Increased stiffness
+                      stiffness: 400,
                       damping: 15
                     }
                   }}
@@ -114,7 +126,7 @@ const NavBar = () => {
                     sx={navbarStyles.logoHeading}
                     variants={slideInRight}
                     whileHover={{
-                      x: 3, // Reduced movement
+                      x: 3,
                       color: "#3182ce",
                       transition: {
                         type: "spring",
@@ -183,6 +195,25 @@ const NavBar = () => {
                   </MotionBox>
                 </NextLink>
               ))}
+              
+              {/* Theme toggle button */}
+              <MotionIconButton
+                aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}
+                icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                onClick={toggleColorMode}
+                size="md"
+                variant="ghost"
+                color={colorMode === 'light' ? 'gray.600' : 'yellow.200'}
+                _hover={{
+                  bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.200',
+                }}
+                variants={themeToggleVariants}
+                initial="initial"
+                animate="animate"
+                whileHover="hover"
+                whileTap="tap"
+                display={{ base: "none", md: "flex" }}
+              />
             </HStack>
             
             <MotionButton
@@ -253,6 +284,23 @@ const NavBar = () => {
                 </MotionBox>
               </NextLink>
             ))}
+            
+            {/* Theme toggle button in mobile menu */}
+            <MotionButton
+              leftIcon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              onClick={toggleColorMode}
+              colorScheme={colorMode === 'light' ? 'gray' : 'yellow'}
+              size="md"
+              width="full"
+              mt={3}
+              variants={pulse}
+              initial="initial"
+              animate="animate"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Cambiar a modo {colorMode === 'light' ? 'oscuro' : 'claro'}
+            </MotionButton>
             
             <MotionButton
               as={NextLink}
