@@ -69,6 +69,7 @@ const Home: NextPage<Props> = ({ products }) => {
               position="relative"
               overflow="hidden"
             >
+              {/* Product content remains unchanged */}
               {product.badge && (
                 <Badge 
                   position="absolute" 
@@ -178,6 +179,7 @@ const Home: NextPage<Props> = ({ products }) => {
             <CompletarPedido 
               cart={cart} 
               parseCurrency={parseCurrency} 
+              phoneNumber="59892315819"
             />
           </Flex>
         )}
