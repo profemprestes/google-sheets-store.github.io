@@ -8,7 +8,7 @@ export const styles = {
       color: props.colorMode === "dark" ? "white" : "gray.800",
       fontSize: "16px",
       lineHeight: "tall",
-      transition: "background-color 0.3s ease",
+      transition: "all 0.3s ease", // Changed to all for smoother transitions
     },
     
     // Estilos de encabezados
@@ -271,6 +271,39 @@ export const styles = {
       "0%": { transform: "translateY(0)" },
       "50%": { transform: "translateY(-3px)" },
       "100%": { transform: "translateY(0)" }
+    },
+    
+    // Add a theme toggle button style
+    ".theme-toggle-button": {
+      position: "fixed",
+      bottom: "20px",
+      right: "20px",
+      borderRadius: "full",
+      width: "50px",
+      height: "50px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: props.colorMode === "dark" ? "0 0 15px rgba(255, 255, 255, 0.2)" : "0 0 15px rgba(0, 0, 0, 0.2)",
+      transition: "all 0.3s ease",
+      zIndex: 1000,
+      bg: props.colorMode === "dark" ? "gray.700" : "white",
+      color: props.colorMode === "dark" ? "yellow.200" : "blue.500",
+      _hover: {
+        transform: "rotate(30deg)",
+        boxShadow: props.colorMode === "dark" ? "0 0 20px rgba(255, 255, 255, 0.3)" : "0 0 20px rgba(0, 0, 0, 0.3)",
+      },
+    },
+    
+    // Add animation for theme toggle
+    "@keyframes themeSwitch": {
+      "0%": { transform: "scale(1) rotate(0deg)" },
+      "50%": { transform: "scale(1.2) rotate(180deg)" },
+      "100%": { transform: "scale(1) rotate(360deg)" }
+    },
+    
+    ".theme-toggle-active": {
+      animation: "themeSwitch 0.5s ease",
     },
   }),
 };

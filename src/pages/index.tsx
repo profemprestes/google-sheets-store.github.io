@@ -1,18 +1,28 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useContext } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
-// Remove the Head import from next/head
 import NextImage from 'next/image';
-import { Button, Flex, Grid, Link, Stack, Text, Box, Heading, Container, useDisclosure, Divider } from '@chakra-ui/react';
+import { 
+  Button, 
+  Flex, 
+  Grid, 
+  Link, 
+  Stack, 
+  Text, 
+  Box, 
+  Heading, 
+  Container, 
+  useDisclosure, 
+  Divider,
+  useColorModeValue
+} from '@chakra-ui/react';
 import { FaShoppingCart } from 'react-icons/fa';
 
 import api from '../product/api';
 import { Product } from '../product/types';
 import CheckoutForm, { CustomerInfo } from '../product/CheckoutForm';
 import ResumenCarrito from '../components/resumencarrito';
-// Import our custom Head component
 import Head from '../components/Head';
-
-// The Footer is now imported in _app.tsx, so we don't need to import it here
+import { AppContext } from './_app';
 
 interface Props {
   products: Product[];
@@ -29,6 +39,21 @@ const Home: NextPage<Props> = ({ products }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useContext(AppContext);
+  
+  // Get color mode dependent values
+  const cardBg = useColorModeValue("white", "gray.800");
+  const headingGradient = useColorModeValue(
+    "linear(to-r, blue.500, blue.700)",
+    "linear(to-r, blue.300, blue.500)"
+  );
+  const priceColor = useColorModeValue("blue.600", "blue.300");
+  const descriptionColor = useColorModeValue("gray.600", "gray.400");
+  
+  // Move these hooks outside the callback
+  const borderColor = useColorModeValue("transparent", "gray.700");
+  const borderWidth = useColorModeValue("0px", "1px");
+  const dividerColor = useColorModeValue("blue.200", "blue.700");
   
   // Función para agregar productos al carrito
   const addToCart = (product: Product) => {
@@ -120,21 +145,17 @@ Productos:`;
   
   return (
     <>
-      {/* Replace the inline Head with our custom Head component */}
       <Head 
         title="PrecioHogar - Electrodomésticos y más para tu hogar"
         description="Descubre nuestra selección de electrodomésticos y artículos de calidad a precios increíbles. Envíos a todo Uruguay."
-        canonical="https://preciohogar.com" // Replace with your actual domain
+        canonical="https://preciohogar.com"
       />
 
-      {/* Agregar el componente CheckoutForm */}
       <CheckoutForm 
         isOpen={isOpen} 
         onClose={onClose} 
         onSubmit={handleCheckoutSubmit} 
       />
-      
-      {/* Note: Hero is now added in _app.tsx, so we don't need to add it here */}
       
       <Container maxW="container.xl" id="productos">
         <Heading 
@@ -142,12 +163,12 @@ Productos:`;
           size="xl" 
           textAlign="center" 
           my={8}
-          bgGradient="linear(to-r, blue.500, blue.700)"
+          bgGradient={headingGradient}
           bgClip="text"
         >
           Nuestros Productos
         </Heading>
-        <Divider mb={8} />
+        <Divider mb={8} borderColor={dividerColor} />
         
         <Stack spacing={6}>
           <Grid
@@ -157,7 +178,7 @@ Productos:`;
             {products.map((product) => (
               <Stack
                 key={product.id}
-                backgroundColor="white"
+                backgroundColor={cardBg}
                 borderRadius="lg"
                 boxShadow="card"
                 padding={5}
@@ -167,7 +188,10 @@ Productos:`;
                 className="product-card"
                 position="relative"
                 overflow="hidden"
+                borderColor={borderColor}
+                borderWidth={borderWidth}
               >
+                {/* Product image container */}
                 <Box 
                   position="relative" 
                   height="180px" 
@@ -192,6 +216,8 @@ Productos:`;
                     quality={85}
                   />
                 </Box>
+                
+                {/* Product details */}
                 <Stack spacing={2}>
                   <Heading 
                     as="h3" 
@@ -204,7 +230,7 @@ Productos:`;
                   </Heading>
                   
                   <Text 
-                    color="gray.600"
+                    color={descriptionColor}
                     fontSize="sm"
                     noOfLines={3}
                     height="60px"
@@ -214,8 +240,9 @@ Productos:`;
                   >
                     {product.description || "Producto de alta calidad para tu hogar. Garantía y servicio técnico incluidos."}
                   </Text>
+                  
                   <Text 
-                    color="blue.600" 
+                    color={priceColor}
                     fontSize="xl" 
                     fontWeight="700"
                     className="product-price"
@@ -223,6 +250,8 @@ Productos:`;
                     {parseCurrency(product.price)}
                   </Text>
                 </Stack>
+                
+                {/* Add to cart button */}
                 <Button
                   variant="addToCart"
                   colorScheme="brand"
@@ -237,6 +266,7 @@ Productos:`;
             ))}
           </Grid>
           
+          {/* Cart summary */}
           {Boolean(cart.length) && (
             <ResumenCarrito
               cart={cart}
@@ -249,8 +279,6 @@ Productos:`;
           )}
         </Stack>
       </Container>
-      
-      {/* We don't need to add the Footer here as it's already in _app.tsx */}
     </>
   );
 };

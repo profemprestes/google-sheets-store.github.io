@@ -10,9 +10,13 @@ import {
   Divider,
   HStack,
   Flex,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useState, useEffect, createContext } from 'react';
 import { useRouter } from 'next/router';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 // Change this line to use named import instead of default import
 import { theme } from '../theme';
@@ -24,13 +28,43 @@ import NavBar from '../components/NavBar';
 
 // Create a context to share state between pages
 export const AppContext = createContext({
-  isMounted: false
+  isMounted: false,
+  toggleColorMode: () => {},
+  colorMode: 'light',
 });
+
+// Theme toggle button component
+const ThemeToggle = () => {
+  const { toggleColorMode, colorMode } = useColorMode();
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  const handleToggle = () => {
+    setIsAnimating(true);
+    toggleColorMode();
+    
+    // Reset animation after it completes
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 500);
+  };
+  
+  return (
+    <IconButton
+      aria-label="Toggle theme"
+      icon={colorMode === 'light' ? <FaMoon /> : <FaSun />}
+      onClick={handleToggle}
+      className={`theme-toggle-button ${isAnimating ? 'theme-toggle-active' : ''}`}
+      size="lg"
+      variant="ghost"
+    />
+  );
+};
 
 const App = ({ Component, pageProps }: AppProps) => {
   // Use client-side rendering for the Hero component
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
+  const { colorMode, toggleColorMode } = useColorMode();
   
   useEffect(() => {
     setIsMounted(true);
@@ -50,13 +84,13 @@ const App = ({ Component, pageProps }: AppProps) => {
   };
 
   return (
-    <AppContext.Provider value={{ isMounted }}>
+    <AppContext.Provider value={{ isMounted, toggleColorMode, colorMode }}>
       <ChakraProvider theme={theme}>
         <ClientOnly>
           {isMounted && <NavBar />}
         </ClientOnly>
         
-        <Divider marginY={6} borderColor="blue.200" />
+        <Divider marginY={6} borderColor={useColorModeValue("blue.200", "blue.700")} />
         
         {/* Conditionally render the appropriate hero */}
         <ClientOnly>
@@ -65,6 +99,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         
         <Component {...pageProps} />
         <Footer />
+        
+        {/* Add the theme toggle button */}
+        <ClientOnly>
+          {isMounted && <ThemeToggle />}
+        </ClientOnly>
       </ChakraProvider>
     </AppContext.Provider>
   );

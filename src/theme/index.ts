@@ -1,10 +1,11 @@
 import { extendTheme, theme as baseTheme, type ThemeConfig } from "@chakra-ui/react";
-
+import { mode } from "@chakra-ui/theme-tools";
 import { styles } from "./styles";
 
 // Define a type for component style props
 type StyleProps = {
   colorScheme: string;
+  colorMode?: "light" | "dark";
   [key: string]: any;
 };
 
@@ -321,27 +322,29 @@ const components = {
   },
   
   Card: {
-    baseStyle: {
+    baseStyle: (props: StyleProps) => ({
       p: "6",
-      bg: "white",
+      bg: mode("white", "gray.800")(props),
       borderRadius: "lg",
       boxShadow: "card",
       transition: "all 0.3s ease",
-    },
+      borderColor: mode("gray.200", "gray.700")(props),
+      borderWidth: mode("0px", "1px")(props),
+    }),
     variants: {
-      elevated: {
+      elevated: (props: StyleProps) => ({
         boxShadow: "elevated",
-        bg: "white",
-      },
-      outline: {
+        bg: mode("white", "gray.800")(props),
+      }),
+      outline: (props: StyleProps) => ({
         boxShadow: "none",
         border: "thin",
-        borderColor: "gray.200",
-      },
-      filled: {
+        borderColor: mode("gray.200", "gray.700")(props),
+      }),
+      filled: (props: StyleProps) => ({
         boxShadow: "none",
-        bg: "gray.50",
-      },
+        bg: mode("gray.50", "gray.700")(props),
+      }),
       unstyled: {
         bg: "none",
         boxShadow: "none",
@@ -350,9 +353,9 @@ const components = {
       interactive: {
         className: "shadow-hover",
       },
-      product: {
+      product: (props: StyleProps) => ({
         p: 5,
-        bg: "white",
+        bg: mode("white", "gray.800")(props),
         borderRadius: "lg",
         boxShadow: "card",
         transition: "all 0.3s ease",
@@ -361,7 +364,9 @@ const components = {
           boxShadow: "elevated",
         },
         overflow: "hidden",
-      }
+        borderColor: mode("transparent", "gray.700")(props),
+        borderWidth: mode("0px", "1px")(props),
+      })
     },
   },
   
