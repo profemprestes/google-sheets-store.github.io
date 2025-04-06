@@ -16,30 +16,10 @@ const MotionBadge = motion(Badge);
 const MotionStack = motion(Stack);
 
 const HeroTienda = () => {
-  const features = [
-    {
-      title: 'Paso 1: Selecciona tus Productos',
-      description: 'Explora nuestro catálogo y elige los artículos que necesitas para tu hogar',
-      icon: '🛒',
-      color: 'blue'
-    },
-    {
-      title: 'Paso 2: Solicita Presupuesto',
-      description: 'Completa tus datos y envíanos tu consulta directamente por WhatsApp',
-      icon: '📝',
-      color: 'green'
-    },
-    {
-      title: 'Paso 3: Coordina la Entrega',
-      description: 'Confirmamos disponibilidad y coordinamos el envío a tu domicilio',
-      icon: '🚚',
-      color: 'purple'
-    }
-  ];
+  // Features array has been removed
   
   return (
     <Box sx={heroStyles.container}>
-
       
       {/* Overlay gradient */}
       {/* Replace background image with modern gradient background */}
@@ -178,96 +158,7 @@ const HeroTienda = () => {
           </MotionText>
         </MotionBox>
         
-     
-        
-        {/* Features section */}
-        <MotionBox 
-          sx={heroStyles.featuresContainer}
-          variants={fadeInUp}
-          initial="initial"
-          animate="animate"
-        >
-          <MotionHeading 
-            sx={heroStyles.featuresHeading}
-            variants={fadeInUp}
-          >
-            ¿Cómo Comprar en PrecioHogar?
-          </MotionHeading>
-          
-          <MotionText 
-            sx={heroStyles.featuresSubheading}
-            variants={fadeInUp}
-          >
-            Sigue estos sencillos pasos para realizar tu compra de forma rápida y segura
-          </MotionText>
-          
-          <MotionFlex 
-            sx={heroStyles.featuresFlexContainer}
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-          >
-            {features.map((feature, index) => {
-              const styles = getFeatureCardStyles(feature.color);
-              return (
-                <MotionBox 
-                  key={index}
-                  sx={styles.featureCard}
-                  variants={fadeInUp}
-                  transition={{ delay: index * 0.15 }}
-                  whileHover={{ 
-                    y: -10, 
-                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                >
-                  <Flex direction="column" align="flex-start">
-                    <Flex 
-                      align="center"
-                      mb={4}
-                      w="full"
-                      justify="space-between"
-                    >
-                      <Flex align="center">
-                        <MotionBox 
-                          sx={styles.featureIcon}
-                          whileHover={{ scale: 1.2, rotate: 10 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          {feature.icon}
-                        </MotionBox>
-                        <Heading 
-                          sx={styles.featureTitle}
-                        >
-                          {feature.title}
-                        </Heading>
-                      </Flex>
-                      <MotionBox 
-                        sx={styles.featureNumber}
-                        animate={{
-                          scale: [1, 1.1, 1],
-                          opacity: [0.7, 1, 0.7],
-                          transition: {
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }
-                        }}
-                      >
-                        {index + 1}
-                      </MotionBox>
-                    </Flex>
-                    <Text sx={styles.featureDescription}>
-                      {feature.description}
-                    </Text>
-                  </Flex>
-                </MotionBox>
-              );
-            })}
-          </MotionFlex>
-        </MotionBox>
-        
- 
+        {/* Features section has been removed */}
       </Container>
     </Box>
   );

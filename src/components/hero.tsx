@@ -14,26 +14,7 @@ const MotionText = motion(Text);
 const MotionButton = motion(Button);
 
 const Hero = () => {
-  const features = [
-    {
-      title: 'Envíos a Todo Uruguay',
-      description: 'Envío gratis según la zona dentro de Montevideo',
-      icon: '🚚',
-      color: 'blue'
-    },
-    {
-      title: 'Pago Seguro',
-      description: 'Pagas al recibir el envío, sin riesgos',
-      icon: '🔒',
-      color: 'green'
-    },
-    {
-      title: 'Atención Personalizada',
-      description: 'Asistencia directa por WhatsApp las 24 horas',
-      icon: '👨‍💼',
-      color: 'purple'
-    }
-  ];
+  // Features array has been removed
   
   return (
     <Box sx={heroStyles.container}>
@@ -168,76 +149,7 @@ const Hero = () => {
           </MotionBox>
         </Flex>
         
-        {/* Features section */}
-        <MotionBox 
-          sx={heroStyles.featuresContainer}
-          variants={fadeInUp}
-          initial="initial"
-          animate="animate"
-        >
-          <MotionHeading 
-            sx={heroStyles.featuresHeading}
-            variants={fadeInUp}
-          >
-            ¿Por qué elegirnos?
-          </MotionHeading>
-          
-          <MotionText 
-            sx={heroStyles.featuresSubheading}
-            variants={fadeInUp}
-          >
-            Descubre las ventajas de comprar en PrecioHogar, donde la calidad y el servicio son nuestra prioridad.
-          </MotionText>
-          
-          <MotionFlex 
-            sx={heroStyles.featuresFlexContainer}
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-          >
-            {features.map((feature, index) => {
-              const styles = getFeatureCardStyles(feature.color);
-              return (
-                <MotionBox 
-                  key={index}
-                  sx={styles.featureCard}
-                  variants={fadeInUp}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -8, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
-                >
-                  <Flex direction="column" align="flex-start">
-                    <Flex 
-                      align="center"
-                      mb={3}
-                      w="full"
-                      justify="space-between"
-                    >
-                      <Flex align="center">
-                        <MotionBox 
-                          sx={styles.featureIcon}
-                          whileHover={{ scale: 1.2, rotate: 10 }}
-                        >
-                          {feature.icon}
-                        </MotionBox>
-                        <Heading 
-                          sx={styles.featureTitle}
-                        >
-                          {feature.title}
-                        </Heading>
-                      </Flex>
-                      <Box sx={styles.featureNumber}>
-                        {index + 1}
-                      </Box>
-                    </Flex>
-                    <Text sx={styles.featureDescription}>
-                      {feature.description}
-                    </Text>
-                  </Flex>
-                </MotionBox>
-              );
-            })}
-          </MotionFlex>
-        </MotionBox>
+        {/* Features section has been removed */}
       </Container>
     </Box>
   );

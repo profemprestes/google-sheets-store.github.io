@@ -110,10 +110,10 @@ export const navbarStyles = {
   
   // Keep this single logo definition (the more complete one)
   logo: {
-    boxSize: { base: "50px", md: "80px", lg: "100px" },
+    boxSize: { base: "40px", md: "60px", lg: "80px" },
     objectFit: "contain",
     borderRadius: "full",
-    p: 2,
+    p: { base: 1, md: 2 },
     bg: "white",
     boxShadow: "sm",
     border: "1px solid",
@@ -121,9 +121,8 @@ export const navbarStyles = {
     transition: "all 0.3s ease",
   } as SystemStyleObject,
   
-  // Keep this single logoHeading definition (the more complete one)
   logoHeading: {
-    fontSize: { base: "lg", md: "xl", lg: "2xl" },
+    fontSize: { base: "md", md: "xl", lg: "2xl" },
     fontWeight: "bold",
     color: "blue.600",
     letterSpacing: "tight",
@@ -132,7 +131,7 @@ export const navbarStyles = {
     transition: "all 0.3s ease",
     cursor: "pointer",
   } as SystemStyleObject,
-
+  
   // Optimized animations
   fadeIn: {
     initial: { opacity: 0 },
@@ -160,13 +159,13 @@ export const navbarStyles = {
   logoTextContainer: {
     spacing: 0,
     align: "flex-start",
-    display: { base: "none", sm: "flex" },
+    display: "flex", // Changed from { base: "none", sm: "flex" } to always display
   } as SystemStyleObject,
   
   logoSubtext: {
-    fontSize: { base: "xs", md: "sm" },
+    fontSize: { base: "2xs", sm: "xs", md: "sm" },
     color: "gray.600",
-    display: { base: "none", md: "block" },
+    display: { base: "block", md: "block" }, // Changed to display on all screen sizes
     lineHeight: "tight",
     transition: "all 0.3s ease",
   } as SystemStyleObject,

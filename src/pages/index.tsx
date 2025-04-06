@@ -152,65 +152,111 @@ Productos:`;
         <Stack spacing={6}>
           <Grid
             gridGap={6}
-            templateColumns="repeat(auto-fill, minmax(240px,1fr))"
+            templateColumns="repeat(auto-fill, minmax(260px,1fr))"
           >
             {products.map((product) => (
               <Stack
                 key={product.id}
                 backgroundColor="white"
-                borderRadius="md"
-                boxShadow="md"
-                padding={4}
-                spacing={3}
+                borderRadius="lg"
+                boxShadow="card"
+                padding={5}
+                spacing={4}
                 transition="all 0.3s"
-                _hover={{ transform: 'translateY(-5px)', boxShadow: 'lg' }}
+                _hover={{ transform: 'translateY(-8px)', boxShadow: 'elevated' }}
                 className="product-card"
+                position="relative"
+                overflow="hidden"
               >
                 <Box 
                   position="relative" 
-                  height="150px" 
+                  height="180px" 
                   width="100%" 
                   borderRadius="md" 
                   overflow="hidden"
+                  mb={2}
+                  className="product-image-container"
                 >
                   <NextImage
                     src={product.image}
                     alt={product.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 260px, (max-width: 1200px) 260px, 260px"
                     style={{ 
-                      objectFit: 'cover',
-                      borderRadius: 'md'
+                      objectFit: 'contain',
+                      borderRadius: 'md',
+                      transition: 'transform 0.5s ease'
                     }}
                     priority={false}
                     loading="lazy"
-                    quality={75}
+                    quality={85}
                   />
                 </Box>
-                <Stack spacing={1}>
-                  <Text fontWeight="500">{product.title}</Text>
-                  <Text color="blue.600" fontSize="lg" fontWeight="700">
+                <Stack spacing={2}>
+                  <Heading 
+                    as="h3" 
+                    size="md" 
+                    fontWeight="600"
+                    noOfLines={2}
+                    height="50px"
+                  >
+                    {product.title}
+                  </Heading>
+                  
+                  <Text 
+                    color="gray.600"
+                    fontSize="sm"
+                    noOfLines={3}
+                    height="60px"
+                    className="product-description"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {product.description || "Producto de alta calidad para tu hogar. Garantía y servicio técnico incluidos."}
+                  </Text>
+                  <Text 
+                    color="blue.600" 
+                    fontSize="xl" 
+                    fontWeight="700"
+                    className="product-price"
+                  >
                     {parseCurrency(product.price)}
                   </Text>
                 </Stack>
                 <Button
-                  colorScheme="blue"
+                  colorScheme="brand"
                   size="md"
                   fontWeight="bold"
                   borderRadius="full"
                   boxShadow="sm"
+                  position="relative"
+                  overflow="hidden"
+                  _before={{
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent)',
+                    transform: 'translateX(-100%)',
+                  }}
                   _hover={{ 
-                    transform: 'scale(1.05)',
+                    transform: 'translateY(-3px)',
                     boxShadow: 'md',
-                    bg: 'blue.500'
+                    _before: {
+                      transform: 'translateX(100%)',
+                      transition: 'transform 0.8s ease',
+                    }
                   }}
                   _active={{
-                    transform: 'scale(0.95)',
-                    bg: 'blue.700'
+                    transform: 'translateY(0)',
+                    bg: 'brand.700',
                   }}
-                  transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+                  transition="all 0.3s cubic-bezier(.08,.52,.52,1)"
                   onClick={() => addToCart(product)}
-                  leftIcon={<Box as="span" fontSize="1.2em">🛒</Box>}
+                  leftIcon={<Box as="span" fontSize="1.2em" className="cart-icon">🛒</Box>}
+                  className="add-to-cart-button"
                 >
                   Agregar al carrito
                 </Button>
