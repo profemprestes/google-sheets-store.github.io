@@ -224,39 +224,12 @@ Productos:`;
                   </Text>
                 </Stack>
                 <Button
+                  variant="addToCart"
                   colorScheme="brand"
                   size="md"
                   fontWeight="bold"
-                  borderRadius="full"
-                  boxShadow="sm"
-                  position="relative"
-                  overflow="hidden"
-                  _before={{
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent)',
-                    transform: 'translateX(-100%)',
-                  }}
-                  _hover={{ 
-                    transform: 'translateY(-3px)',
-                    boxShadow: 'md',
-                    _before: {
-                      transform: 'translateX(100%)',
-                      transition: 'transform 0.8s ease',
-                    }
-                  }}
-                  _active={{
-                    transform: 'translateY(0)',
-                    bg: 'brand.700',
-                  }}
-                  transition="all 0.3s cubic-bezier(.08,.52,.52,1)"
                   onClick={() => addToCart(product)}
                   leftIcon={<Box as="span" fontSize="1.2em" className="cart-icon">🛒</Box>}
-                  className="add-to-cart-button"
                 >
                   Agregar al carrito
                 </Button>

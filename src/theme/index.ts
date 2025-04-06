@@ -9,7 +9,7 @@ type StyleProps = {
 };
 
 const config: ThemeConfig = {
-  initialColorMode: "light",
+  initialColorMode: "dark",
   useSystemColorMode: false,
 };
 
@@ -119,6 +119,40 @@ const components = {
           transform: "translateY(0)",
         },
       }),
+      // Add new addToCart variant
+      addToCart: (props: StyleProps) => ({
+        bg: `${props.colorScheme}.500`,
+        color: "white",
+        borderRadius: "full",
+        position: "relative",
+        overflow: "hidden",
+        boxShadow: "sm",
+        _before: {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: "linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent)",
+          transform: "translateX(-100%)",
+        },
+        _hover: {
+          bg: `${props.colorScheme}.600`,
+          transform: "translateY(-3px)",
+          boxShadow: "md",
+          _before: {
+            transform: "translateX(100%)",
+            transition: "transform 0.8s ease",
+          }
+        },
+        _active: {
+          bg: `${props.colorScheme}.700`,
+          transform: "scale(0.95) translateY(0)",
+        },
+        className: "add-to-cart-button",
+      }),
+      // Existing variants continue below
       outline: (props: StyleProps) => ({
         borderColor: `${props.colorScheme}.500`,
         color: `${props.colorScheme}.500`,
@@ -280,6 +314,18 @@ const components = {
       },
       interactive: {
         className: "shadow-hover",
+      },
+      product: {
+        p: 5,
+        bg: "white",
+        borderRadius: "lg",
+        boxShadow: "card",
+        transition: "all 0.3s ease",
+        _hover: {
+          transform: "translateY(-8px)",
+          boxShadow: "elevated",
+        },
+        overflow: "hidden",
       }
     },
   },
