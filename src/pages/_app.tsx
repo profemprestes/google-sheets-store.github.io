@@ -61,7 +61,7 @@ const ThemeToggle = () => {
   );
 };
 
-const App: React.FC<AppProps> = ({ Component, pageProps }) => {
+function App({ Component, pageProps }: AppProps) {
   // Use client-side rendering for the Hero component
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
