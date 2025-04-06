@@ -9,13 +9,35 @@ type StyleProps = {
 };
 
 const config: ThemeConfig = {
-  initialColorMode: "dark",
+  initialColorMode: "light", // Changed from dark to light for better product display
   useSystemColorMode: false,
 };
 
 const colors = {
-  primary: baseTheme.colors["blue"],
-  secondary: baseTheme.colors["teal"],
+  primary: {
+    50: "#e8f4ff",
+    100: "#c9e2ff",
+    200: "#a6cfff",
+    300: "#7db9ff",
+    400: "#57a0ff",
+    500: "#3182ce", // Primary blue - more vibrant
+    600: "#2468a8",
+    700: "#1a4f84",
+    800: "#0f3761",
+    900: "#051f3e",
+  },
+  secondary: {
+    50: "#e6fbf5",
+    100: "#c3f5e7",
+    200: "#9eefd8",
+    300: "#74e8c9",
+    400: "#48deba",
+    500: "#38b2ac", // Teal - more balanced
+    600: "#2c8f89",
+    700: "#206c67",
+    800: "#144a46",
+    900: "#072825",
+  },
   whatsapp: {
     50: "#e9f9f0",
     100: "#c5ecd8",
@@ -34,11 +56,11 @@ const colors = {
     200: "#90caf9",
     300: "#64b5f6",
     400: "#42a5f5",
-    500: "#2196f3", // Color principal de la marca
-    600: "#1e88e5",
-    700: "#1976d2",
-    800: "#1565c0",
-    900: "#0d47a1",
+    500: "#1976d2", // Deeper blue for brand - more professional
+    600: "#1565c0",
+    700: "#0d47a1",
+    800: "#0a3984",
+    900: "#062a67",
   },
   accent: {
     50: "#fff8e1",
@@ -46,11 +68,11 @@ const colors = {
     200: "#ffe082",
     300: "#ffd54f",
     400: "#ffca28",
-    500: "#ffc107", // Color de acento principal
-    600: "#ffb300",
-    700: "#ffa000",
-    800: "#ff8f00",
-    900: "#ff6f00",
+    500: "#ff9800", // Changed to orange for better contrast with blue
+    600: "#fb8c00",
+    700: "#f57c00",
+    800: "#ef6c00",
+    900: "#e65100",
   },
   success: {
     50: "#e8f5e9",
@@ -75,6 +97,18 @@ const colors = {
     700: "#d32f2f",
     800: "#c62828",
     900: "#b71c1c",
+  },
+  neutral: {
+    50: "#fafafa",
+    100: "#f5f5f5",
+    200: "#eeeeee",
+    300: "#e0e0e0",
+    400: "#bdbdbd",
+    500: "#9e9e9e",
+    600: "#757575",
+    700: "#616161",
+    800: "#424242",
+    900: "#212121",
   }
 };
 
@@ -84,12 +118,13 @@ const fonts = {
 };
 
 const shadows = {
-  outline: "0 0 0 3px rgba(33, 150, 243, 0.6)",
+  outline: "0 0 0 3px rgba(25, 118, 210, 0.4)",
   hover: "0 8px 30px rgba(0, 0, 0, 0.12)",
-  card: "0 10px 30px -5px rgba(0, 0, 0, 0.1)",
+  card: "0 4px 20px rgba(0, 0, 0, 0.08)",
   elevated: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
   subtle: "0 2px 15px -3px rgba(0, 0, 0, 0.07)",
   floating: "0 16px 70px -12.125px rgba(0, 0, 0, 0.3)",
+  "dark-lg": "rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.4) 0px 15px 40px",
 };
 
 const borders = {
