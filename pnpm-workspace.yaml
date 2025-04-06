@@ -1,4 +1,5 @@
+# Configuración optimizada para Next.js con exportación estática
 ignoredBuiltDependencies:
-  - sharp
+  - sharp  # Ignoramos sharp ya que usamos imágenes no optimizadas
 onlyBuiltDependencies:
-  - esbuild
+  - esbuild  # Solo construimos esbuild que es esencial para Next.js

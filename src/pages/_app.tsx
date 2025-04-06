@@ -17,6 +17,7 @@ import {
 import { useState, useEffect, createContext } from 'react';
 import { useRouter } from 'next/router';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 // Change this line to use named import instead of default import
 import { theme } from '../theme';
@@ -51,7 +52,7 @@ const ThemeToggle = () => {
   return (
     <IconButton
       aria-label="Toggle theme"
-      icon={colorMode === 'light' ? <FaMoon /> : <FaSun />}
+      icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
       onClick={handleToggle}
       className={`theme-toggle-button ${isAnimating ? 'theme-toggle-active' : ''}`}
       size="lg"
@@ -60,7 +61,7 @@ const ThemeToggle = () => {
   );
 };
 
-function App({ Component, pageProps }: AppProps) {
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   // Use client-side rendering for the Hero component
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();

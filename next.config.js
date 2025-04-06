@@ -10,12 +10,20 @@ const nextConfig = {
   assetPrefix: '',
   trailingSlash: true,
   transpilePackages: ['react-icons'],
-  // Añadimos esta configuración para resolver problemas con react-icons
-  webpack: (config) => {
+  // Optimizamos la configuración de webpack
+  webpack: (config, { dev, isServer }) => {
+    // Resolvemos problemas con react-icons
     config.resolve.alias = {
       ...config.resolve.alias,
       'react/jsx-runtime': require.resolve('react/jsx-runtime')
     };
+    
+    // Optimizamos el tamaño del bundle en producción
+    if (!dev) {
+      // Habilitamos la compresión de código
+      config.optimization.minimize = true;
+    }
+    
     return config;
   }
 }
