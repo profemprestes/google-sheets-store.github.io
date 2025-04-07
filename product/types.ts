@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   title: string;
-  name?: string; // Add this for compatibility with your component
+  category: string;
   description?: string;
   image: string;
   price: number;

@@ -2,82 +2,81 @@ import type { AppProps } from 'next/app';
 import {
   ChakraProvider,
   Container,
-  Image,
-  VStack,
-  Heading,
-  Text,
   Box,
-  Divider,
   useColorModeValue,
-  Flex,
+  useDisclosure,
 } from '@chakra-ui/react';
-import Head from '../components/Head';
+import { useState, useCallback } from 'react';
 
 import theme from '../theme';
+import Head from '../components/Head';
+import NavBar from '../components/NavBar';
+import Carrito from '../components/Carrito';
+import BusquedaProductos from '../components/BusquedaProductos';
+import { Product } from '../product/types';
+import api from '../product/api';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.800', 'white');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [cart, setCart] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  // Function to add an item to the cart
+  const addToCart = useCallback((product: Product) => {
+    setCart(prevCart => {
+      // Use the groupCartItems function from API to handle duplicates
+      return api.groupCartItems([...prevCart, { ...product, quantity: 1 }]);
+    });
+    // Open the cart drawer when adding items
+    onOpen();
+  }, [onOpen]);
+
+  // Function to remove an item from the cart
+  const removeFromCart = (index: number) => {
+    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+  };
+
+  // Function to format currency
+  const parseCurrency = (amount: number) => {
+    return new Intl.NumberFormat('es-UY', {
+      style: 'currency',
+      currency: 'UYU',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  // Handle filtered products from BusquedaProductos
+  const handleFilteredProducts = (filtered: Product[]) => {
+    setFilteredProducts(filtered);
+  };
 
   return (
-    <>
+    <ChakraProvider theme={theme}>
       <Head />
-      <ChakraProvider theme={theme}>
-        <Box 
-          padding={{ base: 2, md: 4 }}
-          minHeight="100vh"
-          bgGradient="linear(to-b, primary.50, white)"
-        >
-          <Container
-            backgroundColor={bgColor}
-            borderRadius="lg"
-            boxShadow="xl"
-            marginY={{ base: 2, md: 4 }}
-            maxWidth="container.xl"
-            padding={{ base: 3, md: 6 }}
-            transition="all 0.3s ease"
-            _hover={{ boxShadow: "2xl" }}
-          >
-            <VStack marginBottom={{ base: 4, md: 8 }} spacing={3}>
-              <Flex 
-                direction={{ base: "column", md: "row" }}
-                align="center"
-                justify="center"
-                width="full"
-              >
-                <Image
-                  alt="Logo"
-                  maxHeight={{ base: "100px", md: "128px" }}
-                  src="/logotienda.svg"
-                  transition="transform 0.3s ease"
-                  _hover={{ transform: "scale(1.05)" }}
-                  mr={{ md: 6 }}
-                />
-                <VStack align={{ base: "center", md: "start" }} mt={{ base: 4, md: 0 }}>
-                  <Heading 
-                    as="h1" 
-                    size={{ base: "xl", md: "2xl" }}
-                    color={textColor}
-                    fontWeight="bold"
-                  >
-                    Precio Hogar
-                  </Heading>
-                  <Text 
-                    fontSize={{ base: "sm", md: "md" }}
-                    color="gray.600"
-                    fontWeight="medium"
-                  >
-                    Tu tienda online de confianza para productos del hogar
-                  </Text>
-                </VStack>
-              </Flex>
-            </VStack>
-            <Divider marginY={{ base: 4, md: 6 }} />
-            <Component {...pageProps} />
-          </Container>
-        </Box>
-      </ChakraProvider>
-    </>
+      <NavBar 
+        title="Precio Hogar" 
+        slogan="Los mejores precios para tu hogar"
+      />
+      
+
+      
+      <Box minH="100vh" bg={bgColor} color={textColor}>
+        <Container maxW="container.xl" py={4}>
+          <Component {...pageProps} cart={cart} addToCart={addToCart} {...pageProps} />
+        </Container>
+      </Box>
+      
+      <Carrito 
+        isOpen={isOpen}
+        onClose={onClose}
+        cart={cart}
+        removeFromCart={removeFromCart}
+        parseCurrency={parseCurrency}
+      />
+    </ChakraProvider>
   );
 };
 

@@ -5,6 +5,7 @@ import Papa from 'papaparse';
 
 // Use type-only import for Product
 import type { Product } from './types';
+import { DEFAULT_CATEGORY } from './categoriastypes';
 
 const googleSheetLink =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7rLnyQN3sYzTeG9P6ZplK-C9z-OjUXlSbok066jSp4azjDYQkJzV2yIbQY_aOcDaVu-YOHP9k6DA/pub?gid=755881603&single=true&output=csv';
@@ -24,12 +25,15 @@ const api = {
                 products.map((product) => ({
                   id: (product.id as string) || `product-${Math.random().toString(36).substr(2, 9)}`,
                   title: (product.title as string) || (product.nombre as string) || '',
+                  category: (product.category as string) || (product.categoria as string) || DEFAULT_CATEGORY,
                   description: (product.description as string) || (product.descripcion as string) || '',
                   image: (product.image as string) || (product.imagen as string) || '',
                   price: Number(product.price || product.precio || 0),
                   quantity: 1, // Inicializamos la cantidad en 1
                   rating: Number(product.rating || 4.5),
-                  badge: (product.badge as string) || ''
+                  badge: (product.badge as string) || '',
+                  // Map category from spreadsheet or use default
+                  // Category is already defined above, removing duplicate property
                 }))
               );
             },
