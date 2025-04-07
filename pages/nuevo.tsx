@@ -58,82 +58,47 @@ const Home2: NextPage<Props> = ({ products }) => {
       />
   
       {/* Hero Section */}
-      <Box
-        position="relative"
-        mb={8}
-        borderRadius="xl"
-        overflow="hidden"
-        boxShadow="lg"
-        height={{ base: "200px", md: "250px" }}
-      >
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          bgGradient="linear(to-r, primary.600, primary.400)"
-          opacity={0.9}
-          zIndex={1}
-        />
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          backgroundImage="url('/hero-pattern.svg')"
-          backgroundSize="cover"
-          backgroundPosition="center"
-          opacity={0.2}
-          zIndex={0}
-        />
-        <Flex
-          position="relative"
-          zIndex={2}
-          height="100%"
-          direction="column"
-          justify="center"
-          align={{ base: "center", md: "flex-start" }}
-          px={{ base: 6, md: 12 }}
-          textAlign={{ base: "center", md: "left" }}
-        >
+      <Box {...nuevoStyles.hero.container}>
+        <Box {...nuevoStyles.hero.gradient} />
+        <Box {...nuevoStyles.hero.pattern} />
+        
+        {/* Animated particles */}
+        <Box {...nuevoStyles.hero.particles}>
+          {[...Array(6)].map((_, i) => (
+            <Box 
+              key={i} 
+              {...nuevoStyles.hero.particle} 
+              left={`${10 + (i * 15)}%`}
+              animationDelay={`${i * 0.5}s`}
+            />
+          ))}
+        </Box>
+        
+        <Flex {...nuevoStyles.hero.content}>
           <Text
-            fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-            fontWeight="bold"
-            color="white"
-            mb={2}
-            textShadow="0 2px 4px rgba(0,0,0,0.3)"
+            {...nuevoStyles.hero.title}
+            className="hero-title"
           >
-            Precio Hogar
+            Precio<Box as="span" color="yellow.300">Hogar</Box>
           </Text>
           <Text
-            fontSize={{ base: "md", md: "lg" }}
-            color="white"
-            maxW="500px"
-            mb={4}
-            textShadow="0 1px 2px rgba(0,0,0,0.3)"
+            {...nuevoStyles.hero.subtitle}
+            className="hero-subtitle"
           >
             Los mejores productos para tu hogar a precios increíbles
           </Text>
-          <Flex gap={4} flexWrap="wrap" justify={{ base: "center", md: "flex-start" }}>
+          <Flex {...nuevoStyles.hero.buttonContainer}>
             <Button
-              colorScheme="white"
-              variant="solid"
-              size={{ base: "sm", md: "md" }}
-              _hover={{ transform: "translateY(-2px)", boxShadow: "md" }}
-              transition="all 0.2s"
+              {...nuevoStyles.hero.primaryButton}
+              className="hero-button"
               onClick={() => window.scrollTo({ top: document.getElementById('products')?.offsetTop || 0, behavior: 'smooth' })}
               leftIcon={<Box as="span" fontSize="lg">🛒</Box>}
             >
               Ver Productos
             </Button>
             <Button
-              colorScheme="whiteAlpha"
-              variant="outline"
-              size={{ base: "sm", md: "md" }}
-              _hover={{ bg: "whiteAlpha.200" }}
-              transition="all 0.2s"
+              {...nuevoStyles.hero.secondaryButton}
+              className="hero-button"
               onClick={() => window.open('https://wa.me/59892315819', '_blank')}
               leftIcon={<Box as="span" fontSize="lg">💬</Box>}
             >
@@ -141,23 +106,16 @@ const Home2: NextPage<Props> = ({ products }) => {
             </Button>
           </Flex>
         </Flex>
-        <Box
-          position="absolute"
-          right={{ base: "-100px", md: "0" }}
-          bottom={{ base: "-50px", md: "-20px" }}
-          width={{ base: "200px", md: "300px" }}
-          height={{ base: "200px", md: "300px" }}
-          zIndex={1}
-          opacity={{ base: 0.5, md: 0.8 }}
-          transform={{ base: "rotate(10deg)", md: "rotate(0deg)" }}
-          display={{ base: "none", sm: "block" }}
-        >
+        
+        {/* Animated decorative elements */}
+        <Box {...nuevoStyles.hero.decorativeShape1} />
+        <Box {...nuevoStyles.hero.decorativeShape2} />
+        
+        <Box {...nuevoStyles.hero.imageContainer} className="hero-image">
           <Image
-            src="/hero-decoration.png"
+            src="/LogoTiendaoscuro.svg"
             alt="Decoración"
-            width="100%"
-            height="100%"
-            objectFit="contain"
+            {...nuevoStyles.hero.image}
             fallbackSrc="https://via.placeholder.com/300?text=Precio+Hogar"
           />
         </Box>
