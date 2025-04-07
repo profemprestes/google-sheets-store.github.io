@@ -1,6 +1,13 @@
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
-// https://astro.build/config
+
 export default defineConfig({
-  adapter: netlify()
+  output: 'server', // For SSR
+  adapter: netlify(),
+  integrations: [], // Add any Astro integrations here
+  vite: {
+    ssr: {
+      noExternal: ['@chakra-ui/react'] // Ensure Chakra works in SSR
+    }
+  }
 });

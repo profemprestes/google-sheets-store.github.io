@@ -1,3 +1,9 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = ".next" # For Next.js
+  functions = "netlify/functions" # For Astro SSR
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

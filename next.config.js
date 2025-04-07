@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  // Add this if you're using Next.js
+  output: 'standalone', // Better for deployments
   webpack: (config) => {
-    config.resolve.extensions.push('.ts', '.tsx');
+    config.resolve.extensions.push('.ts', '.tsx', '.mjs');
     return config;
   }
 }
