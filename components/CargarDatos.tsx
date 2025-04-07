@@ -12,7 +12,7 @@ import {
   FormLabel,
   Input,
   VStack,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 
 export interface CustomerInfo {
@@ -31,16 +31,16 @@ const CargarDatos: React.FC<CargarDatosProps> = ({ isOpen, onClose, onSubmit }) 
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     name: '',
     address: '',
-    phone: ''
+    phone: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCustomerInfo(prev => ({
+    setCustomerInfo((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -58,18 +58,18 @@ const CargarDatos: React.FC<CargarDatosProps> = ({ isOpen, onClose, onSubmit }) 
     }
 
     setIsLoading(true);
-    
+
     // Simulate processing
     setTimeout(() => {
       onSubmit(customerInfo);
       setIsLoading(false);
       onClose();
-      
+
       // Reset form after submission
       setCustomerInfo({
         name: '',
         address: '',
-        phone: ''
+        phone: '',
       });
     }, 500);
   };
@@ -78,21 +78,16 @@ const CargarDatos: React.FC<CargarDatosProps> = ({ isOpen, onClose, onSubmit }) 
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay backdropFilter="blur(4px)" />
       <ModalContent borderRadius="lg" boxShadow="xl">
-        <ModalHeader 
-          bg="green.50" 
-          color="green.700" 
-          borderTopRadius="lg"
-          fontWeight="bold"
-        >
+        <ModalHeader bg="green.50" color="green.700" borderTopRadius="lg" fontWeight="bold">
           Información de Contacto
         </ModalHeader>
         <ModalCloseButton />
-        
+
         <ModalBody py={6}>
           <VStack spacing={4}>
             <FormControl isRequired>
               <FormLabel fontWeight="medium">Nombre completo</FormLabel>
-              <Input 
+              <Input
                 name="name"
                 value={customerInfo.name}
                 onChange={handleChange}
@@ -100,10 +95,10 @@ const CargarDatos: React.FC<CargarDatosProps> = ({ isOpen, onClose, onSubmit }) 
                 focusBorderColor="green.500"
               />
             </FormControl>
-            
+
             <FormControl isRequired>
               <FormLabel fontWeight="medium">Dirección de entrega</FormLabel>
-              <Input 
+              <Input
                 name="address"
                 value={customerInfo.address}
                 onChange={handleChange}
@@ -111,10 +106,10 @@ const CargarDatos: React.FC<CargarDatosProps> = ({ isOpen, onClose, onSubmit }) 
                 focusBorderColor="green.500"
               />
             </FormControl>
-            
+
             <FormControl isRequired>
               <FormLabel fontWeight="medium">Teléfono de contacto</FormLabel>
-              <Input 
+              <Input
                 name="phone"
                 value={customerInfo.phone}
                 onChange={handleChange}
@@ -127,15 +122,11 @@ const CargarDatos: React.FC<CargarDatosProps> = ({ isOpen, onClose, onSubmit }) 
         </ModalBody>
 
         <ModalFooter bg="gray.50" borderBottomRadius="lg">
-          <Button 
-            variant="outline" 
-            mr={3} 
-            onClick={onClose}
-          >
+          <Button variant="outline" mr={3} onClick={onClose}>
             Cancelar
           </Button>
-          <Button 
-            colorScheme="whatsapp" 
+          <Button
+            colorScheme="whatsapp"
             onClick={handleSubmit}
             isLoading={isLoading}
             loadingText="Procesando"

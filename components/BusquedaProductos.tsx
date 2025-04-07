@@ -1,4 +1,14 @@
-import { Box, Input, Button, Text, VStack, HStack, useColorModeValue, useToast, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Input,
+  Button,
+  Text,
+  VStack,
+  HStack,
+  useColorModeValue,
+  useToast,
+  Image,
+} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { useState, useCallback, useEffect } from 'react';
 import { Product as ApiProduct } from '../product/types';
@@ -15,7 +25,11 @@ interface BusquedaProductosProps {
   onFilter?: (filteredProducts: Product[]) => void;
 }
 
-const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddToCart, onFilter }) => {
+const BusquedaProductos: React.FC<BusquedaProductosProps> = ({
+  products,
+  onAddToCart,
+  onFilter,
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const toast = useToast();
@@ -26,12 +40,13 @@ const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddTo
   // Get categories from categoriastypes.ts instead of extracting from products
   const categories = getAllCategories();
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = 
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
       product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (product.description || '').toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCategory = !selectedCategory || (product.category || DEFAULT_CATEGORY) === selectedCategory;
+
+    const matchesCategory =
+      !selectedCategory || (product.category || DEFAULT_CATEGORY) === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -42,16 +57,19 @@ const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddTo
     }
   }, [filteredProducts, onFilter]);
 
-  const handleAddToCart = useCallback((product: Product) => {
-    onAddToCart(product);
-    toast({
-      title: 'Producto agregado',
-      description: `Se ha agregado ${product.title} al carrito`,
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
-  }, [onAddToCart, toast]);
+  const handleAddToCart = useCallback(
+    (product: Product) => {
+      onAddToCart(product);
+      toast({
+        title: 'Producto agregado',
+        description: `Se ha agregado ${product.title} al carrito`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    [onAddToCart, toast]
+  );
 
   return (
     <Box
@@ -65,21 +83,13 @@ const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddTo
     >
       <VStack spacing={6} align="stretch">
         {/* Encabezado */}
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          color={textColor}
-          mb={4}
-        >
+        <Text fontSize="2xl" fontWeight="bold" color={textColor} mb={4}>
           Buscar Productos
         </Text>
 
         {/* Filtros */}
         <HStack spacing={4}>
-          <Box
-            position="relative"
-            w="100%"
-          >
+          <Box position="relative" w="100%">
             <Input
               placeholder="Buscar productos..."
               value={searchTerm}
@@ -105,7 +115,7 @@ const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddTo
                 borderRadius: '8px',
                 border: '1px solid',
                 borderColor: borderColor,
-                outline: 'none'
+                outline: 'none',
               }}
             >
               <option value="">Todas las categorías</option>
@@ -140,12 +150,7 @@ const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddTo
                   }}
                 >
                   <HStack spacing={4}>
-                    <Box
-                      w="80px"
-                      h="80px"
-                      borderRadius="md"
-                      overflow="hidden"
-                    >
+                    <Box w="80px" h="80px" borderRadius="md" overflow="hidden">
                       <Image
                         src={product.image}
                         alt={product.title}
@@ -155,36 +160,25 @@ const BusquedaProductos: React.FC<BusquedaProductosProps> = ({ products, onAddTo
                       />
                     </Box>
                     <VStack align="start" spacing={2} flex={1}>
-                      <Text
-                        fontSize="lg"
-                        fontWeight="bold"
-                        color={textColor}
-                        noOfLines={1}
-                      >
+                      <Text fontSize="lg" fontWeight="bold" color={textColor} noOfLines={1}>
                         {product.title}
                       </Text>
-                      <Text
-                        color={grayColor}
-                        noOfLines={2}
-                        fontSize="sm"
-                      >
-                        {product.description || "Sin descripción disponible"}
+                      <Text color={grayColor} noOfLines={2} fontSize="sm">
+                        {product.description || 'Sin descripción disponible'}
                       </Text>
-                      <Text
-                        color="green.500"
-                        fontSize="xl"
-                        fontWeight="bold"
-                      >
+                      <Text color="green.500" fontSize="xl" fontWeight="bold">
                         ${product.price.toLocaleString()}
                       </Text>
                     </VStack>
                     <Button
                       colorScheme="primary"
                       size="sm"
-                      onClick={() => handleAddToCart({
-                        ...product,
-                        category: product.category || DEFAULT_CATEGORY
-                      })}
+                      onClick={() =>
+                        handleAddToCart({
+                          ...product,
+                          category: product.category || DEFAULT_CATEGORY,
+                        })
+                      }
                     >
                       Agregar al Carrito
                     </Button>

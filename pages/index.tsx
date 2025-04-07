@@ -1,7 +1,17 @@
 import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Button, Flex, Image as ChakraImage, Grid, Stack, Text, Box, Badge, useDisclosure } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Image as ChakraImage,
+  Grid,
+  Stack,
+  Text,
+  Box,
+  Badge,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import api from '../product/api';
 import { Product } from '../product/types';
@@ -29,7 +39,7 @@ const Home: NextPage<Props> = ({ products }) => {
   // Filter products by category
   const filteredProducts = useMemo(() => {
     if (!filteredCategory) return products;
-    return products.filter(product => product.category === filteredCategory);
+    return products.filter((product) => product.category === filteredCategory);
   }, [products, filteredCategory]);
 
   const removeFromCart = (index: number) => {
@@ -47,57 +57,59 @@ const Home: NextPage<Props> = ({ products }) => {
         <meta name="description" content="Tu tienda online de confianza para productos del hogar" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
+
       {/* Cart drawer component */}
       <Carrito
-        isOpen={isOpen} 
-        onClose={onClose} 
-        cart={cart} 
+        isOpen={isOpen}
+        onClose={onClose}
+        cart={cart}
         removeFromCart={removeFromCart}
         parseCurrency={parseCurrency}
       />
-  
+
       {/* Hero Section */}
       <Box sx={nuevoStyles.hero.container}>
         <Box sx={nuevoStyles.hero.gradient} />
         <Box sx={nuevoStyles.hero.pattern} />
-        
+
         {/* Animated particles */}
         <Box sx={nuevoStyles.hero.particles}>
           {[...Array(6)].map((_, i) => (
-            <Box 
-              key={i} 
-              sx={nuevoStyles.hero.particle} 
-              style={{ left: `${10 + (i * 15)}%`, animationDelay: `${i * 0.5}s` }}
+            <Box
+              key={i}
+              sx={nuevoStyles.hero.particle}
+              style={{ left: `${10 + i * 15}%`, animationDelay: `${i * 0.5}s` }}
             />
           ))}
         </Box>
-        
+
         <Flex sx={nuevoStyles.hero.content}>
-          <Text
-            sx={nuevoStyles.hero.title}
-            className="hero-title"
-          >
-            Precio<Box as="span" color="yellow.300">Hogar</Box>
+          <Text sx={nuevoStyles.hero.title} className="hero-title">
+            Precio
+            <Box as="span" color="yellow.300">
+              Hogar
+            </Box>
           </Text>
-          <Text
-            sx={nuevoStyles.hero.subtitle}
-            className="hero-subtitle"
-          >
+          <Text sx={nuevoStyles.hero.subtitle} className="hero-subtitle">
             Los mejores productos para tu hogar a precios increíbles
           </Text>
           <Flex sx={nuevoStyles.hero.buttonContainer}>
             <Button
               sx={nuevoStyles.hero.primaryButton}
               className="hero-button"
-              onClick={() => window.scrollTo({ top: document.getElementById('products')?.offsetTop || 0, behavior: 'smooth' })}
+              onClick={() =>
+                window.scrollTo({
+                  top: document.getElementById('products')?.offsetTop || 0,
+                  behavior: 'smooth',
+                })
+              }
               leftIcon={
-                <Box 
-                  as="img" 
-                  src="/carritovacio.svg" 
-                  width="22px" 
-                  height="22px" 
-                  filter="brightness(0)" 
+                <Box
+                  as="img"
+                  src="/carritovacio.svg"
+                  width="22px"
+                  height="22px"
+                  filter="brightness(0)"
                   transition="transform 0.3s ease"
                   className="button-icon"
                 />
@@ -110,12 +122,12 @@ const Home: NextPage<Props> = ({ products }) => {
               className="hero-button"
               onClick={() => window.open('https://wa.me/59892315819', '_blank')}
               leftIcon={
-                <Box 
-                  as="img" 
-                  src="/whatsapp-icon.svg" 
-                  width="22px" 
-                  height="22px" 
-                  filter="brightness(0) invert(1)" 
+                <Box
+                  as="img"
+                  src="/whatsapp-icon.svg"
+                  width="22px"
+                  height="22px"
+                  filter="brightness(0) invert(1)"
                   transition="transform 0.3s ease"
                   className="button-icon"
                 />
@@ -125,11 +137,11 @@ const Home: NextPage<Props> = ({ products }) => {
             </Button>
           </Flex>
         </Flex>
-        
+
         {/* Animated decorative elements */}
         <Box sx={nuevoStyles.hero.decorativeShape1} />
         <Box sx={nuevoStyles.hero.decorativeShape2} />
-        
+
         <Box sx={nuevoStyles.hero.imageContainer} className="hero-image">
           <ChakraImage
             src="/LogoTiendaoscuro.svg"
@@ -144,20 +156,11 @@ const Home: NextPage<Props> = ({ products }) => {
       </Box>
 
       {/* Category filter buttons */}
-      <Box 
-        mb={6} 
-        mt={4} 
-        px={4}
-        py={3}
-        borderRadius="lg"
-        boxShadow="sm"
-        bg="white"
-        overflowX="auto"
-      >
-        <Flex 
-          wrap="nowrap" 
-          gap={3} 
-          justifyContent={{ base: "flex-start", md: "center" }}
+      <Box mb={6} mt={4} px={4} py={3} borderRadius="lg" boxShadow="sm" bg="white" overflowX="auto">
+        <Flex
+          wrap="nowrap"
+          gap={3}
+          justifyContent={{ base: 'flex-start', md: 'center' }}
           width="100%"
         >
           <Button
@@ -166,8 +169,8 @@ const Home: NextPage<Props> = ({ products }) => {
             variant="outline"
             borderRadius="full"
             onClick={() => setFilteredCategory(null)}
-            fontWeight={filteredCategory === null ? "bold" : "normal"}
-            _hover={{ bg: "gray.100" }}
+            fontWeight={filteredCategory === null ? 'bold' : 'normal'}
+            _hover={{ bg: 'gray.100' }}
             minW="max-content"
           >
             Todos
@@ -177,10 +180,10 @@ const Home: NextPage<Props> = ({ products }) => {
               key={category}
               size="sm"
               colorScheme="primary"
-              variant={filteredCategory === category ? "solid" : "outline"}
+              variant={filteredCategory === category ? 'solid' : 'outline'}
               borderRadius="full"
               onClick={() => setFilteredCategory(category)}
-              _hover={{ transform: "translateY(-2px)" }}
+              _hover={{ transform: 'translateY(-2px)' }}
               transition="all 0.2s"
               minW="max-content"
             >
@@ -189,13 +192,9 @@ const Home: NextPage<Props> = ({ products }) => {
           ))}
         </Flex>
       </Box>
-    
+
       <Stack spacing={6}>
-        <Grid
-          id="products"
-          gridGap={6}
-          templateColumns="repeat(auto-fill, minmax(280px,1fr))"
-        >
+        <Grid id="products" gridGap={6} templateColumns="repeat(auto-fill, minmax(280px,1fr))">
           {filteredProducts.map((product) => (
             <Stack
               key={product.id}
@@ -206,31 +205,26 @@ const Home: NextPage<Props> = ({ products }) => {
               boxShadow="md"
               transition="all 0.3s ease"
               _hover={{
-                transform: "translateY(-5px)",
-                boxShadow: "lg"
+                transform: 'translateY(-5px)',
+                boxShadow: 'lg',
               }}
               position="relative"
               overflow="hidden"
             >
               {/* Product content remains unchanged */}
               {product.badge && (
-                <Badge 
-                  position="absolute" 
-                  top={2} 
-                  right={2} 
-                  colorScheme="red" 
-                  borderRadius="full" 
+                <Badge
+                  position="absolute"
+                  top={2}
+                  right={2}
+                  colorScheme="red"
+                  borderRadius="full"
                   px={2}
                 >
                   {product.badge}
                 </Badge>
               )}
-              <Box 
-                position="relative"
-                height="200px"
-                overflow="hidden"
-                borderRadius="md"
-              >
+              <Box position="relative" height="200px" overflow="hidden" borderRadius="md">
                 <ChakraImage
                   borderRadius="md"
                   height="100%"
@@ -239,41 +233,36 @@ const Home: NextPage<Props> = ({ products }) => {
                   src={product.image}
                   alt={product.title}
                   transition="transform 0.5s ease"
-                  _hover={{ transform: "scale(1.05)" }}
+                  _hover={{ transform: 'scale(1.05)' }}
                 />
               </Box>
               <Stack spacing={2}>
-                <Text 
-                  fontWeight="bold" 
-                  fontSize="lg"
-                  noOfLines={1}
-                >
+                <Text fontWeight="bold" fontSize="lg" noOfLines={1}>
                   {product.title}
                 </Text>
-                <Text 
-                  color="gray.600" 
-                  fontSize="sm" 
-                  noOfLines={2}
-                  height="40px"
-                >
-                  {product.description || "Sin descripción disponible"}
+                <Text color="gray.600" fontSize="sm" noOfLines={2} height="40px">
+                  {product.description || 'Sin descripción disponible'}
                 </Text>
                 <Flex justify="space-between" align="center">
-                  <Text 
-                    color="green.500" 
-                    fontSize="xl" 
-                    fontWeight="700"
-                  >
+                  <Text color="green.500" fontSize="xl" fontWeight="700">
                     {parseCurrency(product.price)}
                   </Text>
                   <Button
                     colorScheme="primary"
                     size="md"
                     borderRadius="full"
-                    leftIcon={<Box as="img" src="/carritovacio.svg" width="18px" height="18px" filter="brightness(0) invert(1)" />}
+                    leftIcon={
+                      <Box
+                        as="img"
+                        src="/carritovacio.svg"
+                        width="18px"
+                        height="18px"
+                        filter="brightness(0) invert(1)"
+                      />
+                    }
                     onClick={() => setCart((cart) => cart.concat(product))}
                     _hover={{
-                      transform: "scale(1.05)",
+                      transform: 'scale(1.05)',
                     }}
                     transition="all 0.2s ease"
                   >
@@ -284,7 +273,7 @@ const Home: NextPage<Props> = ({ products }) => {
             </Stack>
           ))}
         </Grid>
-        
+
         {Boolean(cart.length) && (
           <Flex
             position="sticky"
@@ -302,7 +291,15 @@ const Home: NextPage<Props> = ({ products }) => {
             <Button
               colorScheme="blue"
               size="lg"
-              leftIcon={<Box as="img" src="/carritovacio.svg" width="20px" height="20px" filter="brightness(0) invert(1)" />}
+              leftIcon={
+                <Box
+                  as="img"
+                  src="/carritovacio.svg"
+                  width="20px"
+                  height="20px"
+                  filter="brightness(0) invert(1)"
+                />
+              }
               fontWeight="bold"
               px={6}
               py={6}
@@ -318,12 +315,8 @@ const Home: NextPage<Props> = ({ products }) => {
             >
               Ver Carrito ({cart.length})
             </Button>
-            
-            <CompletarPedido 
-              cart={cart} 
-              parseCurrency={parseCurrency} 
-              phoneNumber="59892315819"
-            />
+
+            <CompletarPedido cart={cart} parseCurrency={parseCurrency} phoneNumber="59892315819" />
           </Flex>
         )}
       </Stack>

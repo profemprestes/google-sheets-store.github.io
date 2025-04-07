@@ -45,21 +45,26 @@ export function useInfiniteScroll<T>(
 
     const handleResize = () => {
       const width = window.innerWidth;
-      
+
       // Adjust increment size based on screen width
-      if (width < 640) { // Small mobile
+      if (width < 640) {
+        // Small mobile
         setDynamicIncrement(3);
         setDynamicThreshold(150);
-      } else if (width < 768) { // Mobile
+      } else if (width < 768) {
+        // Mobile
         setDynamicIncrement(4);
         setDynamicThreshold(200);
-      } else if (width < 1024) { // Tablet
+      } else if (width < 1024) {
+        // Tablet
         setDynamicIncrement(6);
         setDynamicThreshold(250);
-      } else if (width < 1280) { // Small desktop
+      } else if (width < 1280) {
+        // Small desktop
         setDynamicIncrement(8);
         setDynamicThreshold(300);
-      } else { // Large desktop
+      } else {
+        // Large desktop
         setDynamicIncrement(10);
         setDynamicThreshold(350);
       }
@@ -67,7 +72,7 @@ export function useInfiniteScroll<T>(
 
     // Set initial values
     handleResize();
-    
+
     // Add event listener
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -98,8 +103,8 @@ export function useInfiniteScroll<T>(
     // Use setTimeout to prevent UI blocking during loading
     const nextIndex = Math.min(currentIndex + dynamicIncrement, items.length);
     const nextBatch = items.slice(currentIndex, nextIndex);
-    
-    setVisibleItems(prev => [...prev, ...nextBatch]);
+
+    setVisibleItems((prev) => [...prev, ...nextBatch]);
     setCurrentIndex(nextIndex);
     setHasMore(nextIndex < items.length);
   }, [currentIndex, items, dynamicIncrement]);
@@ -108,7 +113,7 @@ export function useInfiniteScroll<T>(
   useEffect(() => {
     // Use requestAnimationFrame for better scroll performance
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -129,10 +134,10 @@ export function useInfiniteScroll<T>(
 
     // Use passive event listener for better performance
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Also trigger on resize to handle orientation changes
     window.addEventListener('resize', handleScroll, { passive: true });
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);

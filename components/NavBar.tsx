@@ -1,4 +1,14 @@
-import { Box, Flex, Image, Text, useColorModeValue, useBreakpointValue, IconButton, useDisclosure, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  useColorModeValue,
+  useBreakpointValue,
+  IconButton,
+  useDisclosure,
+  Button,
+} from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { navbarStyles } from '../theme/navbar';
 
@@ -13,41 +23,21 @@ const NavBar: React.FC<NavBarProps> = ({ title, slogan }) => {
   const textColor = useColorModeValue(navbarStyles.colors.text, 'white');
   const secondaryColor = useColorModeValue(navbarStyles.colors.secondary, 'gray.400');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
-  
+
   // Use the logo from the public directory
   const logoSrc = '/logotienda.svg';
 
   return (
-    <Box
-      as="nav"
-      {...navbarStyles.base}
-    >
-      <Flex
-        {...navbarStyles.container}
-      >
+    <Box as="nav" {...navbarStyles.base}>
+      <Flex {...navbarStyles.container}>
         {/* Logo y título */}
-        <Flex
-          alignItems="center"
-          gap={4}
-          flex={{ base: 1, md: 'auto' }}
-        >
-          <Image
-            src={logoSrc}
-            alt="Logo Precio Hogar"
-            {...navbarStyles.logo}
-          />
+        <Flex alignItems="center" gap={4} flex={{ base: 1, md: 'auto' }}>
+          <Image src={logoSrc} alt="Logo Precio Hogar" {...navbarStyles.logo} />
           <Box display={{ base: 'none', md: 'block' }}>
-            <Text
-              as="h1"
-              {...navbarStyles.title}
-              color={textColor}
-            >
+            <Text as="h1" {...navbarStyles.title} color={textColor}>
               {title}
             </Text>
-            <Text
-              {...navbarStyles.slogan}
-              color={secondaryColor}
-            >
+            <Text {...navbarStyles.slogan} color={secondaryColor}>
               {slogan}
             </Text>
           </Box>
@@ -61,7 +51,10 @@ const NavBar: React.FC<NavBarProps> = ({ title, slogan }) => {
             onClick={() => {
               const phoneNumber = '59892315819';
               const text = 'Necesito más información';
-              window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+              window.open(
+                `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`,
+                '_blank'
+              );
             }}
           >
             Contacto por WhatsApp
@@ -81,28 +74,12 @@ const NavBar: React.FC<NavBarProps> = ({ title, slogan }) => {
 
         {/* Contenido del menú */}
         {isOpen && isMobile && (
-          <Box
-            {...navbarStyles.mobileMenu}
-          >
-            <Box
-              mb={6}
-              borderBottomWidth="1px"
-              borderBottomColor={borderColor}
-              pb={4}
-            >
-              <Text
-                as="h1"
-                {...navbarStyles.title}
-                color={textColor}
-                mb={2}
-              >
+          <Box {...navbarStyles.mobileMenu}>
+            <Box mb={6} borderBottomWidth="1px" borderBottomColor={borderColor} pb={4}>
+              <Text as="h1" {...navbarStyles.title} color={textColor} mb={2}>
                 {title}
               </Text>
-              <Text
-                {...navbarStyles.slogan}
-                color={secondaryColor}
-                mb={4}
-              >
+              <Text {...navbarStyles.slogan} color={secondaryColor} mb={4}>
                 {slogan}
               </Text>
             </Box>
@@ -114,7 +91,10 @@ const NavBar: React.FC<NavBarProps> = ({ title, slogan }) => {
               onClick={() => {
                 const phoneNumber = '59892315819';
                 const text = 'Necesito más información';
-                window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+                window.open(
+                  `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`,
+                  '_blank'
+                );
               }}
             >
               Contacto por WhatsApp

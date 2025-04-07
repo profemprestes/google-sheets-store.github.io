@@ -8,9 +8,7 @@ export interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <Box as="main" minH="100vh" py={8}>
-      <Container maxW="container.xl">
-        {children}
-      </Container>
+      <Container maxW="container.xl">{children}</Container>
     </Box>
   );
 };

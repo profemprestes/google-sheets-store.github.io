@@ -1,10 +1,10 @@
 // Available product categories
 export enum ProductCategory {
-  HOGAR = "Hogar",
-  TECNOLOGIA = "Tecnologia",
-  Otros = "Otros",
-  CUIDADO_PERSONAL = "Cuidado Personal",
-  HERRAMIENTAS = "Herramientas"
+  HOGAR = 'Hogar',
+  TECNOLOGIA = 'Tecnologia',
+  Otros = 'Otros',
+  CUIDADO_PERSONAL = 'Cuidado Personal',
+  HERRAMIENTAS = 'Herramientas',
 }
 
 // Default category
@@ -14,4 +14,3 @@ export const DEFAULT_CATEGORY = ProductCategory.Otros;
 export const getAllCategories = (): string[] => {
   return Object.values(ProductCategory);
 };
-
