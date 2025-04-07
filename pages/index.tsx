@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Button, Flex, Image, Grid, Stack, Text, Box, Badge, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, Image as ChakraImage, Grid, Stack, Text, Box, Badge, useDisclosure } from '@chakra-ui/react';
 
 import api from '../product/api';
 import { Product } from '../product/types';
@@ -58,38 +58,37 @@ const Home: NextPage<Props> = ({ products }) => {
       />
   
       {/* Hero Section */}
-      <Box {...nuevoStyles.hero.container}>
-        <Box {...nuevoStyles.hero.gradient} />
-        <Box {...nuevoStyles.hero.pattern} />
+      <Box sx={nuevoStyles.hero.container}>
+        <Box sx={nuevoStyles.hero.gradient} />
+        <Box sx={nuevoStyles.hero.pattern} />
         
         {/* Animated particles */}
-        <Box {...nuevoStyles.hero.particles}>
+        <Box sx={nuevoStyles.hero.particles}>
           {[...Array(6)].map((_, i) => (
             <Box 
               key={i} 
-              {...nuevoStyles.hero.particle} 
-              left={`${10 + (i * 15)}%`}
-              style={{ animationDelay: `${i * 0.5}s` }}
+              sx={nuevoStyles.hero.particle} 
+              style={{ left: `${10 + (i * 15)}%`, animationDelay: `${i * 0.5}s` }}
             />
           ))}
         </Box>
         
-        <Flex {...nuevoStyles.hero.content}>
+        <Flex sx={nuevoStyles.hero.content}>
           <Text
-            {...nuevoStyles.hero.title}
+            sx={nuevoStyles.hero.title}
             className="hero-title"
           >
             Precio<Box as="span" color="yellow.300">Hogar</Box>
           </Text>
           <Text
-            {...nuevoStyles.hero.subtitle}
+            sx={nuevoStyles.hero.subtitle}
             className="hero-subtitle"
           >
             Los mejores productos para tu hogar a precios increíbles
           </Text>
-          <Flex {...nuevoStyles.hero.buttonContainer}>
+          <Flex sx={nuevoStyles.hero.buttonContainer}>
             <Button
-              {...nuevoStyles.hero.primaryButton}
+              sx={nuevoStyles.hero.primaryButton}
               className="hero-button"
               onClick={() => window.scrollTo({ top: document.getElementById('products')?.offsetTop || 0, behavior: 'smooth' })}
               leftIcon={
@@ -107,7 +106,7 @@ const Home: NextPage<Props> = ({ products }) => {
               Ver Productos
             </Button>
             <Button
-              {...nuevoStyles.hero.secondaryButton}
+              sx={nuevoStyles.hero.secondaryButton}
               className="hero-button"
               onClick={() => window.open('https://wa.me/59892315819', '_blank')}
               leftIcon={
@@ -128,16 +127,18 @@ const Home: NextPage<Props> = ({ products }) => {
         </Flex>
         
         {/* Animated decorative elements */}
-        <Box {...nuevoStyles.hero.decorativeShape1} />
-        <Box {...nuevoStyles.hero.decorativeShape2} />
+        <Box sx={nuevoStyles.hero.decorativeShape1} />
+        <Box sx={nuevoStyles.hero.decorativeShape2} />
         
-        <Box {...nuevoStyles.hero.imageContainer} className="hero-image">
-          <Image
+        <Box sx={nuevoStyles.hero.imageContainer} className="hero-image">
+          <ChakraImage
             src="/LogoTiendaoscuro.svg"
             alt="Decoración"
-            {...nuevoStyles.hero.image}
+            sx={nuevoStyles.hero.image}
             fallbackSrc="https://via.placeholder.com/300?text=Precio+Hogar"
-            objectFit="contain" as const
+            objectFit="contain"
+            htmlWidth="100%"
+            htmlHeight="100%"
           />
         </Box>
       </Box>
@@ -230,7 +231,7 @@ const Home: NextPage<Props> = ({ products }) => {
                 overflow="hidden"
                 borderRadius="md"
               >
-                <Image
+                <ChakraImage
                   borderRadius="md"
                   height="100%"
                   width="100%"

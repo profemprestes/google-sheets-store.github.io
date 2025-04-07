@@ -1,3 +1,5 @@
+import { SystemStyleObject } from '@chakra-ui/react';
+
 export const nuevoStyles = {
   // Hero section styles
   hero: {
@@ -12,7 +14,7 @@ export const nuevoStyles = {
       _hover: {
         boxShadow: "2xl",
       }
-    },
+    } as SystemStyleObject,
     gradient: {
       position: "absolute" as const,
       top: 0,
@@ -26,7 +28,7 @@ export const nuevoStyles = {
       _groupHover: {
         opacity: 0.9
       }
-    },
+    } as SystemStyleObject,
     pattern: {
       position: "absolute" as const,
       top: 0,
@@ -41,7 +43,7 @@ export const nuevoStyles = {
       filter: "blur(1px)",
       transform: "scale(1.05)",
       animation: "patternFloat 15s ease-in-out infinite alternate"
-    },
+    } as SystemStyleObject,
     particles: {
       position: "absolute" as const,
       top: 0,
@@ -50,7 +52,7 @@ export const nuevoStyles = {
       bottom: 0,
       zIndex: 2,
       pointerEvents: "none" as const
-    },
+    } as SystemStyleObject,
     particle: {
       position: "absolute" as const,
       width: { base: "15px", md: "25px" },
@@ -60,18 +62,18 @@ export const nuevoStyles = {
       top: "20%",
       animation: "particleFloat 10s ease-in-out infinite",
       boxShadow: "0 0 10px rgba(255, 255, 255, 0.3)"
-    },
+    } as SystemStyleObject,
     content: {
       position: "relative" as const,
       zIndex: 3,
       height: "100%",
-      direction: "column",
-      justify: "center",
-      align: { base: "center", md: "flex-start" },
+      flexDirection: "column" as const,
+      justifyContent: "center",
+      alignItems: { base: "center", md: "flex-start" },
       px: { base: 6, md: 12 },
       textAlign: { base: "center", md: "left" } as const,
       role: "group"
-    },
+    } as SystemStyleObject,
     title: {
       fontSize: { base: "3xl", md: "4xl", lg: "5xl" },
       fontWeight: "extrabold",
@@ -85,7 +87,7 @@ export const nuevoStyles = {
       _groupHover: {
         transform: "translateY(-3px)"
       }
-    },
+    } as SystemStyleObject,
     subtitle: {
       fontSize: { base: "md", md: "lg", lg: "xl" },
       color: "whiteAlpha.900",
@@ -99,13 +101,13 @@ export const nuevoStyles = {
       _groupHover: {
         transform: "translateY(-2px)"
       }
-    },
+    } as SystemStyleObject,
     buttonContainer: {
       gap: 5,
-      flexWrap: "wrap",
-      justify: { base: "center", md: "flex-start" } as const,
+      flexWrap: "wrap" as const,
+      justifyContent: { base: "center", md: "flex-start" } as const,
       animation: "fadeInUp 0.8s ease-out 0.4s both"
-    },
+    } as SystemStyleObject,
     primaryButton: {
       colorScheme: "white",
       variant: "solid",
@@ -144,7 +146,7 @@ export const nuevoStyles = {
         transform: "translateX(-100%)",
         animation: "shine 3s infinite"
       }
-    },
+    } as SystemStyleObject,
     secondaryButton: {
       colorScheme: "whiteAlpha",
       variant: "outline",
@@ -172,7 +174,7 @@ export const nuevoStyles = {
       },
       transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       backdropFilter: "blur(8px)"
-    },
+    } as SystemStyleObject,
     decorativeShape1: {
       position: "absolute" as const,
       width: { base: "100px", md: "150px" },
@@ -185,7 +187,7 @@ export const nuevoStyles = {
       left: { base: "-50px", md: "-75px" },
       zIndex: 2,
       animation: "pulse 8s infinite alternate"
-    },
+    } as SystemStyleObject,
     decorativeShape2: {
       position: "absolute" as const,
       width: { base: "80px", md: "120px" },
@@ -198,7 +200,7 @@ export const nuevoStyles = {
       left: { base: "30%", md: "40%" },
       zIndex: 2,
       animation: "pulse 6s infinite alternate-reverse"
-    },
+    } as SystemStyleObject,
     imageContainer: {
       position: "absolute" as const,
       right: { base: "-80px", md: "30px" },
@@ -212,16 +214,20 @@ export const nuevoStyles = {
       transition: "all 0.5s ease",
       animation: "float 6s ease-in-out infinite",
       filter: "drop-shadow(0 10px 15px rgba(0,0,0,0.2))"
-    },
+    } as SystemStyleObject,
     image: {
-      width: "100%",
-      height: "100%",
+      position: "absolute" as const,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
       objectFit: "contain",
-      transition: "transform 0.5s ease",
-      _hover: {
-        transform: "scale(1.05) rotate(-5deg)"
+      animation: "fadeIn 0.8s ease-out",
+      transition: "transform 0.3s ease",
+      _groupHover: {
+        transform: "scale(1.05)"
       }
-    }
+    } as SystemStyleObject
   },
   
   // Category filter styles
@@ -235,13 +241,13 @@ export const nuevoStyles = {
       boxShadow: "sm",
       bg: "white",
       overflowX: "auto"
-    },
+    } as SystemStyleObject,
     buttonContainer: {
       wrap: "nowrap",
       gap: 3,
       justifyContent: { base: "flex-start", md: "center" },
       width: "100%"
-    },
+    } as SystemStyleObject,
     allButton: {
       size: "sm",
       colorScheme: "gray",
@@ -249,7 +255,7 @@ export const nuevoStyles = {
       borderRadius: "full",
       _hover: { bg: "gray.100" },
       minW: "max-content"
-    },
+    } as SystemStyleObject,
     categoryButton: {
       size: "sm",
       colorScheme: "primary",
@@ -257,18 +263,18 @@ export const nuevoStyles = {
       _hover: { transform: "translateY(-2px)" },
       transition: "all 0.2s",
       minW: "max-content"
-    }
+    } as SystemStyleObject
   },
   
   // Product grid styles
   productGrid: {
     container: {
       spacing: 6
-    },
+    } as SystemStyleObject,
     grid: {
       gridGap: 6,
       templateColumns: "repeat(auto-fill, minmax(280px,1fr))"
-    },
+    } as SystemStyleObject,
     productCard: {
       backgroundColor: "white",
       borderRadius: "lg",
@@ -282,7 +288,7 @@ export const nuevoStyles = {
       },
       position: "relative" as const,
       overflow: "hidden"
-    },
+    } as SystemStyleObject,
     badge: {
       position: "absolute" as const,
       top: 2,
@@ -290,13 +296,13 @@ export const nuevoStyles = {
       colorScheme: "red",
       borderRadius: "full",
       px: 2
-    },
+    } as SystemStyleObject,
     imageContainer: {
       position: "relative" as const,
       height: "200px",
       overflow: "hidden",
       borderRadius: "md"
-    },
+    } as SystemStyleObject,
     image: {
       borderRadius: "md",
       height: "100%",
@@ -304,23 +310,23 @@ export const nuevoStyles = {
       objectFit: "cover",
       transition: "transform 0.5s ease",
       _hover: { transform: "scale(1.05)" }
-    },
+    } as SystemStyleObject,
     title: {
       fontWeight: "bold",
       fontSize: "lg",
       noOfLines: 1
-    },
+    } as SystemStyleObject,
     description: {
       color: "gray.600",
       fontSize: "sm",
       noOfLines: 2,
       height: "40px"
-    },
+    } as SystemStyleObject,
     price: {
       color: "green.500",
       fontSize: "xl",
       fontWeight: "700"
-    },
+    } as SystemStyleObject,
     addButton: {
       colorScheme: "primary",
       size: "md",
@@ -329,7 +335,7 @@ export const nuevoStyles = {
         transform: "scale(1.05)"
       },
       transition: "all 0.2s ease"
-    }
+    } as SystemStyleObject
   },
   
   // Cart sticky bar
@@ -346,7 +352,7 @@ export const nuevoStyles = {
       width: "100%",
       zIndex: 10,
       gap: 4
-    },
+    } as SystemStyleObject,
     viewCartButton: {
       colorScheme: "blue",
       size: "lg",
@@ -361,6 +367,6 @@ export const nuevoStyles = {
         transform: 'translateY(0)'
       },
       transition: "all 0.2s ease-in-out"
-    }
+    } as SystemStyleObject
   }
 };
