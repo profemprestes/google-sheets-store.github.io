@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
-import Head from 'next/head';
+import Head from '../components/Head';
 import { Button, Flex, Image, Grid, Stack, Text, Box, Badge, useDisclosure } from '@chakra-ui/react';
 
 import api from '../product/api';
@@ -33,12 +33,7 @@ const Home: NextPage<Props> = ({ products }) => {
 
   return (
     <>
-      <Head>
-        <title>PrecioHogar</title>
-        <meta name="description" content="Tu tienda online de confianza para productos del hogar" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      
+      <Head />
       {/* Cart drawer component */}
       <Carrito
         isOpen={isOpen} 
