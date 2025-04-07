@@ -1,24 +1,55 @@
 export const styles = {
   global: {
     body: {
-      backgroundColor: "primary.50",
-      transition: "background-color 0.3s ease",
+      bg: 'background.light',
+      color: 'gray.800',
+      fontFamily: 'system-ui, sans-serif',
+      lineHeight: 'tall',
+      minH: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
     },
-    // Add smooth transitions to all interactive elements
-    "a, button": {
-      transition: "all 0.2s ease-in-out",
+    '*': {
+      margin: 0,
+      padding: 0,
+      boxSizing: 'border-box',
     },
-    // Improve card hover effects
-    ".chakra-stack": {
-      transition: "transform 0.2s ease, box-shadow 0.2s ease",
-      "&:hover": {
-        transform: "translateY(-4px)",
-        boxShadow: "md",
-      }
+    a: {
+      color: 'primary.500',
+      textDecoration: 'none',
+      _hover: {
+        color: 'primary.600',
+        textDecoration: 'underline',
+      },
     },
-    // Improve image loading
-    "img": {
-      transition: "opacity 0.3s ease, transform 0.3s ease",
-    }
+    button: {
+      fontWeight: 'bold',
+      borderRadius: 'md',
+      transition: 'all 0.2s ease-in-out',
+      letterSpacing: '0.025em',
+      _hover: {
+        transform: 'scale(1.02)',
+      },
+      _focus: {
+        boxShadow: 'outline',
+        outline: 'none',
+      },
+      _active: {
+        transform: 'scale(0.98)',
+      },
+    },
+    '::-webkit-scrollbar': {
+      width: '6px',
+    },
+    '::-webkit-scrollbar-track': {
+      background: 'gray.100',
+    },
+    '::-webkit-scrollbar-thumb': {
+      background: 'primary.400',
+      borderRadius: '3px',
+    },
+    '::-webkit-scrollbar-thumb:hover': {
+      background: 'primary.500',
+    },
   },
 };

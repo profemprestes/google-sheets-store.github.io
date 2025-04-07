@@ -1,5 +1,44 @@
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
+// Define types for animations
+interface AnimationObject {
+  from: Record<string, string | number>;
+  to: Record<string, string | number>;
+  [key: string]: Record<string, string | number>;
+}
+
+interface KeyframeAnimation {
+  [key: string]: { transform: string };
+}
+
+interface Animations {
+  fadeIn: AnimationObject;
+  slideUp: AnimationObject;
+  pulse: string;
+}
+
+// Cart animations
+export const cartAnimations: Animations = {
+  fadeIn: {
+    from: { opacity: 0, transform: 'translateX(20px)' },
+    to: { opacity: 1, transform: 'translateX(0)' },
+  },
+  slideUp: {
+    from: { opacity: 0, transform: 'translateY(10px)' },
+    to: { opacity: 1, transform: 'translateY(0)' },
+  },
+  pulse: `@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }`,
+};
 
 // Cart component theme customizations
 export const carritoStyles = {
@@ -64,23 +103,6 @@ export const carritoStyles = {
     }),
   },
 
-  // Cart animations
-  animations: {
-    fadeIn: {
-      from: { opacity: 0, transform: 'translateX(20px)' },
-      to: { opacity: 1, transform: 'translateX(0)' },
-    },
-    slideUp: {
-      from: { opacity: 0, transform: 'translateY(10px)' },
-      to: { opacity: 1, transform: 'translateY(0)' },
-    },
-    pulse: {
-      '0%': { transform: 'scale(1)' },
-      '50%': { transform: 'scale(1.05)' },
-      '100%': { transform: 'scale(1)' },
-    },
-  },
-
   // Floating cart button styling
   floatingCart: {
     baseStyle: (props: StyleFunctionProps) => ({
@@ -103,27 +125,6 @@ export const carritoStyles = {
     }),
   },
 
-  // CompletarPedido button styling
-  completarPedido: {
-    baseStyle: (props: StyleFunctionProps) => ({
-      height: '60px',
-      width: '100%',
-      fontWeight: 'bold',
-      fontSize: 'md',
-      boxShadow: 'md',
-      transition: 'all 0.2s ease-in-out',
-      _hover: {
-        transform: 'translateY(-2px)',
-        boxShadow: 'lg',
-        textDecoration: 'none',
-      },
-      _active: {
-        transform: 'translateY(0)',
-        boxShadow: 'md',
-      },
-    }),
-  },
-
   // Empty cart styling
   emptyCart: {
     baseStyle: (props: StyleFunctionProps) => ({
@@ -137,45 +138,56 @@ export const carritoStyles = {
     }),
   },
 
+  // CompletarPedido button styling
+  completarPedido: {
+    baseStyle: (props: StyleFunctionProps) => ({
+      colorScheme: 'whatsapp',
+      size: 'lg',
+      height: '60px',
+      fontWeight: 'bold',
+      fontSize: 'md',
+      px: 8,
+      boxShadow: 'md',
+      _hover: {
+        transform: 'translateY(-2px)',
+        boxShadow: 'lg',
+        textDecoration: 'none',
+      },
+      _active: {
+        transform: 'translateY(0)',
+        boxShadow: 'md',
+      },
+      transition: 'all 0.2s ease-in-out',
+    }),
+  },
+
   // Total price display styling
   totalPrice: {
     baseStyle: (props: StyleFunctionProps) => ({
-      display: 'flex',
-      justifyContent: 'space-between',
-      fontWeight: 'bold',
-      fontSize: 'lg',
-      padding: 3,
-      backgroundColor: mode('green.50', 'green.800')(props),
+      p: 3,
+      bg: mode('green.50', 'green.800')(props),
       borderRadius: 'md',
       boxShadow: 'sm',
+      transition: 'all 0.3s',
+      _hover: {
+        boxShadow: 'md',
+        transform: 'translateY(-2px)',
+      },
     }),
   },
 };
 
-// Export custom scrollbar styles
-export const customScrollbar = (props: StyleFunctionProps) => ({
-  '&::-webkit-scrollbar': {
-    width: '8px',
-  },
-  '&::-webkit-scrollbar-track': {
-    width: '10px',
-    background: mode('gray.100', 'gray.700')(props),
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: mode('gray.300', 'gray.600')(props),
-    borderRadius: '24px',
-  },
-});
-
 // Export utility functions for cart components
 export const cartUtils = {
-  // Generate staggered animation for cart items
-  getStaggeredAnimation: (index: number, animationName: string, duration: number = 0.3) => {
-    return `${animationName} ${0.2 + index * 0.1}s ease-out`;
+  getStaggeredAnimation(index: number, animationName: keyof Animations, duration: number = 0.3) {
+    const animation = cartAnimations[animationName];
+    return {
+      delay: index * duration,
+      ...(typeof animation === 'string' ? { animation } : animation)
+    };
   },
-  
-  // Format cart item count with proper pluralization
-  formatItemCount: (count: number) => {
-    return `${count} ${count === 1 ? 'producto' : 'productos'}`;
+
+  formatItemCount(count: number) {
+    return count === 1 ? 'producto' : 'productos';
   },
 };
