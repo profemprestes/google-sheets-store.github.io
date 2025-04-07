@@ -26,7 +26,7 @@ const CompletarPedido: React.FC<CompletarPedidoProps> = ({
     setCustomerInfo(info);
     
     // Generate the WhatsApp message text with customer info
-    const text = `🛒 *PEDIDO NUEVO* 🛒
+    const text = `🛒 *NUEVO PEDIDO* 🛒
 ━━━━━━━━━━━━━━━━━━━━━
 
 👤 *DATOS DEL CLIENTE:*
@@ -34,7 +34,7 @@ const CompletarPedido: React.FC<CompletarPedidoProps> = ({
 • *Dirección:* ${info.address}
 • *Teléfono:* ${info.phone}
 
-📋 *PRODUCTOS SOLICITADOS:*
+📋 *DETALLE DEL PEDIDO:*
 ━━━━━━━━━━━━━━━━━━━━━
 ${cart.map((product, index) => 
   `${index + 1}. *${product.title}*\n   💰 ${parseCurrency(product.price)}`
@@ -43,7 +43,7 @@ ${cart.map((product, index) =>
 ━━━━━━━━━━━━━━━━━━━━━
 💵 *TOTAL A PAGAR:* ${parseCurrency(cart.reduce((total, product) => total + product.price, 0))}
 
-🙏 ¡Gracias por su compra!`;
+🙏 ¡Gracias por su compra! 🛍️`;
 
     // Open WhatsApp with the formatted message
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');

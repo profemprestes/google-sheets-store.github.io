@@ -9,7 +9,7 @@ import * as React from "react"
 
 export type ColorMode = "light" | "dark"
 
-export interface ColorModeProviderProps extends ThemeProviderProps {}
+export interface ColorModeProviderProps extends ThemeProviderProps { }
 
 export function ColorModeProvider(props: ColorModeProviderProps) {
   return (
@@ -42,14 +42,16 @@ export function useColorModeValue<T>(light: T, dark: T) {
 
 export function ColorModeIcon() {
   const { colorMode } = useColorMode()
-  return colorMode === "dark" ? <LuMoon /> : <LuSun />
+  const MoonIcon = React.createElement(LuMoon)
+  const SunIcon = React.createElement(LuSun)
+  return colorMode === "dark" ? MoonIcon : SunIcon
 }
 
-export interface ColorModeButtonProps extends Omit<IconButtonProps, "aria-label"> {}
+export interface ColorModeButtonProps extends Omit<IconButtonProps, "aria-label"> { }
 
 export function ColorModeButton(props: ColorModeButtonProps) {
   const { toggleColorMode } = useColorMode()
-  
+
   return (
     <IconButton
       size="md"

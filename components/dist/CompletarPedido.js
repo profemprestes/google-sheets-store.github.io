@@ -13,9 +13,9 @@ var CompletarPedido = function (_a) {
     var handleSubmitInfo = function (info) {
         setCustomerInfo(info);
         // Generate the WhatsApp message text with customer info
-        var text = "\uD83D\uDED2 *PEDIDO NUEVO* \uD83D\uDED2\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n\uD83D\uDC64 *DATOS DEL CLIENTE:*\n\u2022 *Nombre:* " + info.name + "\n\u2022 *Direcci\u00F3n:* " + info.address + "\n\u2022 *Tel\u00E9fono:* " + info.phone + "\n\n\uD83D\uDCCB *PRODUCTOS SOLICITADOS:*\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n" + cart.map(function (product, index) {
+        var text = "\uD83D\uDED2 *NUEVO PEDIDO* \uD83D\uDED2\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n\uD83D\uDC64 *DATOS DEL CLIENTE:*\n\u2022 *Nombre:* " + info.name + "\n\u2022 *Direcci\u00F3n:* " + info.address + "\n\u2022 *Tel\u00E9fono:* " + info.phone + "\n\n\uD83D\uDCCB *DETALLE DEL PEDIDO:*\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n" + cart.map(function (product, index) {
             return index + 1 + ". *" + product.title + "*\n   \uD83D\uDCB0 " + parseCurrency(product.price);
-        }).join('\n\n') + "\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDCB5 *TOTAL A PAGAR:* " + parseCurrency(cart.reduce(function (total, product) { return total + product.price; }, 0)) + "\n\n\uD83D\uDE4F \u00A1Gracias por su compra!";
+        }).join('\n\n') + "\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDCB5 *TOTAL A PAGAR:* " + parseCurrency(cart.reduce(function (total, product) { return total + product.price; }, 0)) + "\n\n\uD83D\uDE4F \u00A1Gracias por su compra! \uD83D\uDECD\uFE0F";
         // Open WhatsApp with the formatted message
         window.open("https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(text), '_blank');
     };

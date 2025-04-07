@@ -41,7 +41,7 @@ export const toaster = {
   }
 }
 
-export const Toaster = () => {
+export function Toaster() {
   const toast = useToast()
   const bgColor = useColorModeValue('white', 'gray.800')
   
@@ -85,3 +85,7 @@ export const Toaster = () => {
 
   return null
 }
+
+Toaster.displayName = 'Toaster';
+
+export default Toaster;
