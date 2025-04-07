@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Image, Link, Flex, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, FormLabel, Input, VStack, Box, useColorModeValue, useTheme } from '@chakra-ui/react';
-import { keyframes } from '@chakra-ui/styled-system';
+import { Button, Image, Link, Flex, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, FormLabel, Input, VStack, Box, Stack, useColorModeValue, useTheme } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Product } from '../product/types';
 import { carritoStyles, cartUtils, cartAnimations } from '../theme/Carritos';
@@ -37,17 +36,21 @@ const CompletarPedido: React.FC<CompletarPedidoProps> = ({
 
   const handleSendOrder = () => {
     const message = `*Pedido de Precio Hogar*\n\n`;
-    cart.forEach((product, index) => {
-      message += `${index + 1}. ${product.title} - ${parseCurrency(product.price)}\n`;
-    });
-    message += `\n*Total:* ${parseCurrency(cart.reduce((total, product) => total + product.price, 0))}\n`;
-    message += `\n*Datos del Cliente:*\n`;
-    message += `Nombre: ${clientData.name}\n`;
-    message += `Dirección: ${clientData.address}\n`;
-    message += `Teléfono: ${clientData.phone}`;
+    const productsText = cart
+      .map((product, index) => `${index + 1}. ${product.title} - ${parseCurrency(product.price)}`)
+      .join('\n');
+
+    const total = cart.reduce((total, product) => total + product.price, 0);
+    const clientInfo = `
+*Datos del Cliente:*
+Nombre: ${clientData.name}
+Dirección: ${clientData.address}
+Teléfono: ${clientData.phone}`;
+
+    const fullMessage = `${message}${productsText}\n*Total:* ${parseCurrency(total)}${clientInfo}`;
 
     window.open(
-      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(fullMessage)}`,
       '_blank'
     );
     handleCloseModal();
