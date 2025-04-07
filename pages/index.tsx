@@ -1,18 +1,7 @@
 import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import {
-  Button,
-  Flex,
-  Image,
-  Grid,
-  Stack,
-  Text,
-  Box,
-  Badge,
-  useDisclosure,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Button, Flex, Image, Grid, Stack, Text, Box, Badge, useDisclosure } from '@chakra-ui/react';
 
 import api from '../product/api';
 import { Product } from '../product/types';
@@ -33,92 +22,179 @@ function parseCurrency(value: number): string {
 const Home: NextPage<Props> = ({ products }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  const addToCart = (product: Product) => {
-    setCart([...cart, product]);
-  };
 
   const removeFromCart = (index: number) => {
-    setCart(cart.filter((_, i) => i !== index));
+    setCart((currentCart) => {
+      const newCart = [...currentCart];
+      newCart.splice(index, 1);
+      return newCart;
+    });
   };
 
   return (
     <>
       <Head>
-        <title>Precio Hogar - Tu tienda online</title>
-        <meta name="description" content="Tienda online de productos para el hogar" />
+        <title>PrecioHogar</title>
+        <meta name="description" content="Tu tienda online de confianza para productos del hogar" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Flex direction="column" minH="100vh">
-        <Box flex="1">
-          <Grid
-            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
-            gap={6}
-            padding={4}
-          >
-            {products.map((product) => (
-              <Box
-                key={product.id}
-                bg={useColorModeValue('white', 'gray.800')}
-                borderRadius="lg"
-                boxShadow="sm"
-                p={4}
-                transition="all 0.3s ease"
-                _hover={{ boxShadow: 'md', transform: 'translateY(-2px)' }}
+      
+      {/* Cart drawer component */}
+      <Carrito
+        isOpen={isOpen} 
+        onClose={onClose} 
+        cart={cart} 
+        removeFromCart={removeFromCart}
+        parseCurrency={parseCurrency}
+      />
+      
+      <Stack spacing={6}>
+        <Grid
+          gridGap={6}
+          templateColumns="repeat(auto-fill, minmax(280px,1fr))"
+        >
+          {products.map((product) => (
+            <Stack
+              key={product.id}
+              backgroundColor="white"
+              borderRadius="lg"
+              padding={4}
+              spacing={3}
+              boxShadow="md"
+              transition="all 0.3s ease"
+              _hover={{
+                transform: "translateY(-5px)",
+                boxShadow: "lg"
+              }}
+              position="relative"
+              overflow="hidden"
+            >
+              {/* Product content remains unchanged */}
+              {product.badge && (
+                <Badge 
+                  position="absolute" 
+                  top={2} 
+                  right={2} 
+                  colorScheme="red" 
+                  borderRadius="full" 
+                  px={2}
+                >
+                  {product.badge}
+                </Badge>
+              )}
+              <Box 
+                position="relative"
+                height="200px"
+                overflow="hidden"
+                borderRadius="md"
               >
-                <Stack spacing={4}>
-                  <Image
-                    src={product.image}
-                    alt={product.title}
-                    height={200}
-                    width="100%"
-                    objectFit="cover"
-                    borderRadius="lg"
-                  />
-                  <Stack spacing={2}>
-                    <Text fontSize="lg" fontWeight="bold">
-                      {product.title}
-                    </Text>
-                    <Text fontSize="sm" color="gray.600">
-                      {product.description}
-                    </Text>
-                    <Text fontSize="xl" fontWeight="bold" color="green.600">
-                      {parseCurrency(product.price)}
-                    </Text>
-                    <Button
-                      colorScheme="whatsapp"
-                      onClick={() => {
-                        addToCart(product);
-                        onOpen();
-                      }}
-                    >
-                      Agregar al carrito
-                    </Button>
-                  </Stack>
-                </Stack>
+                <Image
+                  borderRadius="md"
+                  height="100%"
+                  width="100%"
+                  objectFit="cover"
+                  src={product.image}
+                  alt={product.title}
+                  transition="transform 0.5s ease"
+                  _hover={{ transform: "scale(1.05)" }}
+                />
               </Box>
-            ))}
-          </Grid>
-        </Box>
-
-        <Carrito
-          isOpen={isOpen}
-          onClose={onClose}
-          cart={cart}
-          removeFromCart={removeFromCart}
-          parseCurrency={parseCurrency}
-        />
-      </Flex>
+              <Stack spacing={2}>
+                <Text 
+                  fontWeight="bold" 
+                  fontSize="lg"
+                  noOfLines={1}
+                >
+                  {product.title}
+                </Text>
+                <Text 
+                  color="gray.600" 
+                  fontSize="sm" 
+                  noOfLines={2}
+                  height="40px"
+                >
+                  {product.description || "Sin descripción disponible"}
+                </Text>
+                <Flex justify="space-between" align="center">
+                  <Text 
+                    color="green.500" 
+                    fontSize="xl" 
+                    fontWeight="700"
+                  >
+                    {parseCurrency(product.price)}
+                  </Text>
+                  <Button
+                    colorScheme="primary"
+                    size="md"
+                    borderRadius="full"
+                    leftIcon={<Box as="img" src="/carritovacio.svg" width="18px" height="18px" filter="brightness(0) invert(1)" />}
+                    onClick={() => setCart((cart) => cart.concat(product))}
+                    _hover={{
+                      transform: "scale(1.05)",
+                    }}
+                    transition="all 0.2s ease"
+                  >
+                    Agregar
+                  </Button>
+                </Flex>
+              </Stack>
+            </Stack>
+          ))}
+        </Grid>
+        
+        {Boolean(cart.length) && (
+          <Flex
+            position="sticky"
+            justifyContent="center"
+            bottom={4}
+            padding={4}
+            backgroundColor="rgba(56, 175, 82, 0.8)"
+            backdropFilter="blur(8px)"
+            borderRadius="lg"
+            boxShadow="0 -4px 10px rgba(0, 0, 0, 0.1)"
+            width="100%"
+            zIndex={10}
+            gap={4}
+          >
+            <Button
+              colorScheme="blue"
+              size="lg"
+              leftIcon={<Box as="img" src="/carritovacio.svg" width="20px" height="20px" filter="brightness(0) invert(1)" />}
+              fontWeight="bold"
+              px={6}
+              py={6}
+              onClick={onOpen}
+              _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'lg',
+              }}
+              _active={{
+                transform: 'translateY(0)',
+              }}
+              transition="all 0.2s ease-in-out"
+            >
+              Ver Carrito ({cart.length})
+            </Button>
+            
+            <CompletarPedido 
+              cart={cart} 
+              parseCurrency={parseCurrency} 
+              phoneNumber="59892315819"
+            />
+          </Flex>
+        )}
+      </Stack>
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const products = await api.getProducts();
   return {
-    props: { products },
-    revalidate: 60, // Revalidate every minute
+    props: {
+      products,
+    },
+    revalidate: 10,
   };
 };
 

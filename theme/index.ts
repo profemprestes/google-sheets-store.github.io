@@ -1,13 +1,12 @@
 import { extendTheme, theme as baseTheme, type ThemeConfig } from "@chakra-ui/react";
-import { StyleFunctionProps } from "@chakra-ui/theme-tools";
+import { StyleFunctionProps } from "@chakra-ui/styled-system";
 
 import { styles } from "./styles";
-import { carritoStyles, cartUtils } from "./Carritos";
+import { carritoStyles, customScrollbar, cartUtils } from "./Carritos";
 
-const config = {
+const config: ThemeConfig = {
   initialColorMode: "light",
   useSystemColorMode: false,
-  cssVarPrefix: "chakra",
 };
 
 // Enhanced color palette
@@ -77,20 +76,16 @@ const colors = {
   },
 };
 
-// Custom component styles
+// Enhanced components
 const components = {
-  // Include carrito styles in components
+  ...baseTheme.components,
   ...carritoStyles,
-  
   Button: {
     baseStyle: {
       fontWeight: "bold",
       borderRadius: "md",
       transition: "all 0.2s ease-in-out",
       letterSpacing: "0.025em",
-      _hover: {
-        transform: "scale(1.02)",
-      },
     },
     sizes: {
       sm: {
@@ -110,67 +105,230 @@ const components = {
       },
     },
     variants: {
-      solid: (props: StyleFunctionProps) => ({
-        bg: props.colorScheme ? `${props.colorScheme}.500` : "primary.500",
+      primary: {
+        bg: "primary.500",
         color: "white",
         _hover: {
-          bg: props.colorScheme ? `${props.colorScheme}.600` : "primary.600",
+          bg: "primary.600",
+          transform: "translateY(-2px)",
+          boxShadow: "md",
         },
         _active: {
-          bg: props.colorScheme ? `${props.colorScheme}.700` : "primary.700",
+          bg: "primary.700",
+          transform: "translateY(0)",
         },
-      }),
-      outline: (props: StyleFunctionProps) => ({
-        border: "1px solid",
-        borderColor: props.colorScheme ? `${props.colorScheme}.500` : "primary.500",
-        color: props.colorScheme ? `${props.colorScheme}.500` : "primary.500",
+        _focus: {
+          boxShadow: `0 0 0 3px ${colors.primary[200]}`,
+        },
+      },
+      secondary: {
+        bg: "secondary.500",
+        color: "white",
         _hover: {
-          bg: props.colorScheme ? `${props.colorScheme}.50` : "primary.50",
+          bg: "secondary.600",
+          transform: "translateY(-2px)",
+          boxShadow: "md",
         },
-      }),
+        _active: {
+          bg: "secondary.700",
+          transform: "translateY(0)",
+        },
+        _focus: {
+          boxShadow: `0 0 0 3px ${colors.secondary[200]}`,
+        },
+      },
+      accent: {
+        bg: "accent.500",
+        color: "white",
+        _hover: {
+          bg: "accent.600",
+          transform: "translateY(-2px)",
+          boxShadow: "md",
+        },
+        _active: {
+          bg: "accent.700",
+          transform: "translateY(0)",
+        },
+        _focus: {
+          boxShadow: `0 0 0 3px ${colors.accent[200]}`,
+        },
+      },
+      whatsapp: {
+        bg: "brand.green.500",
+        color: "white",
+        _hover: {
+          bg: "brand.green.600",
+          transform: "translateY(-2px)",
+          boxShadow: "lg",
+        },
+        _active: {
+          bg: "brand.green.700",
+          transform: "translateY(0)",
+        },
+        _focus: {
+          boxShadow: `0 0 0 3px ${colors.brand.green[200]}`,
+        },
+      },
+      outline: {
+        border: "2px solid",
+        borderColor: "primary.500",
+        color: "primary.500",
+        bg: "transparent",
+        _hover: {
+          bg: "primary.50",
+          transform: "translateY(-2px)",
+          boxShadow: "md",
+        },
+        _active: {
+          bg: "primary.100",
+          transform: "translateY(0)",
+        },
+      },
+      ghost: {
+        bg: "transparent",
+        color: "primary.500",
+        _hover: {
+          bg: "primary.50",
+        },
+        _active: {
+          bg: "primary.100",
+        },
+      },
+    },
+    defaultProps: {
+      variant: "primary",
+      size: "md",
     },
   },
-  
-  Card: {
+  Link: {
     baseStyle: {
-      borderRadius: "lg",
-      overflow: "hidden",
-      boxShadow: "sm",
-      transition: "all 0.3s ease",
+      color: "primary.500",
+      transition: "all 0.2s ease",
       _hover: {
-        boxShadow: "md",
-        transform: "translateY(-2px)",
+        textDecoration: "none",
+        color: "primary.600",
+      },
+      _focus: {
+        boxShadow: "outline",
+      },
+    },
+    variants: {
+      nav: {
+        fontWeight: "medium",
+        _hover: {
+          transform: "translateY(-1px)",
+        },
+      },
+      footer: {
+        color: "gray.500",
+        fontSize: "sm",
       },
     },
   },
-  
-  Text: {
+  Container: {
     baseStyle: {
-      fontFamily: "system-ui, sans-serif",
-      fontWeight: "normal",
+      transition: "all 0.3s ease",
+      px: { base: 4, md: 6 },
+      maxW: "1200px",
     },
   },
-};
-
-const fonts = {
-  heading: "system-ui, sans-serif",
-  body: "system-ui, sans-serif",
+  Card: {
+    baseStyle: {
+      p: 5,
+      borderRadius: "lg",
+      bg: "white",
+      boxShadow: "md",
+      transition: "all 0.3s ease",
+      _hover: {
+        boxShadow: "lg",
+        transform: "translateY(-4px)",
+      },
+    },
+    variants: {
+      elevated: {
+        boxShadow: "lg",
+      },
+      outline: {
+        border: "1px solid",
+        borderColor: "gray.200",
+      },
+      filled: {
+        bg: "gray.50",
+      },
+    },
+  },
+  Badge: {
+    baseStyle: {
+      borderRadius: "full",
+      px: 2,
+      py: 1,
+      fontWeight: "medium",
+    },
+    variants: {
+      solid: {
+        bg: "primary.500",
+        color: "white",
+      },
+      outline: {
+        border: "1px solid",
+        borderColor: "primary.500",
+        color: "primary.500",
+      },
+      subtle: {
+        bg: "primary.50",
+        color: "primary.700",
+      },
+    },
+  },
+  Input: {
+    variants: {
+      filled: {
+        field: {
+          bg: "gray.50",
+          borderRadius: "md",
+          _hover: {
+            bg: "gray.100",
+          },
+          _focus: {
+            bg: "white",
+            borderColor: "primary.500",
+          },
+        },
+      },
+      outline: {
+        field: {
+          borderRadius: "md",
+          _focus: {
+            borderColor: "primary.500",
+            boxShadow: `0 0 0 1px ${colors.primary[500]}`,
+          },
+        },
+      },
+    },
+    defaultProps: {
+      variant: "outline",
+    },
+  },
 };
 
 // Global styles
 const globalStyles = {
-  global: styles.global,
+  global: (props: StyleFunctionProps) => ({
+    // Apply custom scrollbar to the entire app
+    '*, *::before, *::after': {
+      ...customScrollbar(props),
+    },
+    // Include other global styles from the styles object
+    ...(typeof styles.global === 'function' ? (styles.global as (props: StyleFunctionProps) => Record<string, any>)(props) : styles.global),
+  }),
 };
 
-const theme = extendTheme({
+export default extendTheme({
   config,
   colors,
-  components,
-  fonts,
   styles: globalStyles,
+  components,
 });
-
-export default theme;
 
 // Export cart utilities for use in components
 export { cartUtils };
