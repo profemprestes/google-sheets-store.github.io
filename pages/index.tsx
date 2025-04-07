@@ -1,170 +1,275 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
-import { Button, Flex, Grid, Stack, Text, Box, useDisclosure, Container, VStack, Divider, Spinner, Center, Image } from '@chakra-ui/react';
+import Head from 'next/head';
+import { Button, Flex, Image, Grid, Stack, Text, Box, Badge, useDisclosure } from '@chakra-ui/react';
 
 import api from '../product/api';
-import { Product as ApiProduct } from '../product/types';
+import { Product } from '../product/types';
+import Carrito from '../components/Carrito';
 import CompletarPedido from '../components/CompletarPedido';
-import BusquedaProductos from '../components/BusquedaProductos';
-import { useInfiniteScroll } from '../theme/principal';
-import { DEFAULT_CATEGORY } from '../product/categoriastypes';
-
-// Use the ApiProduct type directly instead of creating a new interface
-// This ensures type compatibility with the API and other components
+import { getAllCategories } from '../product/categoriastypes';
+import { nuevoStyles } from '../theme/nuevoStyles';
 
 interface Props {
-  products: ApiProduct[];
+  products: Product[];
 }
 
-const Home: NextPage<Props> = ({ products }) => {
-  const [cart, setCart] = useState<ApiProduct[]>([]);
-  const { onOpen } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
-  const [filteredProducts, setFilteredProducts] = useState<ApiProduct[]>([]);
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  
-  // Convert products to ensure they all have a category
-  const productsWithCategory = products.map(product => ({
-    ...product,
-    category: product.category || DEFAULT_CATEGORY
-  }));
-  
-  // Use the custom hook for infinite scrolling with filtered products
-  const { visibleItems, containerRef } = useInfiniteScroll<ApiProduct>(
-    filteredProducts.length > 0 ? filteredProducts : productsWithCategory,
-    8 // Initial batch size
-  );
+function parseCurrency(value: number): string {
+  return new Intl.NumberFormat('es-UY', {
+    style: 'currency',
+    currency: 'UYU',
+  }).format(value);
+}
 
-  // Initialize filtered products with all products
-  useEffect(() => {
-    setFilteredProducts(productsWithCategory);
-  }, [products, productsWithCategory]);
+const Home2: NextPage<Props> = ({ products }) => {
+  const [cart, setCart] = useState<Product[]>([]);
+  const [filteredCategory, setFilteredCategory] = useState<string | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddToCart = (product: ApiProduct) => {
-    // Use the groupCartItems function from the API to handle duplicates
-    const updatedCart = api.groupCartItems([...cart, { ...product, quantity: 1 }]);
-    setCart(updatedCart);
-  };
+  // Filter products by category
+  const filteredProducts = useMemo(() => {
+    if (!filteredCategory) return products;
+    return products.filter(product => product.category === filteredCategory);
+  }, [products, filteredCategory]);
 
-  const parseCurrency = (amount: number) => {
-    // Force a specific locale and formatting options to ensure consistency
-    return new Intl.NumberFormat('es-UY', {
-      style: 'currency',
-      currency: 'UYU',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  // Handle filtered products from BusquedaProductos
-  const handleFilteredProducts = (filtered: ApiProduct[]) => {
-    setFilteredProducts(filtered);
-    setIsLoading(false);
-    // Set search active state based on whether we're showing filtered results
-    setIsSearchActive(filtered.length !== productsWithCategory.length);
+  const removeFromCart = (index: number) => {
+    setCart((currentCart) => {
+      const newCart = [...currentCart];
+      newCart.splice(index, 1);
+      return newCart;
+    });
   };
 
   return (
-    <Container maxW="container.xl">
-      <VStack spacing={8}>
-        <Box>
-          <Text fontSize="2xl" fontWeight="bold" mb={4}>
-            Nuestros Productos Destacados
-          </Text>
-          <Divider />
+    <>
+      <Head>
+        <title>PrecioHogar</title>
+        <meta name="description" content="Tu tienda online de confianza para productos del hogar" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      {/* Cart drawer component */}
+      <Carrito
+        isOpen={isOpen} 
+        onClose={onClose} 
+        cart={cart} 
+        removeFromCart={removeFromCart}
+        parseCurrency={parseCurrency}
+      />
+  
+      {/* Hero Section */}
+      <Box {...nuevoStyles.hero.container}>
+        <Box {...nuevoStyles.hero.gradient} />
+        <Box {...nuevoStyles.hero.pattern} />
+        
+        {/* Animated particles */}
+        <Box {...nuevoStyles.hero.particles}>
+          {[...Array(6)].map((_, i) => (
+            <Box 
+              key={i} 
+              {...nuevoStyles.hero.particle} 
+              left={`${10 + (i * 15)}%`}
+              animationDelay={`${i * 0.5}s`}
+            />
+          ))}
         </Box>
-
-        {/* BusquedaProductos component with onFilter callback */}
-        <BusquedaProductos 
-          products={productsWithCategory} 
-          onAddToCart={handleAddToCart}
-          onFilter={handleFilteredProducts}
-        />
-
-        {/* Only show grid if search is not active */}
-        {!isSearchActive && (
-          <Box ref={containerRef} w="100%">
-            <Grid
-              gridGap={6}
-              templateColumns="repeat(auto-fill, minmax(280px,1fr))"
+        
+        <Flex {...nuevoStyles.hero.content}>
+          <Text
+            {...nuevoStyles.hero.title}
+            className="hero-title"
+          >
+            Precio<Box as="span" color="yellow.300">Hogar</Box>
+          </Text>
+          <Text
+            {...nuevoStyles.hero.subtitle}
+            className="hero-subtitle"
+          >
+            Los mejores productos para tu hogar a precios increíbles
+          </Text>
+          <Flex {...nuevoStyles.hero.buttonContainer}>
+            <Button
+              {...nuevoStyles.hero.primaryButton}
+              className="hero-button"
+              onClick={() => window.scrollTo({ top: document.getElementById('products')?.offsetTop || 0, behavior: 'smooth' })}
+              leftIcon={
+                <Box 
+                  as="img" 
+                  src="/carritovacio.svg" 
+                  width="22px" 
+                  height="22px" 
+                  filter="brightness(0)" 
+                  transition="transform 0.3s ease"
+                  className="button-icon"
+                />
+              }
             >
-              {visibleItems.map((product) => (
-                <Stack
-                  key={product.id}
-                  backgroundColor="white"
-                  borderRadius="lg"
-                  padding={4}
-                  spacing={3}
-                  boxShadow="md"
-                  transition="all 0.3s ease"
-                  _hover={{
-                    transform: "translateY(-5px)",
-                    boxShadow: "lg"
-                  }}
-                  position="relative"
-                  overflow="hidden"
+              Ver Productos
+            </Button>
+            <Button
+              {...nuevoStyles.hero.secondaryButton}
+              className="hero-button"
+              onClick={() => window.open('https://wa.me/59892315819', '_blank')}
+              leftIcon={
+                <Box 
+                  as="img" 
+                  src="/whatsapp-icon.svg" 
+                  width="22px" 
+                  height="22px" 
+                  filter="brightness(0) invert(1)" 
+                  transition="transform 0.3s ease"
+                  className="button-icon"
+                />
+              }
+            >
+              Contactar
+            </Button>
+          </Flex>
+        </Flex>
+        
+        {/* Animated decorative elements */}
+        <Box {...nuevoStyles.hero.decorativeShape1} />
+        <Box {...nuevoStyles.hero.decorativeShape2} />
+        
+        <Box {...nuevoStyles.hero.imageContainer} className="hero-image">
+          <Image
+            src="/LogoTiendaoscuro.svg"
+            alt="Decoración"
+            {...nuevoStyles.hero.image}
+            fallbackSrc="https://via.placeholder.com/300?text=Precio+Hogar"
+          />
+        </Box>
+      </Box>
+
+      {/* Category filter buttons */}
+      <Box 
+        mb={6} 
+        mt={4} 
+        px={4}
+        py={3}
+        borderRadius="lg"
+        boxShadow="sm"
+        bg="white"
+        overflowX="auto"
+      >
+        <Flex 
+          wrap="nowrap" 
+          gap={3} 
+          justifyContent={{ base: "flex-start", md: "center" }}
+          width="100%"
+        >
+          <Button
+            size="sm"
+            colorScheme="gray"
+            variant="outline"
+            borderRadius="full"
+            onClick={() => setFilteredCategory(null)}
+            fontWeight={filteredCategory === null ? "bold" : "normal"}
+            _hover={{ bg: "gray.100" }}
+            minW="max-content"
+          >
+            Todos
+          </Button>
+          {getAllCategories().map((category) => (
+            <Button
+              key={category}
+              size="sm"
+              colorScheme="primary"
+              variant={filteredCategory === category ? "solid" : "outline"}
+              borderRadius="full"
+              onClick={() => setFilteredCategory(category)}
+              _hover={{ transform: "translateY(-2px)" }}
+              transition="all 0.2s"
+              minW="max-content"
+            >
+              {category}
+            </Button>
+          ))}
+        </Flex>
+      </Box>
+    
+      <Stack spacing={6}>
+        <Grid
+          id="products"
+          gridGap={6}
+          templateColumns="repeat(auto-fill, minmax(280px,1fr))"
+        >
+          {filteredProducts.map((product) => (
+            <Stack
+              key={product.id}
+              backgroundColor="white"
+              borderRadius="lg"
+              padding={4}
+              spacing={3}
+              boxShadow="md"
+              transition="all 0.3s ease"
+              _hover={{
+                transform: "translateY(-5px)",
+                boxShadow: "lg"
+              }}
+              position="relative"
+              overflow="hidden"
+            >
+              {/* Product content remains unchanged */}
+              {product.badge && (
+                <Badge 
+                  position="absolute" 
+                  top={2} 
+                  right={2} 
+                  colorScheme="red" 
+                  borderRadius="full" 
+                  px={2}
                 >
-                  {/* Product image */}
-                  <Box
-                    height="180px"
-                    borderRadius="md"
-                    overflow="hidden"
-                    mb={2}
+                  {product.badge}
+                </Badge>
+              )}
+              <Box 
+                position="relative"
+                height="200px"
+                overflow="hidden"
+                borderRadius="md"
+              >
+                <Image
+                  borderRadius="md"
+                  height="100%"
+                  width="100%"
+                  objectFit="cover"
+                  src={product.image}
+                  alt={product.title}
+                  transition="transform 0.5s ease"
+                  _hover={{ transform: "scale(1.05)" }}
+                />
+              </Box>
+              <Stack spacing={2}>
+                <Text 
+                  fontWeight="bold" 
+                  fontSize="lg"
+                  noOfLines={1}
+                >
+                  {product.title}
+                </Text>
+                <Text 
+                  color="gray.600" 
+                  fontSize="sm" 
+                  noOfLines={2}
+                  height="40px"
+                >
+                  {product.description || "Sin descripción disponible"}
+                </Text>
+                <Flex justify="space-between" align="center">
+                  <Text 
+                    color="green.500" 
+                    fontSize="xl" 
+                    fontWeight="700"
                   >
-                    <Image
-                      src={product.image || '/placeholder-image.jpg'}
-                      alt={product.title}
-                      width="100%"
-                      height="100%"
-                      objectFit="cover"
-                    />
-                  </Box>
-                  
-                  {/* Product info */}
-                  <Text
-                    fontSize="lg"
-                    fontWeight="bold"
-                    noOfLines={2}
-                    mb={1}
-                  >
-                    {product.title}
+                    {parseCurrency(product.price)}
                   </Text>
-                  
-                  <Text
-                    fontSize="sm"
-                    color="gray.600"
-                    noOfLines={2}
-                    mb={2}
-                  >
-                    {product.description || "Sin descripción disponible"}
-                  </Text>
-                  
-                  <Text
-                    fontSize="xl"
-                    fontWeight="bold"
-                    color="green.500"
-                    mb={2}
-                  >
-                    ${product.price.toLocaleString()}
-                  </Text>
-                  
-                  {/* Add to cart button */}
                   <Button
                     colorScheme="primary"
                     size="md"
                     borderRadius="full"
                     leftIcon={<Box as="img" src="/carritovacio.svg" width="18px" height="18px" filter="brightness(0) invert(1)" />}
-                    onClick={() => handleAddToCart({
-                      id: product.id,
-                      title: product.title,
-                      description: product.description,
-                      image: product.image || '',
-                      price: product.price,
-                      quantity: 1,
-                      rating: product.rating || 4.5,
-                      badge: product.badge,
-                      category: product.category,
-                    })}
+                    onClick={() => setCart((cart) => cart.concat(product))}
                     _hover={{
                       transform: "scale(1.05)",
                     }}
@@ -172,18 +277,11 @@ const Home: NextPage<Props> = ({ products }) => {
                   >
                     Agregar
                   </Button>
-                </Stack>
-              ))}
-            </Grid>
-            
-            {/* Loading indicator */}
-            {isLoading && (
-              <Center py={6}>
-                <Spinner size="lg" color="primary.500" thickness="4px" />
-              </Center>
-            )}
-          </Box>
-        )}
+                </Flex>
+              </Stack>
+            </Stack>
+          ))}
+        </Grid>
         
         {Boolean(cart.length) && (
           <Flex
@@ -216,7 +314,7 @@ const Home: NextPage<Props> = ({ products }) => {
               }}
               transition="all 0.2s ease-in-out"
             >
-              Ver Carrito ({cart.reduce((total, item) => total + (item.quantity || 1), 0)})
+              Ver Carrito ({cart.length})
             </Button>
             
             <CompletarPedido 
@@ -226,19 +324,19 @@ const Home: NextPage<Props> = ({ products }) => {
             />
           </Flex>
         )}
-      </VStack>
-    </Container>
+      </Stack>
+    </>
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const products = await api.getProducts();
   return {
     props: {
       products,
     },
-    revalidate: 60, // Revalidar cada 60 segundos
+    revalidate: 10,
   };
 };
 
-export default Home;
+export default Home2;

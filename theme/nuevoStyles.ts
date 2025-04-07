@@ -112,17 +112,38 @@ export const nuevoStyles = {
       size: { base: "md", md: "lg" },
       fontWeight: "bold",
       px: 6,
-      py: 6,
+      py: { base: 5, md: 6 },
+      borderRadius: "full",
+      boxShadow: "md",
+      bg: "white",
+      color: "primary.600",
       _hover: { 
         transform: "translateY(-4px)", 
-        boxShadow: "lg",
-        bg: "whiteAlpha.900"
+        boxShadow: "xl",
+        bg: "white",
+        "& .button-icon": {
+          transform: "scale(1.2) rotate(-10deg)"
+        }
       },
       _active: {
         transform: "translateY(-1px)",
-        boxShadow: "md"
+        boxShadow: "md",
+        bg: "whiteAlpha.900"
       },
-      transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+      transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      position: "relative",
+      overflow: "hidden",
+      _before: {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%)",
+        transform: "translateX(-100%)",
+        animation: "shine 3s infinite"
+      }
     },
     secondaryButton: {
       colorScheme: "whiteAlpha",
@@ -130,18 +151,27 @@ export const nuevoStyles = {
       size: { base: "md", md: "lg" },
       fontWeight: "bold",
       px: 6,
-      py: 6,
+      py: { base: 5, md: 6 },
+      borderRadius: "full",
       borderWidth: "2px",
+      borderColor: "whiteAlpha.800",
+      color: "white",
       _hover: { 
         bg: "whiteAlpha.200",
         transform: "translateY(-4px)",
-        boxShadow: "md"
+        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+        borderColor: "white",
+        "& .button-icon": {
+          transform: "scale(1.2) rotate(10deg)"
+        }
       },
       _active: {
         transform: "translateY(-1px)",
-        boxShadow: "sm"
+        boxShadow: "sm",
+        bg: "whiteAlpha.300"
       },
-      transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+      transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      backdropFilter: "blur(8px)"
     },
     decorativeShape1: {
       position: "absolute",

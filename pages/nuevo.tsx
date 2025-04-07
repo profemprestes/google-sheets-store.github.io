@@ -92,7 +92,17 @@ const Home2: NextPage<Props> = ({ products }) => {
               {...nuevoStyles.hero.primaryButton}
               className="hero-button"
               onClick={() => window.scrollTo({ top: document.getElementById('products')?.offsetTop || 0, behavior: 'smooth' })}
-              leftIcon={<Box as="span" fontSize="lg">🛒</Box>}
+              leftIcon={
+                <Box 
+                  as="img" 
+                  src="/carritovacio.svg" 
+                  width="22px" 
+                  height="22px" 
+                  filter="brightness(0)" 
+                  transition="transform 0.3s ease"
+                  className="button-icon"
+                />
+              }
             >
               Ver Productos
             </Button>
@@ -100,7 +110,17 @@ const Home2: NextPage<Props> = ({ products }) => {
               {...nuevoStyles.hero.secondaryButton}
               className="hero-button"
               onClick={() => window.open('https://wa.me/59892315819', '_blank')}
-              leftIcon={<Box as="span" fontSize="lg">💬</Box>}
+              leftIcon={
+                <Box 
+                  as="img" 
+                  src="/whatsapp-icon.svg" 
+                  width="22px" 
+                  height="22px" 
+                  filter="brightness(0) invert(1)" 
+                  transition="transform 0.3s ease"
+                  className="button-icon"
+                />
+              }
             >
               Contactar
             </Button>
