@@ -21,7 +21,7 @@ function parseCurrency(value: number): string {
   }).format(value);
 }
 
-const Home2: NextPage<Props> = ({ products }) => {
+const Home: NextPage<Props> = ({ products }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [filteredCategory, setFilteredCategory] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,7 +69,7 @@ const Home2: NextPage<Props> = ({ products }) => {
               key={i} 
               {...nuevoStyles.hero.particle} 
               left={`${10 + (i * 15)}%`}
-              animationDelay={`${i * 0.5}s`}
+              style={{ animationDelay: `${i * 0.5}s` }}
             />
           ))}
         </Box>
@@ -137,6 +137,7 @@ const Home2: NextPage<Props> = ({ products }) => {
             alt="Decoración"
             {...nuevoStyles.hero.image}
             fallbackSrc="https://via.placeholder.com/300?text=Precio+Hogar"
+            objectFit="contain" as const
           />
         </Box>
       </Box>
@@ -339,4 +340,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default Home2;
+export default Home;

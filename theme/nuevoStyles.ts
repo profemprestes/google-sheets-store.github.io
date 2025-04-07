@@ -2,7 +2,7 @@ export const nuevoStyles = {
   // Hero section styles
   hero: {
     container: {
-      position: "relative",
+      position: "relative" as const,
       mb: 8,
       borderRadius: "xl",
       overflow: "hidden",
@@ -14,7 +14,7 @@ export const nuevoStyles = {
       }
     },
     gradient: {
-      position: "absolute",
+      position: "absolute" as const,
       top: 0,
       left: 0,
       right: 0,
@@ -28,7 +28,7 @@ export const nuevoStyles = {
       }
     },
     pattern: {
-      position: "absolute",
+      position: "absolute" as const,
       top: 0,
       left: 0,
       right: 0,
@@ -43,16 +43,16 @@ export const nuevoStyles = {
       animation: "patternFloat 15s ease-in-out infinite alternate"
     },
     particles: {
-      position: "absolute",
+      position: "absolute" as const,
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
       zIndex: 2,
-      pointerEvents: "none"
+      pointerEvents: "none" as const
     },
     particle: {
-      position: "absolute",
+      position: "absolute" as const,
       width: { base: "15px", md: "25px" },
       height: { base: "15px", md: "25px" },
       borderRadius: "full",
@@ -62,14 +62,14 @@ export const nuevoStyles = {
       boxShadow: "0 0 10px rgba(255, 255, 255, 0.3)"
     },
     content: {
-      position: "relative",
+      position: "relative" as const,
       zIndex: 3,
       height: "100%",
       direction: "column",
       justify: "center",
       align: { base: "center", md: "flex-start" },
       px: { base: 6, md: 12 },
-      textAlign: { base: "center", md: "left" },
+      textAlign: { base: "center", md: "left" } as const,
       role: "group"
     },
     title: {
@@ -103,7 +103,7 @@ export const nuevoStyles = {
     buttonContainer: {
       gap: 5,
       flexWrap: "wrap",
-      justify: { base: "center", md: "flex-start" },
+      justify: { base: "center", md: "flex-start" } as const,
       animation: "fadeInUp 0.8s ease-out 0.4s both"
     },
     primaryButton: {
@@ -131,11 +131,11 @@ export const nuevoStyles = {
         bg: "whiteAlpha.900"
       },
       transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-      position: "relative",
+      position: "relative" as const,
       overflow: "hidden",
       _before: {
         content: '""',
-        position: "absolute",
+        position: "absolute" as const,
         top: 0,
         left: 0,
         width: "100%",
@@ -174,7 +174,7 @@ export const nuevoStyles = {
       backdropFilter: "blur(8px)"
     },
     decorativeShape1: {
-      position: "absolute",
+      position: "absolute" as const,
       width: { base: "100px", md: "150px" },
       height: { base: "100px", md: "150px" },
       borderRadius: "full",
@@ -187,7 +187,7 @@ export const nuevoStyles = {
       animation: "pulse 8s infinite alternate"
     },
     decorativeShape2: {
-      position: "absolute",
+      position: "absolute" as const,
       width: { base: "80px", md: "120px" },
       height: { base: "80px", md: "120px" },
       borderRadius: "full",
@@ -200,7 +200,7 @@ export const nuevoStyles = {
       animation: "pulse 6s infinite alternate-reverse"
     },
     imageContainer: {
-      position: "absolute",
+      position: "absolute" as const,
       right: { base: "-80px", md: "30px" },
       bottom: { base: "-30px", md: "-10px" },
       width: { base: "200px", md: "250px", lg: "300px" },
@@ -280,11 +280,11 @@ export const nuevoStyles = {
         transform: "translateY(-5px)",
         boxShadow: "lg"
       },
-      position: "relative",
+      position: "relative" as const,
       overflow: "hidden"
     },
     badge: {
-      position: "absolute",
+      position: "absolute" as const,
       top: 2,
       right: 2,
       colorScheme: "red",
@@ -292,7 +292,7 @@ export const nuevoStyles = {
       px: 2
     },
     imageContainer: {
-      position: "relative",
+      position: "relative" as const,
       height: "200px",
       overflow: "hidden",
       borderRadius: "md"
@@ -335,7 +335,7 @@ export const nuevoStyles = {
   // Cart sticky bar
   cartBar: {
     container: {
-      position: "sticky",
+      position: "sticky" as const,
       justifyContent: "center",
       bottom: 4,
       padding: 4,
