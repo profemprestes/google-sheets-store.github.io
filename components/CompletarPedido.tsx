@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Image, Link, Flex, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, FormLabel, Input, VStack, Box, useColorModeValue, useTheme, keyframes, motion } from '@chakra-ui/react';
+import { Button, Image, Link, Flex, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, FormLabel, Input, VStack, Box, useColorModeValue, useTheme } from '@chakra-ui/react';
+import { keyframes } from '@chakra-ui/styled-system';
+import { motion } from 'framer-motion';
 import { Product } from '../product/types';
-import { carritoStyles, cartUtils } from '../theme/Carritos';
+import { carritoStyles, cartUtils, cartAnimations } from '../theme/Carritos';
 
 interface CompletarPedidoProps {
   cart: Product[];
@@ -23,135 +25,172 @@ const CompletarPedido: React.FC<CompletarPedidoProps> = ({
     phone: ''
   });
   const theme = useTheme();
-  const pulse = keyframes(carritoStyles.animations.pulse);
-
-  // Skip rendering if cart is empty
-  if (cart.length === 0) return null;
+  const colorMode = theme.colorMode;
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const generateWhatsAppMessage = () => {
-    const productsText = cart
-      .reduce(
-        (message, product) =>
-          message.concat(`* ${product.title} - ${parseCurrency(product.price)}\n`),
-        ``
-      );
-
-    const total = cart.reduce((total, product) => total + product.price, 0);
-    const clientInfo = `
-
-Datos del Cliente:
-Nombre: ${clientData.name}
-Dirección: ${clientData.address}
-Teléfono: ${clientData.phone}`;
-
-    return `${productsText}\nTotal: ${parseCurrency(total)}${clientInfo}`;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setClientData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSendWhatsApp = () => {
-    const message = generateWhatsAppMessage();
-    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`);
+  const handleSendOrder = () => {
+    const message = `*Pedido de Precio Hogar*\n\n`;
+    cart.forEach((product, index) => {
+      message += `${index + 1}. ${product.title} - ${parseCurrency(product.price)}\n`;
+    });
+    message += `\n*Total:* ${parseCurrency(cart.reduce((total, product) => total + product.price, 0))}\n`;
+    message += `\n*Datos del Cliente:*\n`;
+    message += `Nombre: ${clientData.name}\n`;
+    message += `Dirección: ${clientData.address}\n`;
+    message += `Teléfono: ${clientData.phone}`;
+
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+      '_blank'
+    );
     handleCloseModal();
   };
 
   return (
     <>
       <Button
-        onClick={handleOpenModal}
-        {...carritoStyles.completarPedido.baseStyle({ colorMode: theme.colorMode })}
-        width={fullWidth ? "100%" : "auto"}
+        colorScheme="whatsapp"
+        size="lg"
+        height="60px"
+        fontWeight="bold"
+        fontSize="md"
+        px={8}
+        boxShadow="md"
+        _hover={{
+          transform: "translateY(-2px)",
+          boxShadow: "lg",
+          textDecoration: "none",
+        }}
+        _active={{
+          transform: "translateY(0)",
+          boxShadow: "md",
+        }}
         transition="all 0.2s ease-in-out"
+        onClick={handleOpenModal}
       >
-        <Flex direction="column" align="center">
-          <Text>Completar pedido</Text>
-          <Text fontSize="xs" fontWeight="normal" opacity={0.9}>
-            ({cart.length} {cart.length === 1 ? 'producto' : 'productos'})
-          </Text>
-        </Flex>
+        Completar Pedido
       </Button>
 
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} size="xl">
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Completar Pedido</ModalHeader>
+        <ModalContent
+          bg={useColorModeValue('white', 'gray.800')}
+          boxShadow="xl"
+          borderRadius="lg"
+          overflow="hidden"
+        >
+          <ModalHeader
+            bg={useColorModeValue('green.50', 'green.900')}
+            color={useColorModeValue('green.700', 'green.100')}
+            borderBottomWidth="1px"
+            borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+          >
+            Completar Pedido
+          </ModalHeader>
           <ModalCloseButton />
+
           <ModalBody>
             <VStack spacing={6}>
-              {/* Client Information Form */}
-              <Box w="full">
-                <FormControl>
-                  <FormLabel>Nombre Completo</FormLabel>
-                  <Input
-                    value={clientData.name}
-                    onChange={(e) => setClientData({ ...clientData, name: e.target.value })}
-                    placeholder="Ingrese su nombre completo"
-                    required
-                  />
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel>Dirección de Entrega</FormLabel>
-                  <Input
-                    value={clientData.address}
-                    onChange={(e) => setClientData({ ...clientData, address: e.target.value })}
-                    placeholder="Ingrese su dirección completa"
-                    required
-                  />
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel>Teléfono de Contacto</FormLabel>
-                  <Input
-                    value={clientData.phone}
-                    onChange={(e) => setClientData({ ...clientData, phone: e.target.value })}
-                    placeholder="Ingrese su teléfono de contacto"
-                    required
-                  />
-                </FormControl>
-              </Box>
-
-              {/* Order Summary */}
-              <Box w="full" border="1px" borderColor="gray.200" borderRadius="md" p={4}>
-                <Text fontSize="lg" fontWeight="bold" mb={4}>Resumen del Pedido</Text>
-                {cart.map((product, index) => (
-                  <Flex key={index} justifyContent="space-between" mb={2}>
-                    <Text>{product.title}</Text>
-                    <Text fontWeight="bold">{parseCurrency(product.price)}</Text>
+              {cart.map((product, index) => (
+                <Box
+                  key={product.id}
+                  p={4}
+                  bg={useColorModeValue('gray.50', 'gray.800')}
+                  borderRadius="md"
+                  boxShadow="sm"
+                  transition="all 0.3s"
+                  _hover={{ boxShadow: "md" }}
+                >
+                  <Flex align="center" justify="space-between">
+                    <Flex align="center">
+                      <Image
+                        src={product.image}
+                        alt={product.title}
+                        boxSize="40px"
+                        borderRadius="md"
+                        mr={4}
+                      />
+                      <Stack spacing={1}>
+                        <Text fontWeight="bold">{product.title}</Text>
+                        <Text fontSize="sm" color="gray.600">
+                          {parseCurrency(product.price)}
+                        </Text>
+                      </Stack>
+                    </Flex>
+                    <Text fontWeight="bold" color="green.600">
+                      {parseCurrency(product.price)}
+                    </Text>
                   </Flex>
-                ))}
-                <Flex justifyContent="space-between" mt={4} borderTop="1px" borderColor="gray.200" pt={2}>
+                </Box>
+              ))}
+
+              <Box
+                p={4}
+                bg={useColorModeValue('green.50', 'green.800')}
+                borderRadius="md"
+                boxShadow="sm"
+                transition="all 0.3s"
+                _hover={{ boxShadow: "md" }}
+              >
+                <Flex justify="space-between" align="center">
                   <Text fontWeight="bold">Total</Text>
-                  <Text fontWeight="bold" color="primary.500">
+                  <Text fontWeight="bold" color="green.600">
                     {parseCurrency(cart.reduce((total, product) => total + product.price, 0))}
                   </Text>
                 </Flex>
               </Box>
+
+              <FormControl isRequired>
+                <FormLabel>Nombre Completo</FormLabel>
+                <Input
+                  name="name"
+                  value={clientData.name}
+                  onChange={handleInputChange}
+                  placeholder="Ingresa tu nombre completo"
+                  size="lg"
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Dirección de Entrega</FormLabel>
+                <Input
+                  name="address"
+                  value={clientData.address}
+                  onChange={handleInputChange}
+                  placeholder="Ingresa tu dirección de entrega"
+                  size="lg"
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Teléfono de Contacto</FormLabel>
+                <Input
+                  name="phone"
+                  value={clientData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Ingresa tu teléfono de contacto"
+                  size="lg"
+                />
+              </FormControl>
             </VStack>
           </ModalBody>
+
           <ModalFooter>
-            <Button 
-              colorScheme="whatsapp" 
-              onClick={handleSendWhatsApp}
-              rightIcon={
-                <Flex 
-                  align="center" 
-                  justify="center" 
-                  bg="whiteAlpha.300" 
-                  p={2} 
-                  borderRadius="full"
-                >
-                  <Image 
-                    src="/whatsapp-icon.svg" 
-                    alt="WhatsApp" 
-                    width="24px" 
-                    height="24px" 
-                  />
-                </Flex>
-              }
+            <Button
+              colorScheme="whatsapp"
+              onClick={handleSendOrder}
+              size="lg"
+              width="100%"
+              leftIcon={<Image src="/whatsapp.svg" alt="WhatsApp" boxSize="6" />}
             >
-              Enviar Pedido
+              Enviar Pedido por WhatsApp
             </Button>
           </ModalFooter>
         </ModalContent>
