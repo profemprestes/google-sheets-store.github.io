@@ -26,6 +26,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@size-limit/preset-app": "^11.2.0",
     "@types/node": "^18.19.86",
     "@types/papaparse": "^5.3.15",
     "@types/react": "^18.3.20",
