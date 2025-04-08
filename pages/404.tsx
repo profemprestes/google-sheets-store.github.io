@@ -11,7 +11,7 @@ export default function Custom404() {
         <ErrorStyle.Title>404</ErrorStyle.Title>
         <ErrorStyle.Subtitle>Página no encontrada</ErrorStyle.Subtitle>
         <ErrorStyle.Message>
-          Lo sentimos, la página que estás buscando no existe o ha sido movida.
+          Lo sentimos, la página que estás buscando no existe.
         </ErrorStyle.Message>
         <ErrorStyle.Actions>
           <ErrorStyle.Button onClick={() => router.back()}>

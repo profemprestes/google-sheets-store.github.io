@@ -49,7 +49,6 @@ const pulse = keyframes`
 
 const Carrito: React.FC<CartProps> = ({ isOpen, onClose, cart, removeFromCart, parseCurrency }) => {
   const total = cart.reduce((total, product) => total + product.price, 0);
-  const theme = useTheme();
 
   // Color mode values
   const bgHeader = useColorModeValue('green.50', 'green.900');
