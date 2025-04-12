@@ -17,7 +17,7 @@ const CompletarPedido: React.FC<CompletarPedidoProps> = ({
   fullWidth = false,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
+  const [, setCustomerInfo] = useState<CustomerInfo | null>(null);
 
   // Skip rendering if cart is empty
   if (cart.length === 0) return null;

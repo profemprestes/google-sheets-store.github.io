@@ -2,16 +2,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ErrorStyle } from '../theme/errorStyles';
 
-export default function Custom404() {
+export default function CustomError({ statusCode = 500 }) {
   const router = useRouter();
 
   return (
     <ErrorStyle.Container>
       <ErrorStyle.Content>
-        <ErrorStyle.Title>404</ErrorStyle.Title>
-        <ErrorStyle.Subtitle>Página no encontrada</ErrorStyle.Subtitle>
+        <ErrorStyle.Title>{statusCode}</ErrorStyle.Title>
+        <ErrorStyle.Subtitle>{statusCode === 404 ? 'Página no encontrada' : 'Error en la aplicación'}</ErrorStyle.Subtitle>
         <ErrorStyle.Message>
-          Lo sentimos, la página que estás buscando no existe o ha sido movida.
+          {statusCode === 404 ? (
+            'Lo sentimos, la página que estás buscando no existe o ha sido movida.'
+          ) : (
+            'Lo sentimos, ha ocurrido un error en la aplicación. Por favor, intenta de nuevo más tarde.'
+          )}
         </ErrorStyle.Message>
         <ErrorStyle.Actions>
           <ErrorStyle.Button onClick={() => router.back()}>

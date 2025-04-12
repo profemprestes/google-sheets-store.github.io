@@ -17,7 +17,6 @@ import {
   Badge,
   Button,
   useColorModeValue,
-  useTheme,
 } from '@chakra-ui/react';
 import { keyframes } from '@emotion/react';
 import { Product } from '../product/types';

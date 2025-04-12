@@ -13,6 +13,7 @@ export default function Custom404() {
         <ErrorStyle.Message>
           Lo sentimos, la página que estás buscando no existe.
         </ErrorStyle.Message>
+        
         <ErrorStyle.Actions>
           <ErrorStyle.Button onClick={() => router.back()}>
             Volver atrás
